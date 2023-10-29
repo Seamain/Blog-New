@@ -1,0 +1,56 @@
+---
+import type Category from "../../interfaces/Category";
+import { createFullListOfCategory } from "../../api/Category";
+import type Page from "../../interfaces/Page";
+import BasicStyle from "../../layouts/BasicStyle.astro";
+import Navbar from "../../components/Navbar.astro";
+import Pagination from "../../components/Pagination.astro";
+
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  const fullList = await createFullListOfCategory("zh-Hans");
+
+  return paginate(fullList, {
+    pageSize: 6,
+  });
+}
+
+const page = Astro.props.page as Page<Category>;
+const totalPage = page.lastPage;
+---
+
+<BasicStyle description="This is my Categories page.">
+  <div class="flex flex-col items-center">
+    <Navbar />
+    <p class="text-2xl font-semibold mt-12">选择你的分类</p>
+    <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1">
+      {
+        page.data.slice(0, 6).map((category) => (
+          <div class="flex flex-col max-w-xl border rounded-lg hover:bg-slate-200">
+            <a
+              class="text-lg font-medium mt-4 mr-4 mb-4 ml-4"
+              href={`/categories/${category.slug}`}
+            >
+              {category.name}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+    <div class="flex flex-row mt-12">
+      <Pagination
+        currentPage=""
+        {totalPage}
+        url="categories"
+        activeButton="activeButton"
+      />
+    </div>
+  </div>
+</BasicStyle>
+
+<style is:global>
+  .activeButton {
+    --tw-bg-opacity: 1;
+    background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+    color: wheat;
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+import { createFullListOfPostSlugWithId } from "../../api/Post";
+import { getPost } from "../../api/Post";
+import type Post from "../../interfaces/Post";
+import BasicStyle from "../../layouts/BasicStyle.astro";
+import { encode } from "node-base64-image";
+import formatDate from "../../libs/formatDate";
+import Icon from "astro-icon";
+import Markdown from "markdown-it";
+import Navbar from "../../components/Navbar.astro";
+
+interface SlugWithPost {
+  slug: string;
+  post: Post;
+}
+
+interface Props {
+  post: Post;
+}
+
+export async function getStaticPaths() {
+  const result: SlugWithPost[] = [];
+  const fullListOfSlug = await createFullListOfPostSlugWithId();
+
+  for (const postAttr of fullListOfSlug) {
+    const post = await getPost(postAttr.id);
+
+    result.push({
+      slug: postAttr.slug,
+      post,
+    });
+  }
+
+  return result.map((postAttr) => {
+    return {
+      params: {
+        slug: postAttr.slug,
+      },
+      props: {
+        post: postAttr.post,
+      },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const waifu = (await encode("https://www.loliapi.com/acg/?type=json", {
+  string: true,
+})) as string;
+const avatar = (await encode(
+  post.author.data?.attributes.avatar.data?.attributes.formats?.thumbnail?.url,
+  { string: true }
+)) as string;
+const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
+let html = Markdown().render(post.content);
+const customCss =
+  "\n<style>p {padding-bottom: 1rem;} \nh2{font-size: 1.5rem; line-height: 2rem; font-weight: 700 }</style>";
+
+html = html.concat(customCss);
+---
+
+<BasicStyle description={post.summary} ml="flex flex-col items-center">
+  <div class="flex flex-col items-center">
+    <Navbar />
+    <img
+      src={`data:image/png;base64,${waifu}`}
+      loading="lazy"
+      class="mt-12 max-w-4xl sm:max-w-md md:max-w-xl"
+    />
+    <div class="flex flex-row items-center mt-5">
+      <img
+        src={`data:image/png;base64,${avatar}`}
+        class="rounded-full border w-7 h-7 mr-2"
+        loading="lazy"
+      />
+      <p class="font-semibold line-clamp-2 text-slate-500 mt-4">
+        {post.author.data?.attributes.name}
+      </p>
+      <Icon class="w-5 h-5 ml-4 mr-3" name="Clock" />
+      <p class="font-semibold line-clamp-2 text-slate-500 mt-4">
+        {formatedTime}
+      </p>
+      <Icon class="w-5 h-5 ml-4 mr-3" name="Tag" />
+      {
+        post.tags
+          .slice(0, 2)
+          .map((tag) => (
+            <p class="mr-2 font-semibold text-slate-500 mt-4">{tag.name}</p>
+          ))
+      }
+    </div>
+    <p class="font-bold text-2xl mt-2">{post.title}</p>
+    <article class="max-w-4xl mt-2" set:html={html} />
+  </div>
+</BasicStyle>

@@ -1,0 +1,27 @@
+---
+import BasicStyle from "../layouts/BasicStyle.astro";
+import { getFriend } from "../api/Friend";
+import Navbar from "../components/Navbar.astro";
+
+const friends = await getFriend();
+---
+
+<BasicStyle description="Firends Page">
+  <div class="flex flex-col items-center">
+    <Navbar />
+
+    <h1 class="text-3xl mt-20 mr-8">我的朋友们</h1>
+
+    {
+      friends.data?.map((friend) => (
+        <a href={friend.attributes.links}>
+          <div class="flex flex-row items-center justify-center mt-4">
+            <p class="text-2xl">{friend.attributes.name}</p>
+            <p class="text-lg mx-4">---</p>
+            <p class="text-xl">{friend.attributes.descriptions}</p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</BasicStyle>

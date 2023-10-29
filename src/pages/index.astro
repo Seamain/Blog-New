@@ -1,16 +1,23 @@
 ---
+import BasicStyle from "../layouts/BasicStyle.astro";
+import PostCard from "../components/PostCard.astro";
+import { listPosts } from "../api/Post";
+import unwrap from "../libs/unwrap";
+import Navbar from "../components/Navbar.astro";
 
+const posts = unwrap((await listPosts()).data).map((post) => post.attributes);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BasicStyle description="This is my home page.">
+  <div class="flex flex-col items-center">
+    <Navbar />
+    <PostCard post={posts[0]} width="840px" />
+    <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-col md:flex md:flex-col">
+      {
+        posts
+          .slice(1, 5)
+          .map((post) => <PostCard ml="max-h-52" post={post} width="410px" />)
+      }
+    </div>
+  </div>
+</BasicStyle>

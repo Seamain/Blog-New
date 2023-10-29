@@ -1,0 +1,16 @@
+---
+import { fromMarkdown } from "mdast-util-from-markdown";
+import { simplifyMarkdownAST } from "../libs/simplifyMarkdown";
+import type Post from "../interfaces/Post";
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const ast = fromMarkdown(post.content);
+const content = simplifyMarkdownAST(ast);
+console.log(content);
+---
+
+<div class="flex flex-col"></div>

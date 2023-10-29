@@ -1,0 +1,12 @@
+---
+import Icon from "astro-icon";
+
+const { platform, username } = Astro.props;
+---
+
+<a
+  class="flex flex-row items-center"
+  href={`https://www.${platform}.com/${username}`}
+>
+  <Icon class="w-10 mr-2" name={platform} />
+</a>

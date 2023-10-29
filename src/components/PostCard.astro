@@ -1,0 +1,56 @@
+---
+import { encode } from "node-base64-image";
+import formatDate from "../libs/formatDate";
+import Icon from "astro-icon";
+import type Post from "../interfaces/Post";
+
+const waifu = (await encode("https://www.loliapi.com/acg", {
+  string: true,
+})) as string;
+
+interface Props {
+  post: Post;
+  width: string;
+  ml?: string;
+}
+
+const { post, width, ml } = Astro.props;
+const avatar = (await encode(
+  post.author.data?.attributes.avatar.data?.attributes.formats?.thumbnail?.url,
+  { string: true }
+)) as string;
+const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
+---
+
+<div class={"sm:max-w-md md:max-w-md flex flex-col mt-12"}>
+  <a href=`/posts/${post.slug}`>
+    <img
+      class={ml + " sm:w-96 md:max-h-96 sm:max-h-96"}
+      width={width}
+      loading="lazy"
+      src={`data:image/png;base64,${waifu}`}
+    />
+  </a>
+  <div class={ml + " flex flex-row items-center mt-5"}>
+    <img
+      src={`data:image/png;base64,${avatar}`}
+      class="rounded-full border w-7 h-7 mr-2 sm:ml-4"
+      loading="lazy"
+    />
+    <p class="font-semibold line-clamp-2 text-slate-500">
+      {post.author.data?.attributes.name}
+    </p>
+    <Icon class="w-5 h-5 ml-4 mr-3" name="Clock" />
+    <p class="font-semibold line-clamp-2 text-slate-500">{formatedTime}</p>
+    <Icon class="w-5 h-5 ml-4 mr-3" name="Tag" />
+    {
+      post.tags
+        .slice(0, 2)
+        .map((tag) => (
+          <p class="mr-2 font-semibold text-slate-500">{tag.name}</p>
+        ))
+    }
+  </div>
+  <p class={ml + " font-bold text-2xl mt-2"}>{post.title}</p>
+  <p class={ml + " text-lg mt-2 truncate sm:ml-4"}>{post.summary}</p>
+</div>

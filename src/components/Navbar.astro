@@ -1,0 +1,25 @@
+---
+import Icon from "astro-icon";
+import { getNavigationRender } from "../api/Navigation";
+import type { Navigation } from "../interfaces/Navigation";
+
+const navigations = (await getNavigationRender(
+  "main-navigation"
+)) as Navigation[];
+---
+
+<div class="border-b w-screen">
+  <div
+    class="flex flex-row justify-center items-center mt-5 mb-5 sm:flex sm:flex-col"
+  >
+    <Icon class="rounded-full sm:mr-4 md:ml-4" name="Icon" width="30px" />
+    <a href="/" class="ml-2 mr-72 sm:mr-4 text-2xl md:mr-64">Seamain</a>
+    {
+      navigations.map((item) => (
+        <a href={"/" + item.path} class="mr-4 text-lg">
+          {item.title}
+        </a>
+      ))
+    }
+  </div>
+</div>

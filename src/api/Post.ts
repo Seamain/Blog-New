@@ -55,24 +55,6 @@ export async function listPosts(
   return response;
 }
 
-// export async function listPostsSlug(
-//   locale: Locale = "zh-Hans",
-//   pageSize: number = 5,
-//   page: number = 1
-// ): Promise<string[]> {
-//   const response = await strapi<Data<Attribute<Post>[]>>({
-//     endpoint: "posts",
-//     query: {
-//       "fields[0]": "slug",
-//       "pagination[pageSize]": pageSize.toString(),
-//       "pagination[page]": page.toString(),
-//     },
-//     locale,
-//   });
-
-//   return unWrap(response.data?.map((post) => post.attributes.slug));
-// }
-
 export async function createFullListOfPostSlugWithId(
   locale: Locale = "zh-Hans"
 ): Promise<SlugAndId[]> {

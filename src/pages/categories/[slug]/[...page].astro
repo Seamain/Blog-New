@@ -1,0 +1,69 @@
+---
+import { createFullListOfCategory } from "../../../api/Category";
+import { createFullListOfPost } from "../../../api/Post";
+import Navbar from "../../../components/Navbar.astro";
+import Pagination from "../../../components/Pagination.astro";
+import PostCard from "../../../components/PostCard.astro";
+import type Page from "../../../interfaces/Page";
+import type Post from "../../../interfaces/Post";
+import BasicStyle from "../../../layouts/BasicStyle.astro";
+
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  const fullListOfCategories = await createFullListOfCategory("zh-Hans");
+  const fullListOfPosts = await createFullListOfPost("zh-Hans");
+
+  return fullListOfCategories.flatMap((category) => {
+    const filteredPosts = fullListOfPosts.filter(
+      (post) => post.category.data?.attributes.slug === category.slug
+    );
+
+    return paginate(filteredPosts, {
+      params: { slug: category.slug },
+      pageSize: 5,
+    });
+  });
+}
+
+const page = Astro.props.page as Page<Post>;
+const params = Astro.params;
+const totalPage = page.lastpage;
+---
+
+<BasicStyle description=`This is my ${params} page.`>
+  {
+    page.data.length ? (
+      <div class="flex flex-col items-center">
+        <Navbar />
+        <PostCard ml="sm:ml-6" post={page.data[0]} width="850px" />
+        <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-col md:flex md:flex-col">
+          {page.data.slice(1, 5).map((post) => (
+            <PostCard ml="max-h-52" post={post} width="410px" />
+          ))}
+        </div>
+        <div class="flex flex-row mt-12">
+          <Pagination
+            currentPage=""
+            {totalPage}
+            url="posts"
+            activeButton="activeButton"
+          />
+        </div>
+      </div>
+    ) : (
+      <div class="flex flex-col items-center">
+        <Navbar />
+        <p class="mt-12 text-2xl font-semibold">
+          这里暂时还没有内容，请等我以后更新哦~
+        </p>
+      </div>
+    )
+  }
+</BasicStyle>
+
+<style is:global>
+  .activeButton {
+    --tw-bg-opacity: 1;
+    background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+    color: wheat;
+  }
+</style>

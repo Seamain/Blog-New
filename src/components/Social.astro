@@ -7,6 +7,7 @@ const { platform, username } = Astro.props;
 <a
   class="flex flex-row items-center"
   href={`https://www.${platform}.com/${username}`}
+  aria-label=`跳转到跳转到我的${platform}个人页面`
 >
   <Icon class="w-10 mr-2" name={platform} />
 </a>

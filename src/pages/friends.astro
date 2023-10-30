@@ -14,11 +14,15 @@ const friends = await getFriend();
 
     {
       friends.data?.map((friend) => (
-        <a href={friend.attributes.links}>
-          <div class="flex flex-row items-center justify-center mt-4">
-            <p class="text-2xl">{friend.attributes.name}</p>
-            <p class="text-lg mx-4">---</p>
-            <p class="text-xl">{friend.attributes.descriptions}</p>
+        <a
+          class="text-lg font-medium mt-4 mr-4 mb-4 ml-4"
+          href={friend.attributes.links}
+        >
+          <div class="flex flex-col border-2 rounded-lg hover:bg-slate-200 mt-4 w-72 h-36">
+            <p class="mt-4 ml-4 text-xl font-semibold">
+              {friend.attributes.name}
+            </p>
+            <p class="mt-2 ml-4 text-lg">{friend.attributes.descriptions}</p>
           </div>
         </a>
       ))

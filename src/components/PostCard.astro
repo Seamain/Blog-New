@@ -30,9 +30,9 @@ const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
       <p class="font-semibold line-clamp-2 text-slate-500">
         {post.author.data?.attributes.name}
       </p>
-      <Icon class="w-5 h-5 ml-6 mr-3" name="Clock" />
+      <Icon class="w-5 h-5 ml-6 mr-3 sm:mr-2 sm:ml-3" name="Clock" />
       <p class="font-semibold line-clamp-2 text-slate-500">{formatedTime}</p>
-      <Icon class="w-5 h-5 ml-6 mr-3" name="Tag" />
+      <Icon class="w-5 h-5 ml-6 mr-3 sm:ml-3" name="Tag" />
       {
         post.tags
           .slice(0, 2)

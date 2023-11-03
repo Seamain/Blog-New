@@ -7,7 +7,7 @@ import Markdown from "markdown-it";
 const about = await getAbout();
 let html = Markdown().render(about.content);
 const customCss =
-  "\n<style>p {padding-bottom: 1rem;} \nh2{font-size: 1.5rem; line-height: 2rem; font-weight: 700 }</style>";
+  "\n<style>p {padding-bottom: 1rem; word-break:break-all;} \nh2{font-size: 1.5rem; line-height: 2rem; font-weight: 700 }</style>";
 
 html = html.concat(customCss);
 ---
@@ -15,6 +15,6 @@ html = html.concat(customCss);
 <BasicStyle description="About Page">
   <div class="flex flex-col items-center">
     <Navbar />
-    <article class="max-w-4xl sm:ml-12 md:ml-12" set:html={html} />
+    <article class="max-w-4xl md:max-w-2xl sm:max-w-sm" set:html={html} />
   </div>
 </BasicStyle>

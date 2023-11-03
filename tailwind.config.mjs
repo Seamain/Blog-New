@@ -4,6 +4,9 @@ export default {
 	theme: {
 		extend: {},
 		screens: {
+			// 'sm': { 'min': '320px', 'max': '639px' },
+			// => @media (min-width: 640px and max-width: 767px) { ... }
+
 			'sm': {'max': '767px'},
 			// => @media (min-width: 640px and max-width: 767px) { ... }
 	  

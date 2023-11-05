@@ -60,24 +60,30 @@ html = html.concat(customCss);
   <div class="flex flex-col items-center">
     <Navbar />
     <div class="flex flex-row items-center mt-5 sm:grid sm:grid-cols-2">
-      <div class="sm:flex sm:flex-row sm:items-center">
+      <div
+        class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
+      >
         <img
           src={`data:image/png;base64,${avatar}`}
           class="rounded-full border w-7 h-7 mr-2"
           loading="lazy"
           alt=`这是作者${post.author.data?.attributes.name}的头像`
         />
-        <p class="font-semibold line-clamp-2 text-slate-500 mt-4">
+        <p class="font-semibold sm:line-clamp-2 text-slate-500 mt-4">
           {post.author.data?.attributes.name}
         </p>
       </div>
-      <div class="sm:flex sm:flex-row sm:items-center">
+      <div
+        class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
+      >
         <Icon class="w-5 h-5 ml-4 mr-3" name="Clock" />
-        <p class="font-semibold line-clamp-2 text-slate-500 mt-4">
+        <p class="font-semibold sm:line-clamp-2 text-slate-500 mt-4">
           {formatedTime}
         </p>
       </div>
-      <div class="sm:flex sm:flex-row sm:items-center">
+      <div
+        class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
+      >
         <Icon class="w-5 h-5 ml-4 mr-3" name="Tag" />
         {
           post.tags.map((tag) => (
@@ -85,7 +91,7 @@ html = html.concat(customCss);
           ))
         }
       </div>
-      <div class="sm:flex sm:flex-row">
+      <div class="sm:flex sm:flex-row flex flex-row items-center">
         <Icon class="w-5 h-5 ml-4 mr-3" name="Category" />
         <a
           href={`/categories/${post.category.data?.attributes.slug}`}
@@ -95,6 +101,6 @@ html = html.concat(customCss);
       </div>
     </div>
     <p class="font-bold text-2xl mt-2">{post.title}</p>
-    <article class="max-w-4xl mt-2 sm:max-w-sm" set:html={html} />
+    <article class="max-w-4xl mt-2 sm:max-w-sm md:max-w-2xl" set:html={html} />
   </div>
 </BasicStyle>

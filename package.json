@@ -14,7 +14,7 @@
     "@astrojs/tailwind": "^5.1.0",
     "@types/mdast": "^4.0.3",
     "astro": "^4.0.8",
-    "astro-icon": "^1.0.1",
+    "astro-icon": "^0.8.2",
     "markdown-it": "^14.0.0",
     "mdast-util-from-markdown": "^2.0.0",
     "node-base64-image": "^2.0.6",

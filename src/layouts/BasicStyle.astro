@@ -1,5 +1,6 @@
 ---
 import Footer from "./Footer.astro";
+import  SpeedInsights  from "@vercel/speed-insights/astro"
 
 interface Props {
   description: string;
@@ -22,4 +23,5 @@ const { description, ml } = Astro.props;
     <slot />
     <Footer />
   </body>
+  <SpeedInsights/>
 </html>

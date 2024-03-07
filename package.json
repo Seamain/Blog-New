@@ -19,6 +19,7 @@
     "markdown-it": "^14.0.0",
     "mdast-util-from-markdown": "^2.0.0",
     "node-base64-image": "^2.0.6",
+    "sanitize-html": "^2.12.1",
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {

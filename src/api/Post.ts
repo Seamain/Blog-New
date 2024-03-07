@@ -40,6 +40,7 @@ export async function listPosts(
       "fields[1]": "title",
       "fields[2]": "createdAt",
       "fields[3]": "summary",
+      "fields[4]": "content",
       "populate[tags]": "*",
       "populate[category][fields][0]": "slug",
       "populate[category][fields][1]": "name",

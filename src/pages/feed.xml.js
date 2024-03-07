@@ -1,6 +1,9 @@
 import rss from '@astrojs/rss';
 import { listPosts } from '../api/Post';
 import formatDate from "../libs/formatDate";
+import sanitizeHtml from 'sanitize-html';
+import MarkdownIt from 'markdown-it';
+const parser = new MarkdownIt();
 
 export async function GET(context) {
     const posts = await listPosts();
@@ -19,6 +22,7 @@ export async function GET(context) {
           title: post.attributes.title,
           pubDate: formatDate(new Date(post.attributes.createdAt), "yyyy-MM-dd HH:mm"),
           description: post.attributes.summary,
+          content: sanitizeHtml(parser.render(post.attributes.content)),
           link: `/posts/${post.attributes.slug}`
     })),
   });

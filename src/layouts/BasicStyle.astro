@@ -1,13 +1,18 @@
 ---
 import Footer from "./Footer.astro";
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   description: string;
   ml?: string;
+  canonicalURL?: string;
 }
 
-const { description, ml } = Astro.props;
+const {
+  description,
+  ml,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+} = Astro.props;
 ---
 
 <html lang="en">
@@ -17,11 +22,19 @@ const { description, ml } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta property="og:title" content="Seamain's Blog" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content="https://t.mwm.moe/ycy" />
+    <meta property="og:type" content="website" />
+    <meta property="og:logo" content="/favicon.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Seamain's Blog" />
+    <meta name="twitter:image" content="https://t.mwm.moe/ycy" />
     <title>Seamain's Blog</title>
   </head>
   <body class={ml + " overflow-x-hidden font-mono"}>
     <slot />
     <Footer />
   </body>
-  <SpeedInsights/>
+  <SpeedInsights />
 </html>

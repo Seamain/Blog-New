@@ -21,7 +21,9 @@
     "mdast-util-from-markdown": "^2.0.0",
     "node-base64-image": "^2.0.6",
     "sanitize-html": "^2.12.1",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "satori": "^0.10.13",
+    "@resvg/resvg-js": "^2.6.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^13.0.7"

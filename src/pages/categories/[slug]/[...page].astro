@@ -14,7 +14,7 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
 
   return fullListOfCategories.flatMap((category) => {
     const filteredPosts = fullListOfPosts.filter(
-      (post) => post.category.data?.attributes.slug === category.slug
+      (post) => post.category.data?.attributes.slug === category.slug,
     );
 
     return paginate(filteredPosts, {
@@ -29,7 +29,7 @@ const params = Astro.params;
 const totalPage = page.lastpage;
 ---
 
-<BasicStyle description=`This is my ${params} page.`>
+<BasicStyle title=`${params} Category` description=`This is my ${params} page.`>
   {
     page.data.length ? (
       <div class="flex flex-col items-center">

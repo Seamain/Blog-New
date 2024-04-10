@@ -5,6 +5,7 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 interface Props {
   description: string;
   ml?: string;
+  title?: string;
   canonicalURL?: string;
 }
 
@@ -14,6 +15,7 @@ const imageUrl = await response.json();
 const {
   description,
   ml,
+  title,
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 ---
@@ -25,13 +27,13 @@ const {
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta property="og:title" content="Seamain's Blog" />
+    <meta property="og:title" content={title} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={imageUrl["url"]} />
     <meta property="og:type" content="website" />
     <meta property="og:logo" content="/favicon.svg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Seamain's Blog" />
+    <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl["url"]} />
     <title>Seamain's Blog</title>
   </head>

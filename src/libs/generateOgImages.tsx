@@ -3,6 +3,7 @@ import { Resvg } from "@resvg/resvg-js";
 import { type CollectionEntry } from "astro:content";
 import postOgImage from "../templates/og-templates/post";
 import siteOgImage from "../templates/og-templates/site";
+import type Post from "../interfaces/Post";
 
 const fetchFonts = async () => {
     // Regular Font
@@ -17,10 +18,15 @@ const fetchFonts = async () => {
     );
     const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
 
-    return { fontRegular, fontBold };
+    const taipeiFile = await fetch(
+        "https://github.com/JimmyRice/astro-static-resources/raw/main/TaipeiSansTCBeta-Bold.ttf"
+    );
+    const taipeiFont: ArrayBuffer = await taipeiFile.arrayBuffer();
+
+    return { fontRegular, fontBold, taipeiFont };
 };
 
-const { fontRegular, fontBold } = await fetchFonts();
+const { fontRegular, fontBold, taipeiFont } = await fetchFonts();
 
 const options: SatoriOptions = {
     width: 1200,
@@ -39,6 +45,12 @@ const options: SatoriOptions = {
             weight: 600,
             style: "normal",
         },
+        {
+            name: "Taipei Sans TC Beta",
+            data: taipeiFont,
+            weight: 600,
+            style: "normal",
+        },
     ],
 };
 
@@ -48,7 +60,7 @@ function svgBufferToPngBuffer(svg: string) {
     return pngData.asPng();
 }
 
-export async function generateOgImageForPost(post: CollectionEntry<"blog">) {
+export async function generateOgImageForPost(post: Post) {
     const svg = await satori(postOgImage(post), options);
     return svgBufferToPngBuffer(svg);
 }

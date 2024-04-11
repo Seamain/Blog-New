@@ -9,8 +9,7 @@ interface Props {
   canonicalURL?: string;
 }
 
-const response = await fetch("https://api.waifu.pics/sfw/waifu");
-const imageUrl = await response.json();
+const socialImageURL = new URL("og.png", Astro.url.origin).href;
 
 const {
   description,
@@ -27,14 +26,19 @@ const {
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+
+    <!-- Open Graph/Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={imageUrl["url"]} />
+    <meta property="og:image" content={socialImageURL} />
     <meta property="og:type" content="website" />
     <meta property="og:logo" content="/favicon.svg" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:image" content={imageUrl["url"]} />
+    <meta name="twitter:image" content={socialImageURL} />
     <title>Seamain's Blog</title>
   </head>
   <body class={ml + " overflow-x-hidden font-mono"}>

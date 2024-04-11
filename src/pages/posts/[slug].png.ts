@@ -7,16 +7,17 @@ import type Post from "../../interfaces/Post";
 
 export async function getStaticPaths() {
     const languages: Locale[] = ["en", "fr", "zh-Hans", "zh-Hant-HK"];
-    const allLanguagePosts: Post[] = [];
+    // const allLanguagePosts: Post[] = [];
+    const posts: Post[] = await createFullListOfPost();
 
-    await Promise.all(
-        languages.map(async lang => {
-            const posts = await createFullListOfPost();
-            allLanguagePosts.push(...posts);
-        })
-    );
+    // await Promise.all(
+    //     languages.map(async lang => {
+    //         const posts = await createFullListOfPost();
+    //         allLanguagePosts.push(...posts);
+    //     })
+    // );
 
-    const postResult = allLanguagePosts.map(post => ({
+    const postResult = posts.map(post => ({
         params: { slug: post.slug },
         props: post,
     }));

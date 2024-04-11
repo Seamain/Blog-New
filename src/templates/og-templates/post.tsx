@@ -55,7 +55,7 @@ export default (post: CollectionEntry<"blog">) => {
                     lineHeight: 1.4,
                 }}
             >
-                {post.data.title}
+                {post.title}
             </div>
         </div>
     );

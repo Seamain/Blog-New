@@ -6,17 +6,19 @@ interface Props {
   description: string;
   ml?: string;
   title?: string;
+  ogImage?: string;
   canonicalURL?: string;
 }
-
-const socialImageURL = new URL("og.png", Astro.url.origin).href;
 
 const {
   description,
   ml,
+  ogImage,
   title,
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
+
+const socialImageURL = new URL(ogImage ?? "og.png", Astro.url.origin).href;
 ---
 
 <html lang="en">

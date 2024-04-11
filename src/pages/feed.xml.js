@@ -6,7 +6,7 @@ import MarkdownIt from 'markdown-it';
 const parser = new MarkdownIt();
 
 export async function GET(context) {
-    const posts = await listPosts();
+  const posts = await listPosts();
 
   return rss({
     // 输出的 xml 中的`<title>`字段
@@ -18,12 +18,12 @@ export async function GET(context) {
     site: context.site,
     // 输出的 xml 中的`<item>`数组
     // 有关使用内容集合和 glob 导入的示例，请参阅“生成`items`”部分
-      items: posts.data.map((post) => ({
-          title: post.attributes.title,
-          pubDate: formatDate(new Date(post.attributes.createdAt), "yyyy-MM-dd HH:mm"),
-          description: post.attributes.summary,
-          content: sanitizeHtml(parser.render(post.attributes.content)),
-          link: `/posts/${post.attributes.slug}`
+    items: posts.data.map((post) => ({
+      title: post.attributes.title,
+      pubDate: formatDate(new Date(post.attributes.createdAt), "yyyy-MM-dd HH:mm"),
+      description: post.attributes.summary,
+      content: sanitizeHtml(parser.render(post.attributes.content)),
+      link: `/posts/${post.attributes.slug}`
     })),
   });
 }

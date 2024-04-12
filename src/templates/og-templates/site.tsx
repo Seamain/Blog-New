@@ -46,7 +46,7 @@ export default () => {
                     margin: '0 42px',
                     fontSize: 40,
                     width: 'auto',
-                    maxWidth: 550,
+                    maxWidth: 600,
                     textAlign: 'center',
                     backgroundColor: 'black',
                     color: 'white',

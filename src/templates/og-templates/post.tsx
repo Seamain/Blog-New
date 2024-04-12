@@ -54,6 +54,7 @@ export default (post: Post) => {
                     backgroundColor: 'black',
                     color: 'white',
                     lineHeight: 1.4,
+                    whiteSpace: "nowrap"
                 }}
             >
                 {post.title}

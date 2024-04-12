@@ -51,6 +51,7 @@ export default () => {
                     backgroundColor: 'black',
                     color: 'white',
                     lineHeight: 1.4,
+                    whiteSpace: "nowrap"
                 }}
             >
                 S09指挥官Seamain的个人记录

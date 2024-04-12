@@ -53,7 +53,7 @@ export default () => {
                     lineHeight: 1.4,
                 }}
             >
-                这里是Seamain的Blog
+                S09指挥官Seamain的个人记录
             </div>
         </div>
     );

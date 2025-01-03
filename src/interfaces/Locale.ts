@@ -1,0 +1,1 @@
+export type Locale = "en" | "zh-Hans" | "zh-Hant-HK" | "fr";

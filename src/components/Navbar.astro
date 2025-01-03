@@ -4,7 +4,7 @@ import { getNavigationRender } from "../api/Navigation";
 import type { Navigation } from "../interfaces/Navigation";
 
 const navigations = (await getNavigationRender(
-  "main-navigation"
+  "main-navigation",
 )) as Navigation[];
 ---
 

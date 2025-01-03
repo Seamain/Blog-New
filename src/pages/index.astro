@@ -8,7 +8,7 @@ import Navbar from "../components/Navbar.astro";
 const posts = unwrap((await listPosts()).data).map((post) => post.attributes);
 ---
 
-<BasicStyle description="This is my home page.">
+<BasicStyle title="Seamain's Blog" description="This is my home page.">
   <div class="flex flex-col items-center">
     <Navbar />
     <PostCard post={posts[0]} width="840px" />

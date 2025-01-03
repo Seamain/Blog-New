@@ -17,6 +17,7 @@ export async function getPost(id: number): Promise<Post> {
       "fields[0]": "title",
       "fields[1]": "content",
       "fields[2]": "createdAt",
+      "fields[3]": "slug",
       "populate[tags]": "*",
       "populate[author][fields][0]": "name",
       "populate[author][populate][avatar][fields][0]": "formats",

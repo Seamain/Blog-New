@@ -17,7 +17,7 @@
     "@types/mdast": "^4.0.4",
     "@vercel/og": "^0.6.4",
     "@vercel/speed-insights": "^1.1.0",
-    "astro": "^5.1.1",
+    "astro": "^5.14.1",
     "astro-icon": "^0.8.2",
     "markdown-it": "^14.1.0",
     "mdast-util-from-markdown": "^2.0.2",

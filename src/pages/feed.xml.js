@@ -19,11 +19,11 @@ export async function GET(context) {
     // 输出的 xml 中的`<item>`数组
     // 有关使用内容集合和 glob 导入的示例，请参阅“生成`items`”部分
     items: posts.data.map((post) => ({
-      title: post.attributes.title,
-      pubDate: formatDate(new Date(post.attributes.createdAt), "yyyy-MM-dd HH:mm"),
-      description: post.attributes.summary,
-      content: sanitizeHtml(parser.render(post.attributes.content)),
-      link: `/posts/${post.attributes.slug}`
+      title: post.title,
+      pubDate: formatDate(new Date(post.createdAt), "yyyy-MM-dd HH:mm"),
+      description: post.summary,
+      content: sanitizeHtml(parser.render(post.content)),
+      link: `/posts/${post.slug}`
     })),
   });
 }

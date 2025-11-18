@@ -14,7 +14,7 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
 
   return fullListOfCategories.flatMap((category) => {
     const filteredPosts = fullListOfPosts.filter(
-      (post) => post.category.data?.attributes.slug === category.slug,
+      (post) => post.category?.slug === category.slug,
     );
 
     return paginate(filteredPosts, {

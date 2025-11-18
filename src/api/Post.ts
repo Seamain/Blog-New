@@ -1,4 +1,3 @@
-import type Attribute from "../interfaces/Attribute";
 import type Data from "../interfaces/Data";
 import type Post from "../interfaces/Post";
 import strapi from "../libs/strapi";
@@ -6,13 +5,13 @@ import unWrap from "../libs/unwrap";
 import type { Locale } from "../types/Locale";
 
 export interface SlugAndId {
-  id: number;
+  id: string;
   slug: string;
 }
 
-export async function getPost(id: number): Promise<Post> {
-  const response = await strapi<Data<Attribute<Post>>>({
-    endpoint: "posts/" + id,
+export async function getPost(documentId: string): Promise<Post> {
+  const response = await strapi<Data<Post>>({
+    endpoint: "posts/" + documentId,
     query: {
       "fields[0]": "title",
       "fields[1]": "content",
@@ -26,15 +25,15 @@ export async function getPost(id: number): Promise<Post> {
     },
   });
 
-  return unWrap(response.data?.attributes);
+  return unWrap(response.data);
 }
 
 export async function listPosts(
   locale: Locale = "zh-Hans",
   pageSize: number = 5,
   page: number = 1
-): Promise<Data<Attribute<Post>[]>> {
-  const response = await strapi<Data<Attribute<Post>[]>>({
+): Promise<Data<Post[]>> {
+  const response = await strapi<Data<Post[]>>({
     endpoint: "posts",
     query: {
       "fields[0]": "slug",
@@ -79,8 +78,8 @@ export async function createFullListOfPostSlugWithId(
     result.push(
       ...first.data.map((post) => {
         return {
-          id: post.id,
-          slug: post.attributes.slug,
+          id: post.documentId,
+          slug: post.slug,
         };
       })
     );
@@ -101,8 +100,8 @@ export async function createFullListOfPostSlugWithId(
     result.push(
       ...next.data?.map((post) => {
         return {
-          id: post.id,
-          slug: post.attributes.slug,
+          id: post.documentId,
+          slug: post.slug,
         };
       })
     );
@@ -132,7 +131,7 @@ export async function createFullListOfPost(
     first.meta?.pagination.pageCount === 1 &&
     (first.data != undefined || first.data != null)
   ) {
-    result.push(...first.data.map((post) => post.attributes));
+    result.push(...first.data.map((post) => post));
     return result;
   }
 
@@ -147,7 +146,7 @@ export async function createFullListOfPost(
       throw new Error("Page data is undefined or null");
     }
 
-    result.push(...next.data?.map((post) => post.attributes));
+    result.push(...next.data?.map((post) => post));
 
     current++;
   }

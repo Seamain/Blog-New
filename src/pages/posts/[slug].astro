@@ -44,10 +44,8 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const avatar = (await encode(
-  post.author.data?.attributes.avatar.data?.attributes.formats?.thumbnail?.url,
-  { string: true },
-)) as string;
+const avatarUrl = post.author?.avatar?.formats?.thumbnail?.url;
+const avatar = avatarUrl ? (await encode(avatarUrl, { string: true })) as string : null;
 const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
 let html = Markdown().render(post.content);
 const customCss =
@@ -62,7 +60,7 @@ html = html.concat(customCss);
   description={post.summary}
   ml="flex flex-col items-center"
   ogImage={"/posts/" + post.slug + ".png"}
-  author={post.author.data?.attributes.name}
+  author={post.author?.name}
   publishedTime={publishedTime}
 >
   <div class="flex flex-col items-center">
@@ -71,14 +69,16 @@ html = html.concat(customCss);
       <div
         class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
       >
-        <img
-          src={`data:image/png;base64,${avatar}`}
-          class="rounded-full border w-7 h-7 mr-2"
-          loading="lazy"
-          alt=`这是作者${post.author.data?.attributes.name}的头像`
-        />
+        {avatar && (
+          <img
+            src={`data:image/png;base64,${avatar}`}
+            class="rounded-full border w-7 h-7 mr-2"
+            loading="lazy"
+            alt=`这是作者${post.author?.name}的头像`
+          />
+        )}
         <p class="font-semibold sm:line-clamp-2 text-slate-500 mt-4">
-          {post.author.data?.attributes.name}
+          {post.author?.name}
         </p>
       </div>
       <div
@@ -102,9 +102,9 @@ html = html.concat(customCss);
       <div class="sm:flex sm:flex-row flex flex-row items-center">
         <Icon class="w-5 h-5 ml-4 mr-3" name="Category" />
         <a
-          href={`/categories/${post.category.data?.attributes.slug}`}
+          href={`/categories/${post.category?.slug}`}
           class="font-semibold text-slate-500 hover:text-cyan-400 underline decoration-dashed underline-offset-4"
-          >{post.category.data?.attributes.name}</a
+          >{post.category?.name}</a
         >
       </div>
     </div>

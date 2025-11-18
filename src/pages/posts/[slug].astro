@@ -64,53 +64,91 @@ html = html.concat(customCss);
   author={post.author?.name}
   publishedTime={publishedTime}
 >
-  <div class="flex flex-col items-center">
+  <div class="flex w-full flex-col items-center bg-gradient-to-b from-white to-slate-50/60">
     <Navbar />
-    <div class="flex flex-row items-center mt-5 sm:grid sm:grid-cols-2">
-      <div
-        class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
-      >
-        {avatar && (
-          <img
-            src={`data:image/png;base64,${avatar}`}
-            class="rounded-full border w-7 h-7 mr-2"
-            loading="lazy"
-            alt=`这是作者${post.author?.name}的头像`
-          />
-        )}
-        <p class="font-semibold sm:line-clamp-2 text-slate-500 mt-4">
-          {post.author?.name}
+    <section class="mt-10 w-full max-w-5xl px-6">
+      <div class="rounded-3xl border border-slate-100 bg-white/80 px-8 py-10 shadow-lg shadow-slate-100/40">
+        <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+          {post.category?.name}
         </p>
+        <h1 class="mt-4 text-4xl font-semibold leading-tight text-slate-900">
+          {post.title}
+        </h1>
+        <p class="mt-4 text-lg text-slate-600">{post.summary}</p>
+
+        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 sm:grid-cols-1">
+          <div class="flex items-center gap-3">
+            {avatar ? (
+              <img
+                src={`data:image/png;base64,${avatar}`}
+                class="h-12 w-12 rounded-full border border-slate-200 object-cover"
+                loading="lazy"
+                alt=`这是作者${post.author?.name}的头像`
+              />
+            ) : (
+              <div class="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-slate-300 text-sm text-slate-400">
+                {post.author?.name?.slice(0, 1) ?? "?"}
+              </div>
+            )}
+            <div>
+              <p class="text-sm text-slate-500">作者</p>
+              <p class="text-base font-semibold text-slate-800">
+                {post.author?.name}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+              <Icon class="h-5 w-5" name="Clock" />
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">发布时间</p>
+              <p class="text-base font-semibold text-slate-800">
+                {formatedTime}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+              <Icon class="h-5 w-5" name="Tag" />
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">标签</p>
+              <div class="mt-1 flex flex-wrap gap-2">
+                {
+                  post.tags.map((tag) => (
+                    <span class="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600">
+                      {tag.name}
+                    </span>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+              <Icon class="h-5 w-5" name="Category" />
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">分类</p>
+              <a
+                href={`/categories/${post.category?.slug}`}
+                class="text-base font-semibold text-slate-800 underline decoration-dashed underline-offset-4 transition hover:text-indigo-600"
+              >
+                {post.category?.name}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div
-        class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
-      >
-        <Icon class="w-5 h-5 ml-4 mr-3" name="Clock" />
-        <p class="font-semibold sm:line-clamp-2 text-slate-500 mt-4">
-          {formatedTime}
-        </p>
-      </div>
-      <div
-        class="sm:flex sm:flex-row sm:items-center flex flex-row items-center"
-      >
-        <Icon class="w-5 h-5 ml-4 mr-3" name="Tag" />
-        {
-          post.tags.map((tag) => (
-            <p class="mr-2 font-semibold text-slate-500 mt-4">{tag.name}</p>
-          ))
-        }
-      </div>
-      <div class="sm:flex sm:flex-row flex flex-row items-center">
-        <Icon class="w-5 h-5 ml-4 mr-3" name="Category" />
-        <a
-          href={`/categories/${post.category?.slug}`}
-          class="font-semibold text-slate-500 hover:text-cyan-400 underline decoration-dashed underline-offset-4"
-          >{post.category?.name}</a
-        >
-      </div>
-    </div>
-    <p class="font-bold text-2xl mt-2">{post.title}</p>
-    <AISummary content={post.content} title={post.title} />
-    <article class="max-w-4xl mt-2 sm:max-w-xs md:max-w-2xl" set:html={html} />
+    </section>
+
+    <section class="mt-12 mb-2 w-full max-w-4xl px-6">
+      <AISummary content={post.content} title={post.title} />
+      <article
+        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-md shadow-slate-100/50 prose-headings:text-slate-900 prose-p:text-slate-700"
+        set:html={html}
+      />
+    </section>
   </div>
 </BasicStyle>

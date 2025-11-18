@@ -10,11 +10,272 @@ const customCss =
   "\n<style>p {padding-bottom: 1rem; word-break:break-all;} \nh2{font-size: 1.5rem; line-height: 2rem; font-weight: 700 }</style>";
 
 html = html.concat(customCss);
+
+const highlightStats = [
+  { label: "写作主题", value: "Tech · Product" },
+  { label: "运营时间", value: "Since 2022" },
+  { label: "写作频率", value: "Weekly" },
+];
+
+const journey = [
+  {
+    year: "2022",
+    title: "第一篇博文上线",
+    description: "搭建自有博客，记录技术与产品感悟。",
+  },
+  {
+    year: "2024",
+    title: "人生转折",
+    description: "加入新团队，专注 AI + 产品方向，持续输出实践笔记。",
+  },
+  {
+    year: "2025",
+    title: "内容升级",
+    description: "引入 AI 总结、知识卡片等模块，打造更完整的阅读体验。",
+  },
+];
+const aboutMeta = about as unknown as Record<string, unknown>;
+const publicKeySnippet =
+  (aboutMeta.publicKey as string | undefined) ??
+  "-----BEGIN PGP PUBLIC KEY BLOCK-----\n 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 ipE/ffp0QG00+Ak= =XmBy \n-----END PGP PUBLIC KEY BLOCK-----";
+const bilibiliLink =
+  (aboutMeta.bilibiliLink as string | undefined) ??
+  "https://space.bilibili.com/252931506";
 ---
 
 <BasicStyle title="About" description="About Page">
-  <div class="flex flex-col items-center">
+  <div
+    class="relative flex flex-col items-center overflow-hidden bg-gradient-to-b from-white via-slate-50"
+  >
+    <div class="pointer-events-none absolute inset-0 opacity-70">
+      <div
+        class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-100 blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute bottom-0 right-0 h-64 w-64 translate-x-1/3 rounded-full bg-sky-100 blur-3xl"
+      >
+      </div>
+    </div>
+
     <Navbar />
-    <article class="max-w-4xl md:max-w-2xl sm:max-w-sm" set:html={html} />
+
+    <section class="relative mt-14 w-full max-w-5xl px-6">
+      <div
+        class="relative overflow-hidden rounded-4xl border border-slate-100 bg-white/80 px-8 py-12 shadow-2xl shadow-slate-200/60"
+      >
+        <div
+          class="absolute -right-10 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full bg-gradient-to-b from-indigo-200/50 to-sky-200/50 blur-3xl md:block"
+          aria-hidden="true"
+        >
+        </div>
+        <p class="text-xs uppercase tracking-[0.5em] text-slate-400">About</p>
+        <h1
+          class="mt-5 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl"
+        >
+          关于我与这个博客
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg text-slate-600">
+          分享成长、技术与生活灵感，记录每一次有意义的探索，也希望透过真实的故事，连接到同样热爱创造的人。
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <span
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600"
+          >
+            Builder
+          </span>
+          <span
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600"
+          >
+            Product Thinker
+          </span>
+          <span
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600"
+          >
+            Human Stories
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="relative mt-10 grid w-full max-w-5xl gap-4 px-6 grid-cols-3 sm:grid-cols-1 md:grid-cols-3"
+    >
+      {
+        highlightStats.map((item) => (
+          <div class="rounded-3xl border border-slate-100 bg-white/90 p-6 text-center shadow-md shadow-slate-200/50">
+            <p class="text-sm text-slate-500">{item.label}</p>
+            <p class="mt-2 text-2xl font-semibold text-slate-900">
+              {item.value}
+            </p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section
+      class="relative mt-12 grid w-full max-w-5xl gap-6 px-6 lg:grid-cols-[1.1fr_0.9fr]"
+    >
+      <div
+        class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70"
+      >
+        <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+          Latest Focus
+        </p>
+        <h2 class="mt-4 text-3xl font-semibold text-slate-900">
+          探索 AI 与产品的交汇点
+        </h2>
+        <p class="mt-4 text-base text-slate-600">
+          我关心工具如何改变创作者与开发者的工作方式，尝试把实践经验拆解成易理解的内容。从技术实现、产品思考到个人成长，希望能提供真实、有用的视角。
+        </p>
+        <div class="mt-6 grid gap-4 grid-cols-2 sm:grid-cols-1 md:grid-cols-2">
+          <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+            <p class="text-sm text-slate-500">当前研究</p>
+            <p class="text-base font-semibold text-slate-800">
+              AI Summary · Dev Productivity
+            </p>
+          </div>
+          <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+            <p class="text-sm text-slate-500">想要分享</p>
+            <p class="text-base font-semibold text-slate-800">
+              打造长期主义的作品集
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex h-full flex-col gap-6 rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-xl shadow-slate-200/70"
+      >
+        <div>
+          <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+            Contact
+          </p>
+          <h3 class="mt-3 text-2xl font-semibold text-slate-900">
+            和我聊点什么
+          </h3>
+          <p class="mt-3 text-sm text-slate-600">
+            欢迎邮件、社交媒体或在博客留言。我会尽量在 48 小时内回复。
+          </p>
+        </div>
+        <div
+          class="rounded-2xl border border-slate-900/10 bg-slate-900 text-left text-slate-200"
+        >
+          <div
+            class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3"
+          >
+            <div>
+              <p class="text-xs uppercase tracking-[0.4em] text-white/70">
+                Public Key
+              </p>
+              <p class="mt-1 text-sm text-white/70">
+                用于加密通信，复制即可使用。
+              </p>
+            </div>
+            <button
+              id="copy-public-key"
+              type="button"
+              data-key={publicKeySnippet}
+              class="rounded-full border border-white/30 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/10"
+            >
+              复制公钥
+            </button>
+          </div>
+          <pre
+            class="max-h-40 overflow-auto px-4 py-3 text-xs font-mono leading-relaxed text-white whitespace-pre-wrap break-words break-all">{publicKeySnippet}</pre>
+        </div>
+        <a
+          href={bilibiliLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-2xl border border-slate-100 bg-white/90 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+          <p class="text-xs uppercase tracking-[0.4em] text-slate-400">
+            Bilibili
+          </p>
+          <p class="mt-2 text-base font-semibold text-slate-900">@seamain</p>
+          <p class="text-sm text-slate-500">
+            记录 Vlog、技术 talk 与灵感碎片。
+          </p>
+        </a>
+        <div
+          class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600"
+        >
+          <p>📮 Email：seamain@seamain.org</p>
+          <p class="mt-2">💬 Preferred topics：合作、产品 idea、内容建议</p>
+        </div>
+        <div
+          class="rounded-2xl border border-slate-100 bg-gradient-to-r from-indigo-500/10 to-sky-500/10 p-4 text-sm text-slate-600"
+        >
+          <p>
+            如果你也在做类似的事情，发给我你的项目链接，也许可以一起写点什么。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative mt-14 mb-2 w-full max-w-5xl px-6">
+      <div
+        class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70"
+      >
+        <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+          Timeline
+        </p>
+        <h3 class="mt-4 text-3xl font-semibold text-slate-900">我的创作脚印</h3>
+        <div class="mt-8 space-y-6">
+          {
+            journey.map((step, index) => (
+              <div class="flex gap-6">
+                <div class="relative flex flex-col items-center">
+                  <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-500">
+                    {step.year}
+                  </span>
+                  {index !== journey.length - 1 && (
+                    <span class="mt-2 h-full w-px bg-gradient-to-b from-slate-200 to-transparent" />
+                  )}
+                </div>
+                <div>
+                  <p class="text-lg font-semibold text-slate-900">
+                    {step.title}
+                  </p>
+                  <p class="text-sm text-slate-600">{step.description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="relative mt-14 w-full px-6 pb-20">
+      <article
+        class="prose prose-slate mx-auto max-w-4xl rounded-4xl border border-slate-100 bg-white p-10 shadow-2xl shadow-slate-200/80 prose-headings:text-slate-900 prose-p:text-slate-700"
+        set:html={html}
+      />
+    </section> -->
   </div>
 </BasicStyle>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const copyButton = document.getElementById("copy-public-key");
+    if (!copyButton) return;
+
+    copyButton.addEventListener("click", async () => {
+      const originalLabel = copyButton.textContent || "复制公钥";
+      const key = copyButton.getAttribute("data-key") || "";
+      if (!key) return;
+
+      try {
+        await navigator.clipboard.writeText(key);
+        copyButton.textContent = "已复制";
+      } catch (error) {
+        copyButton.textContent = "复制失败";
+      } finally {
+        setTimeout(() => {
+          copyButton.textContent = originalLabel;
+        }, 2000);
+      }
+    });
+  });
+</script>

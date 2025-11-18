@@ -20,24 +20,68 @@ const totalPage = page.lastPage;
 ---
 
 <BasicStyle title="Categories" description="This is my Categories page.">
-  <div class="flex flex-col items-center">
+  <div
+    class="flex flex-col items-center bg-gradient-to-b from-white via-slate-50"
+  >
     <Navbar />
-    <p class="text-2xl font-semibold mt-12">选择你的分类</p>
-    <div class="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-1">
-      {
-        page.data.slice(0, 6).map((category) => (
-          <div class="flex flex-col max-w-xl border rounded-lg hover:bg-slate-200">
+
+    <section class="mt-12 w-full max-w-5xl px-6 text-center">
+      <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Explore</p>
+      <h1 class="mt-4 text-4xl font-semibold text-slate-900">选择你的分类</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        按分类浏览，快速找到你感兴趣的文章主题。
+      </p>
+    </section>
+
+    <section class="mt-10 w-full max-w-5xl px-6">
+      <div
+        class="grid gap-6 grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {
+          page.data.slice(0, 6).map((category) => (
             <a
-              class="text-lg font-medium mt-4 mr-4 mb-4 ml-4"
               href={`/categories/${category.slug}`}
+              class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white/80 p-6 shadow-md shadow-slate-200/60 transition hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg"
             >
-              {category.name}
+              <div
+                class="absolute -top-10 right-4 h-32 w-32 rounded-full bg-slate-50 opacity-0 blur-3xl transition group-hover:opacity-80"
+                aria-hidden="true"
+              />
+              <div class="relative flex flex-col gap-3">
+                <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+                  Category
+                </p>
+                <h2 class="text-2xl font-semibold text-slate-900">
+                  {category.name}
+                </h2>
+                <p class="text-sm text-slate-500">
+                  共 {category.posts?.length ?? 0} 篇文章
+                </p>
+                <span class="mt-4 inline-flex items-center text-sm font-semibold text-indigo-600">
+                  查看文章
+                  <svg
+                    class="ml-2 h-4 w-4 transition group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
             </a>
-          </div>
-        ))
-      }
-    </div>
-    <div class="flex flex-row mt-12">
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-12 w-full max-w-5xl px-6 pb-16">
       <Pagination
         currentPage={page.currentPage}
         {totalPage}
@@ -45,7 +89,7 @@ const totalPage = page.lastPage;
         buttonGroup=""
         activeButton="activeButton"
       />
-    </div>
+    </section>
   </div>
 </BasicStyle>
 

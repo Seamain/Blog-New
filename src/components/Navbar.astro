@@ -8,18 +8,103 @@ const navigations = (await getNavigationRender(
 )) as Navigation[];
 ---
 
-<div class="border-b w-screen">
+<nav
+  class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur"
+>
   <div
-    class="flex flex-row justify-center items-center mt-5 mb-5 sm:flex sm:flex-col"
+    class="relative flex w-full flex-row gap-4 px-6 py-4 sm:flex-row sm:items-center justify-around"
   >
-    <Icon class="rounded-full sm:mr-4 md:ml-4" name="Icon" width="30px" />
-    <a href="/" class="ml-2 mr-72 sm:mr-4 text-2xl md:mr-64">Seamain</a>
-    {
-      navigations.map((item) => (
-        <a href={"/" + item.path} class="mr-4 text-lg">
-          {item.title}
-        </a>
-      ))
-    }
+    <a
+      href="/"
+      class="flex items-center gap-3 text-2xl font-semibold tracking-tight"
+    >
+      <Icon
+        class="rounded-full border border-slate-200 p-1"
+        name="Icon"
+        width="36px"
+      />
+      <span class="text-slate-800">Seamain</span>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button
+      id="mobile-menu-button"
+      class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 md:hidden lg:hidden xl:hidden 2xl:hidden"
+      aria-label="Toggle mobile menu"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Desktop navigation -->
+    <div class="sm:hidden flex items-center justify-end gap-3">
+      {
+        navigations.map((item) => (
+          <a
+            href={"/" + item.path}
+            class="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-900/5 hover:text-slate-900"
+          >
+            {item.title}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Mobile navigation (hidden by default) -->
+    <div
+      id="mobile-menu"
+      class="hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 shadow-lg"
+    >
+      <div class="px-6 py-4 space-y-2">
+        {
+          navigations.map((item) => (
+            <a
+              href={"/" + item.path}
+              class="block rounded-lg px-4 py-3 text-base font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >
+              {item.title}
+            </a>
+          ))
+        }
+      </div>
+    </div>
   </div>
-</div>
+</nav>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    console.log(mobileMenuButton);
+    console.log(mobileMenu);
+
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener("click", function () {
+        console.log("nihao");
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener("click", function (event) {
+        const target = event.target as Node;
+        if (
+          !mobileMenuButton.contains(target) &&
+          !mobileMenu.contains(target)
+        ) {
+          mobileMenu.classList.add("hidden");
+        }
+      });
+    }
+  });
+</script>

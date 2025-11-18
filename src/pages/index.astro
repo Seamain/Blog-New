@@ -6,19 +6,39 @@ import unwrap from "../libs/unwrap";
 import Navbar from "../components/Navbar.astro";
 
 const posts = unwrap((await listPosts()).data).map((post) => post);
-// console.log("Posts:", JSON.stringify(posts, null, 2));
 ---
 
 <BasicStyle title="Seamain's Blog" description="This is my home page.">
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center w-screen">
     <Navbar />
-    <PostCard post={posts[0]} width="840px" />
+    <section class="mt-10 w-full max-w-5xl px-6 text-center">
+      <h1 class="text-3xl font-semibold text-slate-900">
+        欢迎来到 Seamain 的博客
+      </h1>
+      <p class="mt-3 text-base text-slate-600">
+        这里记录我对技术、产品与生活的灵感，希望你能找到有趣的想法与灵感。
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <span
+          class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em]"
+        >
+          Tech
+        </span>
+        <span
+          class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em]"
+        >
+          Product
+        </span>
+        <span
+          class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em]"
+        >
+          Life
+        </span>
+      </div>
+    </section>
+    <PostCard post={posts[0]} ml="" />
     <div class="grid grid-cols-2 gap-4 sm:flex sm:flex-col md:flex md:flex-col">
-      {
-        posts
-          .slice(1, 5)
-          .map((post) => <PostCard ml="max-h-52" post={post} width="410px" />)
-      }
+      {posts.slice(1, 5).map((post) => <PostCard ml="max-h-52" post={post} />)}
     </div>
   </div>
 </BasicStyle>

@@ -1,69 +1,93 @@
 ---
 export interface Props {
   outerDiv?: string;
-  buttonGroup: string;
+  buttonGroup?: string;
   button?: string;
   activeButton?: string;
   disabledButton?: string;
-  currentPage: Number;
-  totalPage: Number;
+  currentPage: number;
+  totalPage: number;
   url: string;
 }
 
 const {
-  outerDiv = "flex items-center justify-center",
-  buttonGroup = "",
-  button = "relative flex-nowrap inline-flex items-center px-4 py-2 border text-sm font-medium",
-  activeButton = "bg-sky-500 text-white",
-  disabledButton = "disabled:opacity-75",
+  outerDiv = "flex w-full justify-center",
+  buttonGroup = "inline-flex items-center gap-2 rounded-full border border-slate-100 bg-white/90 px-2 py-1 shadow-sm shadow-slate-100",
+  button = "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300 hover:bg-slate-100",
+  activeButton = "bg-slate-900 text-white shadow-inner",
+  disabledButton = "pointer-events-none opacity-40",
   currentPage,
   totalPage,
   url,
 } = Astro.props as Props;
 
-let pageStatuses = Array.from({ length: totalPage }, (v, i) => i + 1).map(
-  (i) => {
-    var item = {
-      pageNumber: i,
-      isActive: currentPage == i,
-      isDisabled: isDisabled(i),
-      pageLink: (i) => {
-        if (i == 1) return [];
-        return i;
-      },
-    };
-    return item;
-  }
-);
+const current = Number(currentPage);
+const total = Number(totalPage);
 
-function isDisabled(i) {
-  if (totalPage <= 6) return false;
-  if (i <= 2 || i >= totalPage - 1) return false;
-  if (currentPage == i - 1 || currentPage == i || currentPage == i + 1)
-    return false;
+const buildHref = (page: number) => `/${url}/${page === 1 ? "" : page}`;
+const prevPage = current > 1 ? current - 1 : null;
+const nextPage = current < total ? current + 1 : null;
+
+let pageStatuses = Array.from({ length: total }, (_, i) => i + 1).map((i) => {
+  return {
+    pageNumber: i,
+    isActive: current === i,
+    isDisabled: isDisabled(i),
+  };
+});
+
+function isDisabled(i: number) {
+  if (total <= 6) return false;
+  if (i <= 2 || i >= total - 1) return false;
+  if (current === i - 1 || current === i || current === i + 1) return false;
   return true;
 }
 ---
 
-<div class={outerDiv}>
+<nav class={outerDiv} aria-label="Pagination">
   <div class={buttonGroup}>
+    {
+      prevPage ? (
+        <a class={button} href={buildHref(prevPage)} aria-label="Previous page">
+          Prev
+        </a>
+      ) : (
+        <span class={`${button} ${disabledButton}`} aria-disabled="true">
+          Prev
+        </span>
+      )
+    }
+
     {
       pageStatuses.map((pageStatus, index) =>
         pageStatus.isActive ? (
-          <a class={`${button} ${activeButton}`}>{currentPage}</a>
-        ) : pageStatus.isDisabled && !pageStatuses[index - 1].isDisabled ? (
-          <a class={`${button} ${disabledButton}`}>...</a>
-        ) : (
-          !pageStatus.isDisabled && (
-            <a
-              class={button}
-              href={`/${url}/${pageStatus.pageLink(pageStatus.pageNumber)}`}
-            >
-              {pageStatus.pageNumber}
-            </a>
+          <span class={`${button} ${activeButton}`} aria-current="page">
+            {pageStatus.pageNumber}
+          </span>
+        ) : pageStatus.isDisabled ? (
+          !pageStatuses[index - 1]?.isDisabled && (
+            <span class={`${button} ${disabledButton}`} aria-hidden="true">
+              ...
+            </span>
           )
-        )
+        ) : (
+          <a class={button} href={buildHref(pageStatus.pageNumber)}>
+            {pageStatus.pageNumber}
+          </a>
+        ),
+      )
+    }
+
+    {
+      nextPage ? (
+        <a class={button} href={buildHref(nextPage)} aria-label="Next page">
+          Next
+        </a>
+      ) : (
+        <span class={`${button} ${disabledButton}`} aria-disabled="true">
+          Next
+        </span>
       )
     }
   </div>
-</div>
+</nav>

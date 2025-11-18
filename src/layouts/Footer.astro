@@ -2,20 +2,59 @@
 import Social from "../components/Social.astro";
 ---
 
-<footer class="flex flex-col items-center mt-32">
-  <p class="text-xl font-semibold">Follow Me</p>
-  <div class="flex flex-row">
-    <Social platform="Github" username="Seamain" />
-    <Social platform="X" username="seamain37" />
-    <Social platform="Facebook" username="profile.php?id=100090448314423" />
-  </div>
-  <a href="https://icp.gov.moe/?keyword=20220546" target="_blank"
-    >萌ICP备20220546号
-  </a>
-  <p>Created by <a href="https://seamainjimmy.com">Jimmy&Seamain</a></p>
-  <a
-    href="https://ipw.cn/ipv6webcheck/?site=seamain.org/"
-    title="本站支持IPv6访问"
-    target="_blank">本站支持IPv6访问</a
+<footer
+  class="w-full mt-2 border-t border-slate-100 bg-gradient-to-b from-white via-slate-50 to-slate-100"
+>
+  <div
+    class="mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 py-16 text-center"
   >
+    <div class="flex flex-col items-center gap-3">
+      <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+        Stay Connected
+      </p>
+      <h2 class="text-3xl font-semibold text-slate-900">Follow Me</h2>
+      <p class="max-w-2xl text-base text-slate-500">
+        分享开发、产品与生活碎碎念，欢迎通过社交媒体找到我，并留下你的想法。
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <Social platform="Github" username="Seamain" />
+      <Social platform="X" username="seamain37" />
+      <Social platform="Facebook" username="profile.php?id=100090448314423" />
+    </div>
+
+    <div
+      class="h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="flex flex-col gap-2 text-sm text-slate-500">
+      <a
+        href="https://icp.gov.moe/?keyword=20220546"
+        target="_blank"
+        class="text-slate-500 transition hover:text-slate-900"
+      >
+        萌ICP备20220546号
+      </a>
+      <p>
+        Created by
+        <a
+          href="https://seamainjimmy.com"
+          class="font-semibold text-slate-800 transition hover:text-slate-900"
+        >
+          Jimmy & Seamain
+        </a>
+      </p>
+      <a
+        href="https://ipw.cn/ipv6webcheck/?site=seamain.org/"
+        title="本站支持IPv6访问"
+        target="_blank"
+        class="text-slate-500 transition hover:text-slate-900"
+      >
+        本站支持IPv6访问
+      </a>
+    </div>
+  </div>
 </footer>

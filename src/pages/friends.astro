@@ -12,70 +12,22 @@ const friends = await getFriend();
   >
     <Navbar />
 
-    <section class="mt-14 w-full max-w-4xl px-6 text-center">
-      <p
-        class="text-xs uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
-      >
-        Friends
-      </p>
-      <h1
-        class="mt-4 text-4xl font-semibold text-slate-900 dark:text-slate-100"
-      >
-        我的朋友们
-      </h1>
-      <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
-        记录那些我欣赏的创造者与伙伴，点进他们的世界看看吧。
-      </p>
-    </section>
+    <h1 class="text-3xl mt-20 mr-8">我的朋友们</h1>
 
-    <section class="mt-10 w-full max-w-5xl px-6 pb-16">
-      <div class="grid gap-6 grid-cols-2 sm:grid-cols-1 md:grid-cols-2">
-        {
-          friends.data?.map((friend) => (
-            <a
-              href={friend.links}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white/90 p-6 shadow-md shadow-slate-200/60 transition hover:-translate-y-1 hover:border-slate-200 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/60 dark:hover:border-slate-700"
-            >
-              <div
-                class="absolute inset-x-6 -top-6 h-32 rounded-3xl bg-slate-50 opacity-0 blur-3xl transition group-hover:opacity-80 dark:bg-slate-800"
-                aria-hidden="true"
-              />
-              <div class="relative flex h-full flex-col gap-4">
-                <div>
-                  <p class="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">
-                    Friend
-                  </p>
-                  <h2 class="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">
-                    {friend.name}
-                  </h2>
-                </div>
-                <p class="text-base text-slate-600 line-clamp-3 dark:text-slate-400">
-                  {friend.descriptions}
-                </p>
-                <span class="mt-auto inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-                  访问他们
-                  <svg
-                    class="ml-2 h-4 w-4 transition group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </a>
-          ))
-        }
-      </div>
-    </section>
+    {
+      friends.data?.map((friend) => (
+        <a
+          class="text-lg font-medium mt-4 mr-4 mb-4 ml-4"
+          href={friend.attributes.links}
+        >
+          <div class="flex flex-col border-2 rounded-lg hover:bg-slate-200 mt-4 w-72 h-36">
+            <p class="mt-4 ml-4 text-xl font-semibold">
+              {friend.attributes.name}
+            </p>
+            <p class="mt-2 ml-4 text-lg">{friend.attributes.descriptions}</p>
+          </div>
+        </a>
+      ))
+    }
   </div>
 </BasicStyle>

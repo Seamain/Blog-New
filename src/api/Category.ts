@@ -1,4 +1,3 @@
-import type Attribute from "../interfaces/Attribute";
 import type Category from "../interfaces/Category";
 import type Data from "../interfaces/Data";
 import strapi from "../libs/strapi";
@@ -13,8 +12,8 @@ export async function listCategory(
   locale: Locale = "zh-Hans",
   pageSize: number = 6,
   page: number = 1
-): Promise<Data<Attribute<Category>[]>> {
-  const response = await strapi<Data<Attribute<Category>[]>>({
+): Promise<Data<Category[]>> {
+  const response = await strapi<Data<Category[]>>({
     endpoint: "categories",
     query: {
       "fields[0]": "slug",
@@ -51,7 +50,7 @@ export async function createFullListOfCategory(
     first.meta.pagination.pageCount === 1 &&
     (first.data != undefined || first.data != null)
   ) {
-    result.push(...first.data.map((category) => category.attributes));
+    result.push(...first.data.map((category) => category));
     return result;
   }
 
@@ -66,7 +65,7 @@ export async function createFullListOfCategory(
       throw new Error("Page data is undefined or null");
     }
 
-    result.push(...next.data?.map((category) => category.attributes));
+    result.push(...next.data?.map((category) => category));
 
     current++;
   }

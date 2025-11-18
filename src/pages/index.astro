@@ -5,7 +5,8 @@ import { listPosts } from "../api/Post";
 import unwrap from "../libs/unwrap";
 import Navbar from "../components/Navbar.astro";
 
-const posts = unwrap((await listPosts()).data).map((post) => post.attributes);
+const posts = unwrap((await listPosts()).data).map((post) => post);
+// console.log("Posts:", JSON.stringify(posts, null, 2));
 ---
 
 <BasicStyle title="Seamain's Blog" description="This is my home page.">

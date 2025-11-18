@@ -1,6 +1,5 @@
 ---
 import Footer from "./Footer.astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   description: string;
@@ -52,9 +51,20 @@ const socialImageURL = new URL(ogImage ?? "og.png", Astro.url.origin).href;
     <meta property="twitter:image" content={socialImageURL} />
     <title>Seamain's Blog</title>
   </head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WVREYLSZW"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-8WVREYLSZW");
+  </script>
   <body class={ml + " overflow-x-hidden font-mono"}>
     <slot />
     <Footer />
   </body>
-  <SpeedInsights />
 </html>

@@ -16,7 +16,6 @@
     "@resvg/resvg-js": "^2.6.2",
     "@types/mdast": "^4.0.4",
     "@vercel/og": "^0.8.5",
-    "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.15.8",
     "astro-icon": "^0.8.2",
     "markdown-it": "^14.1.0",

@@ -12,9 +12,9 @@ export interface Props {
 
 const {
   outerDiv = "flex w-full justify-center",
-  buttonGroup = "inline-flex items-center gap-2 rounded-full border border-slate-100 bg-white/90 px-2 py-1 shadow-sm shadow-slate-100",
-  button = "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300 hover:bg-slate-100",
-  activeButton = "bg-slate-900 text-white shadow-inner",
+  buttonGroup = "inline-flex items-center gap-2 rounded-full border border-slate-100 bg-white/90 px-2 py-1 shadow-sm shadow-slate-100 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950",
+  button = "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300 hover:bg-slate-100 dark:text-slate-400 dark:focus-visible:outline-slate-600 dark:hover:bg-slate-800",
+  activeButton = "bg-slate-900 text-white shadow-inner dark:bg-slate-700 dark:text-slate-100",
   disabledButton = "pointer-events-none opacity-40",
   currentPage,
   totalPage,

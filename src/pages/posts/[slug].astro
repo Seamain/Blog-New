@@ -64,60 +64,60 @@ html = html.concat(customCss);
   author={post.author?.name}
   publishedTime={publishedTime}
 >
-  <div class="flex w-full flex-col items-center bg-gradient-to-b from-white to-slate-50/60">
+  <div class="flex w-full flex-col items-center bg-gradient-to-b from-white to-slate-50/60 dark:from-slate-950 dark:to-slate-900/60">
     <Navbar />
     <section class="mt-10 w-full max-w-5xl px-6">
-      <div class="rounded-3xl border border-slate-100 bg-white/80 px-8 py-10 shadow-lg shadow-slate-100/40">
-        <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+      <div class="rounded-3xl border border-slate-100 bg-white/80 px-8 py-10 shadow-lg shadow-slate-100/40 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/40">
+        <p class="text-sm uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500">
           {post.category?.name}
         </p>
-        <h1 class="mt-4 text-4xl font-semibold leading-tight text-slate-900">
+        <h1 class="mt-4 text-4xl font-semibold leading-tight text-slate-900 dark:text-slate-100">
           {post.title}
         </h1>
-        <p class="mt-4 text-lg text-slate-600">{post.summary}</p>
+        <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">{post.summary}</p>
 
-        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 sm:grid-cols-1">
+        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 sm:grid-cols-1 dark:border-slate-800">
           <div class="flex items-center gap-3">
             {avatar ? (
               <img
                 src={`data:image/png;base64,${avatar}`}
-                class="h-12 w-12 rounded-full border border-slate-200 object-cover"
+                class="h-12 w-12 rounded-full border border-slate-200 object-cover dark:border-slate-700"
                 loading="lazy"
                 alt=`这是作者${post.author?.name}的头像`
               />
             ) : (
-              <div class="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-slate-300 text-sm text-slate-400">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-slate-300 text-sm text-slate-400 dark:border-slate-700 dark:text-slate-500">
                 {post.author?.name?.slice(0, 1) ?? "?"}
               </div>
             )}
             <div>
-              <p class="text-sm text-slate-500">作者</p>
-              <p class="text-base font-semibold text-slate-800">
+              <p class="text-sm text-slate-500 dark:text-slate-400">作者</p>
+              <p class="text-base font-semibold text-slate-800 dark:text-slate-200">
                 {post.author?.name}
               </p>
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
               <Icon class="h-5 w-5" name="Clock" />
             </div>
             <div>
-              <p class="text-sm text-slate-500">发布时间</p>
-              <p class="text-base font-semibold text-slate-800">
+              <p class="text-sm text-slate-500 dark:text-slate-400">发布时间</p>
+              <p class="text-base font-semibold text-slate-800 dark:text-slate-200">
                 {formatedTime}
               </p>
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
               <Icon class="h-5 w-5" name="Tag" />
             </div>
             <div>
-              <p class="text-sm text-slate-500">标签</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">标签</p>
               <div class="mt-1 flex flex-wrap gap-2">
                 {
                   post.tags.map((tag) => (
-                    <span class="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600">
+                    <span class="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
                       {tag.name}
                     </span>
                   ))
@@ -126,14 +126,14 @@ html = html.concat(customCss);
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
               <Icon class="h-5 w-5" name="Category" />
             </div>
             <div>
-              <p class="text-sm text-slate-500">分类</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">分类</p>
               <a
                 href={`/categories/${post.category?.slug}`}
-                class="text-base font-semibold text-slate-800 underline decoration-dashed underline-offset-4 transition hover:text-indigo-600"
+                class="text-base font-semibold text-slate-800 underline decoration-dashed underline-offset-4 transition hover:text-indigo-600 dark:text-slate-200 dark:hover:text-indigo-400"
               >
                 {post.category?.name}
               </a>
@@ -146,7 +146,7 @@ html = html.concat(customCss);
     <section class="mt-12 mb-2 w-full max-w-4xl px-6">
       <AISummary content={post.content} title={post.title} />
       <article
-        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-md shadow-slate-100/50 prose-headings:text-slate-900 prose-p:text-slate-700"
+        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-md shadow-slate-100/50 prose-headings:text-slate-900 prose-p:text-slate-700 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/50 dark:prose-headings:text-slate-100 dark:prose-p:text-slate-300 dark:prose-a:text-indigo-400 dark:prose-strong:text-slate-200 dark:prose-code:text-slate-300 dark:prose-pre:bg-slate-950 dark:prose-pre:text-slate-300"
         set:html={html}
       />
     </section>

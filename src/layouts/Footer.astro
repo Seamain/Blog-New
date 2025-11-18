@@ -3,17 +3,21 @@ import Social from "../components/Social.astro";
 ---
 
 <footer
-  class="w-full mt-2 border-t border-slate-100 bg-gradient-to-b from-white via-slate-50 to-slate-100"
+  class="w-full mt-2 border-t border-slate-100 bg-gradient-to-b from-white via-slate-50 to-slate-100 dark:border-slate-800 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800"
 >
   <div
     class="mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 py-16 text-center"
   >
     <div class="flex flex-col items-center gap-3">
-      <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+      <p
+        class="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500"
+      >
         Stay Connected
       </p>
-      <h2 class="text-3xl font-semibold text-slate-900">Follow Me</h2>
-      <p class="max-w-2xl text-base text-slate-500">
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">
+        Follow Me
+      </h2>
+      <p class="max-w-2xl text-base text-slate-500 dark:text-slate-400">
         分享开发、产品与生活碎碎念，欢迎通过社交媒体找到我，并留下你的想法。
       </p>
     </div>
@@ -25,16 +29,16 @@ import Social from "../components/Social.astro";
     </div>
 
     <div
-      class="h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
+      class="h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-600"
       aria-hidden="true"
     >
     </div>
 
-    <div class="flex flex-col gap-2 text-sm text-slate-500">
+    <div class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
       <a
         href="https://icp.gov.moe/?keyword=20220546"
         target="_blank"
-        class="text-slate-500 transition hover:text-slate-900"
+        class="text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
       >
         萌ICP备20220546号
       </a>
@@ -42,7 +46,7 @@ import Social from "../components/Social.astro";
         Created by
         <a
           href="https://seamainjimmy.com"
-          class="font-semibold text-slate-800 transition hover:text-slate-900"
+          class="font-semibold text-slate-800 transition hover:text-slate-900 dark:text-slate-200 dark:hover:text-slate-100"
         >
           Jimmy & Seamain
         </a>
@@ -51,7 +55,7 @@ import Social from "../components/Social.astro";
         href="https://ipw.cn/ipv6webcheck/?site=seamain.org/"
         title="本站支持IPv6访问"
         target="_blank"
-        class="text-slate-500 transition hover:text-slate-900"
+        class="text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
       >
         本站支持IPv6访问
       </a>

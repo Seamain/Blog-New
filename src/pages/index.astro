@@ -12,25 +12,25 @@ const posts = unwrap((await listPosts()).data).map((post) => post);
   <div class="flex flex-col items-center w-screen">
     <Navbar />
     <section class="mt-10 w-full max-w-5xl px-6 text-center">
-      <h1 class="text-3xl font-semibold text-slate-900">
+      <h1 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">
         欢迎来到 Seamain 的博客
       </h1>
-      <p class="mt-3 text-base text-slate-600">
+      <p class="mt-3 text-base text-slate-600 dark:text-slate-400">
         这里记录我对技术、产品与生活的灵感，希望你能找到有趣的想法与灵感。
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         <span
-          class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em]"
+          class="rounded-full border border-slate-200 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-slate-700 dark:border-slate-700 dark:text-slate-300"
         >
           Tech
         </span>
         <span
-          class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em]"
+          class="rounded-full border border-slate-200 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-slate-700 dark:border-slate-700 dark:text-slate-300"
         >
           Product
         </span>
         <span
-          class="rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em]"
+          class="rounded-full border border-slate-200 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-slate-700 dark:border-slate-700 dark:text-slate-300"
         >
           Life
         </span>

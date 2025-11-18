@@ -5,16 +5,17 @@ import type Page from "../../interfaces/Page";
 import BasicStyle from "../../layouts/BasicStyle.astro";
 import Navbar from "../../components/Navbar.astro";
 import Pagination from "../../components/Pagination.astro";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths({ paginate }: { paginate: any }) {
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const fullList = await createFullListOfCategory("zh-Hans");
 
   return paginate(fullList, {
     pageSize: 6,
   });
-}
+};
 
-const page = Astro.props.page as Page<Category>;
+const { page } = Astro.props as { page: Page<Category> };
 const totalPage = page.lastPage;
 ---
 
@@ -38,9 +39,10 @@ const totalPage = page.lastPage;
     </div>
     <div class="flex flex-row mt-12">
       <Pagination
-        currentPage=""
+        currentPage={page.currentPage}
         {totalPage}
         url="categories"
+        buttonGroup=""
         activeButton="activeButton"
       />
     </div>

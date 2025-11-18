@@ -1,4 +1,5 @@
 ---
+import type { GetStaticPaths } from "astro";
 import { createFullListOfCategory } from "../../../api/Category";
 import { createFullListOfPost } from "../../../api/Post";
 import Navbar from "../../../components/Navbar.astro";
@@ -8,7 +9,7 @@ import type Page from "../../../interfaces/Page";
 import type Post from "../../../interfaces/Post";
 import BasicStyle from "../../../layouts/BasicStyle.astro";
 
-export async function getStaticPaths({ paginate }: { paginate: any }) {
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const fullListOfCategories = await createFullListOfCategory("zh-Hans");
   const fullListOfPosts = await createFullListOfPost("zh-Hans");
 
@@ -22,11 +23,11 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
       pageSize: 5,
     });
   });
-}
+};
 
-const page = Astro.props.page as Page<Post>;
+const { page } = Astro.props as { page: Page<Post> };
 const params = Astro.params;
-const totalPage = page.lastpage;
+const totalPage = page.lastPage;
 ---
 
 <BasicStyle title=`${params} Category` description=`This is my ${params} page.`>
@@ -42,9 +43,10 @@ const totalPage = page.lastpage;
         </div>
         <div class="flex flex-row mt-12">
           <Pagination
-            currentPage=""
+            currentPage={page.currentPage}
             {totalPage}
-            url="posts"
+            url={`categories/${params.slug}`}
+            buttonGroup=""
             activeButton="activeButton"
           />
         </div>

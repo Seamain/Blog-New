@@ -63,7 +63,10 @@ const socialImageURL = new URL(ogImage ?? "og.png", Astro.url.origin).href;
 
     gtag("config", "G-8WVREYLSZW");
   </script>
-  <body class={ml + " overflow-x-hidden w-full min-h-screen font-mono"}>
+  <body
+    class={ml +
+      " overflow-x-hidden w-full min-h-screen font-mono bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200"}
+  >
     <slot />
     <Footer />
   </body>

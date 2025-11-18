@@ -45,15 +45,15 @@ const bilibiliLink =
 
 <BasicStyle title="About" description="About Page">
   <div
-    class="relative flex flex-col items-center overflow-hidden bg-gradient-to-b from-white via-slate-50"
+    class="relative flex flex-col items-center overflow-hidden bg-gradient-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
   >
     <div class="pointer-events-none absolute inset-0 opacity-70">
       <div
-        class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-100 blur-3xl"
+        class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-100 blur-3xl dark:bg-indigo-950"
       >
       </div>
       <div
-        class="absolute bottom-0 right-0 h-64 w-64 translate-x-1/3 rounded-full bg-sky-100 blur-3xl"
+        class="absolute bottom-0 right-0 h-64 w-64 translate-x-1/3 rounded-full bg-sky-100 blur-3xl dark:bg-sky-950"
       >
       </div>
     </div>
@@ -62,35 +62,39 @@ const bilibiliLink =
 
     <section class="relative mt-14 w-full max-w-5xl px-6">
       <div
-        class="relative overflow-hidden rounded-4xl border border-slate-100 bg-white/80 px-8 py-12 shadow-2xl shadow-slate-200/60"
+        class="relative overflow-hidden rounded-4xl border border-slate-100 bg-white/80 px-8 py-12 shadow-2xl shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/60"
       >
         <div
-          class="absolute -right-10 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full bg-gradient-to-b from-indigo-200/50 to-sky-200/50 blur-3xl md:block"
+          class="absolute -right-10 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full bg-gradient-to-b from-indigo-200/50 to-sky-200/50 blur-3xl md:block dark:from-indigo-900/50 dark:to-sky-900/50"
           aria-hidden="true"
         >
         </div>
-        <p class="text-xs uppercase tracking-[0.5em] text-slate-400">About</p>
+        <p
+          class="text-xs uppercase tracking-[0.5em] text-slate-400 dark:text-slate-500"
+        >
+          About
+        </p>
         <h1
-          class="mt-5 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl"
+          class="mt-5 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl dark:text-slate-100"
         >
           关于我与这个博客
         </h1>
-        <p class="mt-5 max-w-2xl text-lg text-slate-600">
+        <p class="mt-5 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
           分享成长、技术与生活灵感，记录每一次有意义的探索，也希望透过真实的故事，连接到同样热爱创造的人。
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <span
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600"
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300"
           >
             Builder
           </span>
           <span
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600"
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300"
           >
             Product Thinker
           </span>
           <span
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600"
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300"
           >
             Human Stories
           </span>
@@ -103,9 +107,11 @@ const bilibiliLink =
     >
       {
         highlightStats.map((item) => (
-          <div class="rounded-3xl border border-slate-100 bg-white/90 p-6 text-center shadow-md shadow-slate-200/50">
-            <p class="text-sm text-slate-500">{item.label}</p>
-            <p class="mt-2 text-2xl font-semibold text-slate-900">
+          <div class="rounded-3xl border border-slate-100 bg-white/90 p-6 text-center shadow-md shadow-slate-200/50 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/50">
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              {item.label}
+            </p>
+            <p class="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">
               {item.value}
             </p>
           </div>
@@ -117,27 +123,39 @@ const bilibiliLink =
       class="relative mt-12 grid w-full max-w-5xl gap-6 px-6 lg:grid-cols-[1.1fr_0.9fr]"
     >
       <div
-        class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70"
+        class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-slate-950/70"
       >
-        <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+        <p
+          class="text-sm uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
+        >
           Latest Focus
         </p>
-        <h2 class="mt-4 text-3xl font-semibold text-slate-900">
+        <h2
+          class="mt-4 text-3xl font-semibold text-slate-900 dark:text-slate-100"
+        >
           探索 AI 与产品的交汇点
         </h2>
-        <p class="mt-4 text-base text-slate-600">
+        <p class="mt-4 text-base text-slate-600 dark:text-slate-400">
           我关心工具如何改变创作者与开发者的工作方式，尝试把实践经验拆解成易理解的内容。从技术实现、产品思考到个人成长，希望能提供真实、有用的视角。
         </p>
         <div class="mt-6 grid gap-4 grid-cols-2 sm:grid-cols-1 md:grid-cols-2">
-          <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
-            <p class="text-sm text-slate-500">当前研究</p>
-            <p class="text-base font-semibold text-slate-800">
+          <div
+            class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-800/60"
+          >
+            <p class="text-sm text-slate-500 dark:text-slate-400">当前研究</p>
+            <p
+              class="text-base font-semibold text-slate-800 dark:text-slate-200"
+            >
               AI Summary · Dev Productivity
             </p>
           </div>
-          <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
-            <p class="text-sm text-slate-500">想要分享</p>
-            <p class="text-base font-semibold text-slate-800">
+          <div
+            class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-800/60"
+          >
+            <p class="text-sm text-slate-500 dark:text-slate-400">想要分享</p>
+            <p
+              class="text-base font-semibold text-slate-800 dark:text-slate-200"
+            >
               打造长期主义的作品集
             </p>
           </div>
@@ -145,30 +163,36 @@ const bilibiliLink =
       </div>
 
       <div
-        class="flex h-full flex-col gap-6 rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-xl shadow-slate-200/70"
+        class="flex h-full flex-col gap-6 rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-xl shadow-slate-200/70 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-slate-950/70"
       >
         <div>
-          <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+          <p
+            class="text-sm uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
+          >
             Contact
           </p>
-          <h3 class="mt-3 text-2xl font-semibold text-slate-900">
+          <h3
+            class="mt-3 text-2xl font-semibold text-slate-900 dark:text-slate-100"
+          >
             和我聊点什么
           </h3>
-          <p class="mt-3 text-sm text-slate-600">
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">
             欢迎邮件、社交媒体或在博客留言。我会尽量在 48 小时内回复。
           </p>
         </div>
         <div
-          class="rounded-2xl border border-slate-900/10 bg-slate-900 text-left text-slate-200"
+          class="rounded-2xl border border-slate-900/10 bg-slate-900 text-left text-slate-200 dark:border-slate-700 dark:bg-slate-950"
         >
           <div
-            class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3"
+            class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3 dark:border-white/5"
           >
             <div>
-              <p class="text-xs uppercase tracking-[0.4em] text-white/70">
+              <p
+                class="text-xs uppercase tracking-[0.4em] text-white/70 dark:text-white/60"
+              >
                 Public Key
               </p>
-              <p class="mt-1 text-sm text-white/70">
+              <p class="mt-1 text-sm text-white/70 dark:text-white/60">
                 用于加密通信，复制即可使用。
               </p>
             </div>
@@ -176,36 +200,42 @@ const bilibiliLink =
               id="copy-public-key"
               type="button"
               data-key={publicKeySnippet}
-              class="rounded-full border border-white/30 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/10"
+              class="rounded-full border border-white/30 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/10 dark:border-white/20 dark:hover:bg-white/5"
             >
               复制公钥
             </button>
           </div>
           <pre
-            class="max-h-40 overflow-auto px-4 py-3 text-xs font-mono leading-relaxed text-white whitespace-pre-wrap break-words break-all">{publicKeySnippet}</pre>
+            class="max-h-40 overflow-auto px-4 py-3 text-xs font-mono leading-relaxed text-white whitespace-pre-wrap break-words break-all dark:text-slate-300">{publicKeySnippet}</pre>
         </div>
         <a
           href={bilibiliLink}
           target="_blank"
           rel="noopener noreferrer"
-          class="rounded-2xl border border-slate-100 bg-white/90 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          class="rounded-2xl border border-slate-100 bg-white/90 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-800/90"
         >
-          <p class="text-xs uppercase tracking-[0.4em] text-slate-400">
+          <p
+            class="text-xs uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
+          >
             Bilibili
           </p>
-          <p class="mt-2 text-base font-semibold text-slate-900">@seamain</p>
-          <p class="text-sm text-slate-500">
+          <p
+            class="mt-2 text-base font-semibold text-slate-900 dark:text-slate-100"
+          >
+            @seamain
+          </p>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
             记录 Vlog、技术 talk 与灵感碎片。
           </p>
         </a>
         <div
-          class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600"
+          class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-400"
         >
           <p>📮 Email：seamain@seamain.org</p>
           <p class="mt-2">💬 Preferred topics：合作、产品 idea、内容建议</p>
         </div>
         <div
-          class="rounded-2xl border border-slate-100 bg-gradient-to-r from-indigo-500/10 to-sky-500/10 p-4 text-sm text-slate-600"
+          class="rounded-2xl border border-slate-100 bg-gradient-to-r from-indigo-500/10 to-sky-500/10 p-4 text-sm text-slate-600 dark:border-slate-800 dark:from-indigo-500/20 dark:to-sky-500/20 dark:text-slate-400"
         >
           <p>
             如果你也在做类似的事情，发给我你的项目链接，也许可以一起写点什么。
@@ -216,29 +246,37 @@ const bilibiliLink =
 
     <section class="relative mt-14 mb-2 w-full max-w-5xl px-6">
       <div
-        class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70"
+        class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-slate-950/70"
       >
-        <p class="text-sm uppercase tracking-[0.4em] text-slate-400">
+        <p
+          class="text-sm uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
+        >
           Timeline
         </p>
-        <h3 class="mt-4 text-3xl font-semibold text-slate-900">我的创作脚印</h3>
+        <h3
+          class="mt-4 text-3xl font-semibold text-slate-900 dark:text-slate-100"
+        >
+          我的创作脚印
+        </h3>
         <div class="mt-8 space-y-6">
           {
             journey.map((step, index) => (
               <div class="flex gap-6">
                 <div class="relative flex flex-col items-center">
-                  <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-500">
+                  <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
                     {step.year}
                   </span>
                   {index !== journey.length - 1 && (
-                    <span class="mt-2 h-full w-px bg-gradient-to-b from-slate-200 to-transparent" />
+                    <span class="mt-2 h-full w-px bg-gradient-to-b from-slate-200 to-transparent dark:from-slate-700" />
                   )}
                 </div>
                 <div>
-                  <p class="text-lg font-semibold text-slate-900">
+                  <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">
                     {step.title}
                   </p>
-                  <p class="text-sm text-slate-600">{step.description}</p>
+                  <p class="text-sm text-slate-600 dark:text-slate-400">
+                    {step.description}
+                  </p>
                 </div>
               </div>
             ))

@@ -63,10 +63,14 @@ const socialImageURL = new URL(ogImage ?? "og.png", Astro.url.origin).href;
 
     gtag("config", "G-8WVREYLSZW");
   </script>
+<<<<<<< HEAD
   <body
     class={ml +
       " overflow-x-hidden w-full min-h-screen font-mono bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200"}
   >
+=======
+  <body class={ml + " overflow-x-hidden font-mono"}>
+>>>>>>> a53c629 (Remove @vercel/speed-insights dependency and add Google Tag Manager script to BasicStyle.astro)
     <slot />
     <Footer />
   </body>

@@ -1,6 +1,5 @@
 ---
 import Footer from "./Footer.astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   description: string;
@@ -68,5 +67,4 @@ const socialImageURL = new URL(ogImage ?? "og.png", Astro.url.origin).href;
     <slot />
     <Footer />
   </body>
-  <SpeedInsights />
 </html>

@@ -141,8 +141,14 @@ html = html.concat(customCss);
           </div>
         </div>
       </div>
-    </div>
-    <p class="font-bold text-2xl mt-2">{post.title}</p>
-    <article class="max-w-4xl mt-2 sm:max-w-xs md:max-w-2xl" set:html={html} />
+    </section>
+
+    <section class="mt-12 mb-2 w-full max-w-4xl px-6">
+      <AISummary content={post.content} title={post.title} />
+      <article
+        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-md shadow-slate-100/50 prose-headings:text-slate-900 prose-p:text-slate-700 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/50 dark:prose-headings:text-slate-100 dark:prose-p:text-slate-300 dark:prose-a:text-indigo-400 dark:prose-strong:text-slate-200 dark:prose-code:text-slate-300 dark:prose-pre:bg-slate-950 dark:prose-pre:text-slate-300"
+        set:html={html}
+      />
+    </section>
   </div>
 </BasicStyle>

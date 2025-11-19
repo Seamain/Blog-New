@@ -8,7 +8,7 @@ const friends = await getFriend();
 
 <BasicStyle title="Firends" description="Firends Page">
   <div
-    class="flex flex-col items-center bg-gradient-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
+    class="flex flex-col items-center bg-linear-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
   >
     <Navbar />
 
@@ -18,13 +18,13 @@ const friends = await getFriend();
       friends.data?.map((friend) => (
         <a
           class="text-lg font-medium mt-4 mr-4 mb-4 ml-4"
-          href={friend.attributes.links}
+          href={friend.links}
         >
           <div class="flex flex-col border-2 rounded-lg hover:bg-slate-200 mt-4 w-72 h-36">
             <p class="mt-4 ml-4 text-xl font-semibold">
-              {friend.attributes.name}
+              {friend.name}
             </p>
-            <p class="mt-2 ml-4 text-lg">{friend.attributes.descriptions}</p>
+            <p class="mt-2 ml-4 text-lg">{friend.descriptions}</p>
           </div>
         </a>
       ))

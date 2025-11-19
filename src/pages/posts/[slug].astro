@@ -64,7 +64,7 @@ html = html.concat(customCss);
   author={post.author?.name}
   publishedTime={publishedTime}
 >
-  <div class="flex w-full flex-col items-center bg-gradient-to-b from-white to-slate-50/60 dark:from-slate-950 dark:to-slate-900/60">
+  <div class="flex w-full flex-col items-center bg-linear-to-b from-white to-slate-50/60 dark:from-slate-950 dark:to-slate-900/60">
     <Navbar />
     <section class="mt-10 w-full max-w-5xl px-6">
       <div class="rounded-3xl border border-slate-100 bg-white/80 px-8 py-10 shadow-lg shadow-slate-100/40 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/40">
@@ -76,7 +76,7 @@ html = html.concat(customCss);
         </h1>
         <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">{post.summary}</p>
 
-        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 sm:grid-cols-1 dark:border-slate-800">
+        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 not-sm:grid-cols-1 dark:border-slate-800">
           <div class="flex items-center gap-3">
             {avatar ? (
               <img

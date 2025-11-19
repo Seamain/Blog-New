@@ -45,7 +45,7 @@ const bilibiliLink =
 
 <BasicStyle title="About" description="About Page">
   <div
-    class="relative flex flex-col items-center overflow-hidden bg-gradient-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
+    class="relative flex flex-col items-center overflow-hidden bg-linear-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
   >
     <div class="pointer-events-none absolute inset-0 opacity-70">
       <div
@@ -65,7 +65,7 @@ const bilibiliLink =
         class="relative overflow-hidden rounded-4xl border border-slate-100 bg-white/80 px-8 py-12 shadow-2xl shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/60"
       >
         <div
-          class="absolute -right-10 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full bg-gradient-to-b from-indigo-200/50 to-sky-200/50 blur-3xl md:block dark:from-indigo-900/50 dark:to-sky-900/50"
+          class="absolute -right-10 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full bg-linear-to-b from-indigo-200/50 to-sky-200/50 blur-3xl md:block dark:from-indigo-900/50 dark:to-sky-900/50"
           aria-hidden="true"
         >
         </div>
@@ -75,7 +75,7 @@ const bilibiliLink =
           About
         </p>
         <h1
-          class="mt-5 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl dark:text-slate-100"
+          class="mt-5 text-4xl font-semibold leading-tight text-slate-900 not-sm:text-5xl dark:text-slate-100"
         >
           关于我与这个博客
         </h1>
@@ -103,7 +103,7 @@ const bilibiliLink =
     </section>
 
     <section
-      class="relative mt-10 grid w-full max-w-5xl gap-4 px-6 grid-cols-3 sm:grid-cols-1 md:grid-cols-3"
+      class="relative mt-10 grid w-full max-w-5xl gap-4 px-6 grid-cols-3 not-sm:grid-cols-1 md:grid-cols-3"
     >
       {
         highlightStats.map((item) => (
@@ -119,9 +119,7 @@ const bilibiliLink =
       }
     </section>
 
-    <section
-      class="relative mt-12 grid w-full max-w-5xl gap-6 px-6 lg:grid-cols-[1.1fr_0.9fr]"
-    >
+    <section class="relative mt-12 grid w-full max-w-5xl gap-6 px-6">
       <div
         class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-slate-200/70 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-slate-950/70"
       >
@@ -138,7 +136,9 @@ const bilibiliLink =
         <p class="mt-4 text-base text-slate-600 dark:text-slate-400">
           我关心工具如何改变创作者与开发者的工作方式，尝试把实践经验拆解成易理解的内容。从技术实现、产品思考到个人成长，希望能提供真实、有用的视角。
         </p>
-        <div class="mt-6 grid gap-4 grid-cols-2 sm:grid-cols-1 md:grid-cols-2">
+        <div
+          class="mt-6 grid gap-4 grid-cols-2 not-sm:grid-cols-1 md:grid-cols-2"
+        >
           <div
             class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-800/60"
           >
@@ -206,7 +206,7 @@ const bilibiliLink =
             </button>
           </div>
           <pre
-            class="max-h-40 overflow-auto px-4 py-3 text-xs font-mono leading-relaxed text-white whitespace-pre-wrap break-words break-all dark:text-slate-300">{publicKeySnippet}</pre>
+            class="max-h-40 overflow-auto px-4 py-3 text-xs font-mono leading-relaxed text-white whitespace-pre-wrap wrap-break-word break-all dark:text-slate-300">{publicKeySnippet}</pre>
         </div>
         <a
           href={bilibiliLink}
@@ -235,7 +235,7 @@ const bilibiliLink =
           <p class="mt-2">💬 Preferred topics：合作、产品 idea、内容建议</p>
         </div>
         <div
-          class="rounded-2xl border border-slate-100 bg-gradient-to-r from-indigo-500/10 to-sky-500/10 p-4 text-sm text-slate-600 dark:border-slate-800 dark:from-indigo-500/20 dark:to-sky-500/20 dark:text-slate-400"
+          class="rounded-2xl border border-slate-100 bg-linear-to-r from-indigo-500/10 to-sky-500/10 p-4 text-sm text-slate-600 dark:border-slate-800 dark:from-indigo-500/20 dark:to-sky-500/20 dark:text-slate-400"
         >
           <p>
             如果你也在做类似的事情，发给我你的项目链接，也许可以一起写点什么。
@@ -267,7 +267,7 @@ const bilibiliLink =
                     {step.year}
                   </span>
                   {index !== journey.length - 1 && (
-                    <span class="mt-2 h-full w-px bg-gradient-to-b from-slate-200 to-transparent dark:from-slate-700" />
+                    <span class="mt-2 h-full w-px bg-linear-to-b from-slate-200 to-transparent dark:from-slate-700" />
                   )}
                 </div>
                 <div>

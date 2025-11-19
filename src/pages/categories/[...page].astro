@@ -21,7 +21,7 @@ const totalPage = page.lastPage;
 
 <BasicStyle title="Categories" description="This is my Categories page.">
   <div
-    class="flex flex-col items-center bg-gradient-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
+    class="flex flex-col items-center bg-linear-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
   >
     <Navbar />
 
@@ -43,7 +43,7 @@ const totalPage = page.lastPage;
 
     <section class="mt-10 w-full max-w-5xl px-6">
       <div
-        class="grid gap-6 grid-cols-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+        class="grid gap-6 grid-cols-3 not-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       >
         {
           page.data.slice(0, 6).map((category) => (
@@ -94,7 +94,6 @@ const totalPage = page.lastPage;
         currentPage={page.currentPage}
         {totalPage}
         url="categories"
-        buttonGroup=""
         activeButton="activeButton"
       />
     </section>

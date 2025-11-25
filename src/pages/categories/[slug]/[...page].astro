@@ -35,10 +35,10 @@ const totalPage = page.lastPage;
     page.data.length ? (
       <div class="flex flex-col items-center">
         <Navbar />
-        <PostCard ml="not-sm:ml-6" post={page.data[0]} width="850px" />
+        <PostCard ml="not-sm:ml-6" post={page.data[0]}/>
         <div class="grid grid-cols-2 gap-4 not-sm:flex not-sm:flex-col md:flex md:flex-col">
           {page.data.slice(1, 5).map((post) => (
-            <PostCard ml="max-h-52" post={post} width="410px" />
+            <PostCard ml="max-h-52" post={post} />
           ))}
         </div>
         <div class="flex flex-row mt-12">

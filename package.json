@@ -10,13 +10,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.13",
+    "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.1.17",
     "@types/mdast": "^4.0.4",
     "@vercel/og": "^0.8.5",
-    "astro": "^5.15.9",
+    "astro": "^5.16.0",
     "astro-icon": "^0.8.2",
     "markdown-it": "^14.1.0",
     "mdast-util-from-markdown": "^2.0.2",

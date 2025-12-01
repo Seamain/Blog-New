@@ -12,7 +12,6 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
-    "@microsoft/clarity": "^1.0.2",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.1.17",
     "@types/mdast": "^4.0.4",

@@ -81,7 +81,9 @@ const navigations = (await getNavigationRender(
     </div>
 
     <!-- Desktop navigation -->
-    <div class="not-sm:hidden flex items-center justify-end gap-3">
+    <div
+      class="not-sm:hidden not-md:hidden flex items-center justify-end gap-3"
+    >
       {
         navigations.map((item) => (
           <a

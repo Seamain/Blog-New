@@ -10,19 +10,27 @@ import type Post from "../../../interfaces/Post";
 import BasicStyle from "../../../layouts/BasicStyle.astro";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  const fullListOfCategories = await createFullListOfCategory("zh-Hans");
-  const fullListOfPosts = await createFullListOfPost("zh-Hans");
+  try {
+    const fullListOfCategories = await createFullListOfCategory("zh-Hans");
+    const fullListOfPosts = await createFullListOfPost("zh-Hans");
 
-  return fullListOfCategories.flatMap((category) => {
-    const filteredPosts = fullListOfPosts.filter(
-      (post) => post.category?.slug === category.slug,
-    );
+    return fullListOfCategories.flatMap((category) => {
+      const filteredPosts = fullListOfPosts.filter(
+        (post) => post.category?.slug === category.slug,
+      );
 
-    return paginate(filteredPosts, {
-      params: { slug: category.slug },
-      pageSize: 5,
+      return paginate(filteredPosts, {
+        params: { slug: category.slug },
+        pageSize: 5,
+      });
     });
-  });
+  } catch (error) {
+    console.error("Failed to generate categories pagination:", error instanceof Error ? error.message : String(error));
+    return paginate([], {
+      params: { slug: "fallback" },
+      pageSize: 5,
+    }); // Return empty pagination as fallback
+  }
 };
 
 const { page } = Astro.props as { page: Page<Post> };

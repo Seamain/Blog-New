@@ -38,10 +38,11 @@ export default async function strapi<T>({
   });
 
   if (!response.ok) {
-    throw new Error(
-      "Response is not OK: " + response.status + " " + response.statusText
-    );
+    const errorMessage = `API Error: ${response.status} ${response.statusText} for ${url.toString()}`;
+    console.error(`[Strapi API] ${errorMessage}`);
+    throw new Error(errorMessage);
   }
+
 
   const data = await response.json();
 

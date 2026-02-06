@@ -6,26 +6,36 @@ import { createFullListOfPost } from "../../api/Post";
 import type Post from "../../interfaces/Post";
 
 export async function getStaticPaths() {
-    const languages: Locale[] = ["en", "fr", "zh-Hans", "zh-Hant-HK"];
-    // const allLanguagePosts: Post[] = [];
-    const posts: Post[] = await createFullListOfPost();
+    try {
+        // const allLanguagePosts: Post[] = [];
+        const posts: Post[] = await createFullListOfPost();
 
-    // await Promise.all(
-    //     languages.map(async lang => {
-    //         const posts = await createFullListOfPost();
-    //         allLanguagePosts.push(...posts);
-    //     })
-    // );
+        // await Promise.all(
+        //     languages.map(async lang => {
+        //         const posts = await createFullListOfPost();
+        //         allLanguagePosts.push(...posts);
+        //     })
+        // );
 
-    const postResult = posts.map(post => ({
-        params: { slug: post.slug },
-        props: post,
-    }));
+        const postResult = posts.map(post => ({
+            params: { slug: post.slug },
+            props: post,
+        }));
 
-    return [...postResult];
+        return [...postResult];
+    } catch (error) {
+        return [];
+    }
 }
 
-export const GET: APIRoute = async ({ props }) =>
-    new Response(await generateOgImageForPost(props as Post), {
-        headers: { "Content-Type": "image/png" },
-    });
+export const GET: APIRoute = async ({ props }) => {
+    try {
+        const imageBuffer = await generateOgImageForPost(props as Post);
+        return new Response(new Uint8Array(imageBuffer), {
+            headers: { "Content-Type": "image/png" },
+        });
+    } catch (error) {
+        console.error(`[PNG GET] Error generating image:`, error instanceof Error ? error.message : String(error));
+        return new Response("Error generating image", { status: 500 });
+    }
+};

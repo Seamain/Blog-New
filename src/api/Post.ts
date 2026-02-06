@@ -9,9 +9,14 @@ export interface SlugAndId {
   slug: string;
 }
 
-export async function getPost(documentId: string): Promise<Post> {
+export async function getPost(
+  documentId: string,
+  locale: Locale = "zh-Hans"
+): Promise<Post> {
+  console.log(`[Post API] getPost called with documentId: ${documentId}, locale: ${locale}`);
   const response = await strapi<Data<Post>>({
     endpoint: "posts/" + documentId,
+    locale,
     query: {
       "fields[0]": "title",
       "fields[1]": "content",
@@ -33,6 +38,7 @@ export async function listPosts(
   pageSize: number = 5,
   page: number = 1
 ): Promise<Data<Post[]>> {
+  console.log(`[Post API] listPosts called with locale: ${locale}, pageSize: ${pageSize}, page: ${page}`);
   const response = await strapi<Data<Post[]>>({
     endpoint: "posts",
     query: {
@@ -53,7 +59,7 @@ export async function listPosts(
     locale,
   });
 
-  return response;
+  return unWrap(response);
 }
 
 export async function createFullListOfPostSlugWithId(

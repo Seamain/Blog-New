@@ -9,11 +9,18 @@ import Navbar from "../../components/Navbar.astro";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  const fullList = await createFullListOfPost("zh-Hans");
+  try {
+    const fullList = await createFullListOfPost("zh-Hans");
 
-  return paginate(fullList, {
-    pageSize: 5,
-  });
+    return paginate(fullList, {
+      pageSize: 5,
+    });
+  } catch (error) {
+    console.error("Failed to generate posts pagination:", error instanceof Error ? error.message : String(error));
+    return paginate([], {
+      pageSize: 5,
+    }); // Return empty pagination as fallback
+  }
 };
 
 const { page } = Astro.props as { page: Page<Post> };

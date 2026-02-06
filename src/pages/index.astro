@@ -3,9 +3,16 @@ import BasicStyle from "../layouts/BasicStyle.astro";
 import PostCard from "../components/PostCard.astro";
 import { listPosts } from "../api/Post";
 import unwrap from "../libs/unwrap";
+import type Post from "../interfaces/Post";
 import Navbar from "../components/Navbar.astro";
 
-const posts = unwrap((await listPosts()).data).map((post) => post);
+let posts: Post[] = [];
+try {
+  posts = unwrap((await listPosts()).data).map((post) => post);
+} catch (error) {
+  console.error("Failed to load posts:", error instanceof Error ? error.message : String(error));
+  posts = []; // Fallback to empty posts
+}
 ---
 
 <BasicStyle title="Seamain's Blog" description="This is my home page.">

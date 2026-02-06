@@ -20,33 +20,49 @@ interface Props {
 }
 
 export async function getStaticPaths() {
-  const result: SlugWithPost[] = [];
-  const fullListOfSlug = await createFullListOfPostSlugWithId();
+  try {
+    const result: SlugWithPost[] = [];
+    const fullListOfSlug = await createFullListOfPostSlugWithId();
 
-  for (const postAttr of fullListOfSlug) {
-    const post = await getPost(postAttr.id);
+    for (const postAttr of fullListOfSlug) {
+      try {
+        const post = await getPost(postAttr.id);
+        result.push({
+          slug: postAttr.slug,
+          post,
+        });
+      } catch (postError) {
+        console.error(`Failed to load post ${postAttr.id}:`, postError instanceof Error ? postError.message : String(postError));
+        // Skip this post and continue with others
+        continue;
+      }
+    }
 
-    result.push({
-      slug: postAttr.slug,
-      post,
+    return result.map((postAttr) => {
+      return {
+        params: {
+          slug: postAttr.slug,
+        },
+        props: {
+          post: postAttr.post,
+        },
+      };
     });
+  } catch (error) {
+    console.error("Failed to generate static paths:", error instanceof Error ? error.message : String(error));
+    return []; // Return empty array as fallback
   }
-
-  return result.map((postAttr) => {
-    return {
-      params: {
-        slug: postAttr.slug,
-      },
-      props: {
-        post: postAttr.post,
-      },
-    };
-  });
 }
 
 const { post } = Astro.props;
 const avatarUrl = post.author?.avatar?.formats?.thumbnail?.url;
-const avatar = avatarUrl ? (await encode(avatarUrl, { string: true })) as string : null;
+let avatar: string | null = null;
+try {
+    avatar = avatarUrl ? (await encode(avatarUrl, { string: true })) as string : null;
+} catch (error) {
+    console.error("Failed to encode avatar:", error instanceof Error ? error.message : String(error));
+    avatar = null;
+}
 const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
 let html = Markdown().render(post.content);
 const customCss =
@@ -83,7 +99,7 @@ html = html.concat(customCss);
                 src={`data:image/png;base64,${avatar}`}
                 class="h-12 w-12 rounded-full border border-slate-200 object-cover dark:border-slate-700"
                 loading="lazy"
-                alt=`这是作者${post.author?.name}的头像`
+                alt={`这是作者${post.author?.name}的头像`}
               />
             ) : (
               <div class="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-slate-300 text-sm text-slate-400 dark:border-slate-700 dark:text-slate-500">

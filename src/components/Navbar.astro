@@ -3,9 +3,13 @@ import Icon from "astro-icon";
 import { getNavigationRender } from "../api/Navigation";
 import type { Navigation } from "../interfaces/Navigation";
 
-const navigations = (await getNavigationRender(
-  "main-navigation",
-)) as Navigation[];
+let navigations: Navigation[] = [];
+try {
+  navigations = (await getNavigationRender("main-navigation")) as Navigation[];
+} catch (error) {
+  console.error("Failed to load navigation:", error instanceof Error ? error.message : String(error));
+  navigations = []; // Fallback to empty navigation
+}
 ---
 
 <nav

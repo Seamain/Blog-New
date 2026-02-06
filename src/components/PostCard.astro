@@ -11,7 +11,13 @@ interface Props {
 
 const { post, ml } = Astro.props;
 const avatarUrl = post.author?.avatar?.formats?.thumbnail?.url;
-const avatar = avatarUrl ? (await encode(avatarUrl, { string: true })) as string : null;
+let avatar: string | null = null;
+try {
+    avatar = avatarUrl ? (await encode(avatarUrl, { string: true })) as string : null;
+} catch (error) {
+    console.error("Failed to encode avatar in PostCard:", error instanceof Error ? error.message : String(error));
+    avatar = null;
+}
 const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
 ---
 
@@ -27,7 +33,7 @@ const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
             src={`data:image/png;base64,${avatar}`}
             class="h-10 w-10 rounded-full border border-slate-200 object-cover dark:border-slate-700"
             loading="lazy"
-            alt=`这是作者${post.author?.name}的头像`
+            alt={`这是作者${post.author?.name}的头像`}
           />
         ) : (
           <div class="flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-slate-200 text-xs uppercase text-slate-400 dark:border-slate-700 dark:text-slate-500">

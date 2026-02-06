@@ -18,6 +18,7 @@ const fetchFonts = async () => {
     );
     const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
 
+    // Taipei Font
     const taipeiFile = await fetch(
         "https://github.com/JimmyRice/astro-static-resources/raw/main/TaipeiSansTCBeta-Bold.ttf"
     );
@@ -26,7 +27,17 @@ const fetchFonts = async () => {
     return { fontRegular, fontBold, taipeiFont };
 };
 
-const { fontRegular, fontBold, taipeiFont } = await fetchFonts();
+// Try to fetch fonts, but provide fallbacks if they fail
+let fontRegular: ArrayBuffer, fontBold: ArrayBuffer, taipeiFont: ArrayBuffer;
+try {
+    ({ fontRegular, fontBold, taipeiFont } = await fetchFonts());
+} catch (error) {
+    console.error("Failed to fetch fonts for OG images:", error instanceof Error ? error.message : String(error));
+    // Provide empty buffers as fallbacks to prevent crashes
+    fontRegular = new ArrayBuffer(0);
+    fontBold = new ArrayBuffer(0);
+    taipeiFont = new ArrayBuffer(0);
+}
 
 const options: SatoriOptions = {
     width: 1200,

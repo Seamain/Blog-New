@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import icon from 'astro-icon';
 
 // Global error handler to prevent circular structure JSON errors
 process.on('unhandledRejection', (reason, promise) => {
@@ -17,7 +18,7 @@ process.on('uncaughtException', (error) => {
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), sitemap()],
+  integrations: [react(), sitemap(), icon()],
   site: 'https://seamain.org',
   vite: {
     optimizeDeps: {

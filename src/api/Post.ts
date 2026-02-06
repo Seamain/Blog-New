@@ -13,7 +13,6 @@ export async function getPost(
   documentId: string,
   locale: Locale = "zh-Hans"
 ): Promise<Post> {
-  console.log(`[Post API] getPost called with documentId: ${documentId}, locale: ${locale}`);
   const response = await strapi<Data<Post>>({
     endpoint: "posts/" + documentId,
     locale,
@@ -38,7 +37,6 @@ export async function listPosts(
   pageSize: number = 5,
   page: number = 1
 ): Promise<Data<Post[]>> {
-  console.log(`[Post API] listPosts called with locale: ${locale}, pageSize: ${pageSize}, page: ${page}`);
   const response = await strapi<Data<Post[]>>({
     endpoint: "posts",
     query: {

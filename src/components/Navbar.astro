@@ -1,5 +1,5 @@
 ---
-import Icon from "astro-icon";
+import { Icon } from "astro-icon/components";
 import { getNavigationRender } from "../api/Navigation";
 import type { Navigation } from "../interfaces/Navigation";
 
@@ -22,9 +22,9 @@ try {
       href="/"
       class="flex items-center gap-3 text-2xl font-semibold tracking-tight"
     >
-      <Icon
+      <img
         class="rounded-full border border-slate-200 p-1 dark:border-slate-700"
-        name="Icon"
+        src="https://pub-524ce7a864bb45428804d1b8a36d5de7.r2.dev/41C3EE1A37915E8E63F62929F89287B1.jpg"
         width="36px"
       />
       <span class="text-slate-800 dark:text-slate-100">Seamain</span>
@@ -208,19 +208,13 @@ try {
       "mobile-theme-toggle-dark-icon",
     );
 
-    console.log("Theme toggle button:", themeToggle);
-    console.log("Light icon:", lightIcon);
-    console.log("Dark icon:", darkIcon);
-
     // Reapply theme to ensure icons are correct
     applyTheme(getThemePreference());
 
     // Toggle theme handler
     function toggleTheme() {
-      console.log("Theme toggle clicked!");
       const isDark = document.documentElement.classList.contains("dark");
       const newTheme = isDark ? "light" : "dark";
-      console.log("Switching to:", newTheme);
       localStorage.setItem("theme", newTheme);
       applyTheme(newTheme);
     }

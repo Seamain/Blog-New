@@ -2,3 +2,33 @@
 
 /* Configure dark mode to use class-based switching */
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+      "Noto Sans CJK SC", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --font-display: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+      "Noto Serif CJK SC", "Songti SC", ui-serif, Georgia, serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgb(191 219 254 / 0.9);
+    color: rgb(15 23 42);
+  }
+
+  .dark ::selection {
+    background: rgb(30 58 138 / 0.9);
+    color: rgb(248 250 252);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+}

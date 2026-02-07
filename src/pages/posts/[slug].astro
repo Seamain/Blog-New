@@ -80,19 +80,19 @@ html = html.concat(customCss);
   author={post.author?.name}
   publishedTime={publishedTime}
 >
-  <div class="flex w-full flex-col items-center bg-linear-to-b from-white to-slate-50/60 dark:from-slate-950 dark:to-slate-900/60">
+  <div class="flex w-full flex-col items-center bg-linear-to-b from-blue-50/70 via-white to-slate-50/60 dark:from-slate-950 dark:to-slate-900/60">
     <Navbar />
     <section class="mt-10 w-full max-w-5xl px-6">
-      <div class="rounded-3xl border border-slate-100 bg-white/80 px-8 py-10 shadow-lg shadow-slate-100/40 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/40">
-        <p class="text-sm uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500">
+      <div class="rounded-3xl border border-slate-200/70 bg-white/85 px-8 py-10 shadow-sm dark:border-slate-800/70 dark:bg-slate-900/80">
+        <p class="text-sm uppercase tracking-[0.4em] text-blue-600/80 dark:text-blue-300/80">
           {post.category?.name}
         </p>
-        <h1 class="mt-4 text-4xl font-semibold leading-tight text-slate-900 dark:text-slate-100">
+        <h1 class="mt-4 text-4xl font-display font-semibold leading-tight text-slate-900 dark:text-slate-100">
           {post.title}
         </h1>
         <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">{post.summary}</p>
 
-        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 not-sm:grid-cols-1 dark:border-slate-800">
+        <div class="mt-8 grid gap-6 border-t border-slate-200/70 pt-6 grid-cols-4 not-sm:grid-cols-1 dark:border-slate-800/70">
           <div class="flex items-center gap-3">
             {avatar ? (
               <img
@@ -114,7 +114,7 @@ html = html.concat(customCss);
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300">
               <Icon class="h-5 w-5" name="Clock" />
             </div>
             <div>
@@ -125,7 +125,7 @@ html = html.concat(customCss);
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300">
               <Icon class="h-5 w-5" name="Tag" />
             </div>
             <div>
@@ -133,7 +133,7 @@ html = html.concat(customCss);
               <div class="mt-1 flex flex-wrap gap-2">
                 {
                   post.tags.map((tag) => (
-                    <span class="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                    <span class="rounded-full border border-blue-200/70 px-3 py-1 text-xs font-medium text-blue-700 dark:border-blue-900/60 dark:text-blue-300">
                       {tag.name}
                     </span>
                   ))
@@ -142,14 +142,14 @@ html = html.concat(customCss);
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300">
               <Icon class="h-5 w-5" name="Category" />
             </div>
             <div>
               <p class="text-sm text-slate-500 dark:text-slate-400">分类</p>
               <a
                 href={`/categories/${post.category?.slug}`}
-                class="text-base font-semibold text-slate-800 underline decoration-dashed underline-offset-4 transition hover:text-indigo-600 dark:text-slate-200 dark:hover:text-indigo-400"
+                class="text-base font-semibold text-slate-800 underline decoration-dashed underline-offset-4 transition hover:text-blue-600 dark:text-slate-200 dark:hover:text-blue-400"
               >
                 {post.category?.name}
               </a>
@@ -162,7 +162,7 @@ html = html.concat(customCss);
     <section class="mt-12 mb-2 w-full max-w-4xl px-6">
       <AISummary content={post.content} title={post.title} />
       <article
-        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-md shadow-slate-100/50 prose-headings:text-slate-900 prose-p:text-slate-700 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/50 dark:prose-headings:text-slate-100 dark:prose-p:text-slate-300 dark:prose-a:text-indigo-400 dark:prose-strong:text-slate-200 dark:prose-code:text-slate-300 dark:prose-pre:bg-slate-950 dark:prose-pre:text-slate-300"
+        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-200/70 bg-white/90 p-8 shadow-sm prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-blue-600 dark:border-slate-800/70 dark:bg-slate-900/90 dark:prose-headings:text-slate-100 dark:prose-p:text-slate-300 dark:prose-a:text-blue-400 dark:prose-strong:text-slate-200 dark:prose-code:text-slate-300 dark:prose-pre:bg-slate-950 dark:prose-pre:text-slate-300"
         set:html={html}
       />
     </section>

@@ -13,21 +13,21 @@ try {
 ---
 
 <nav
-  class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur dark:bg-slate-900/80 dark:border-slate-700/80"
+  class="sticky top-0 z-40 w-full border-b border-slate-200/70 bg-white/70 backdrop-blur dark:bg-slate-950/70 dark:border-slate-800/70"
 >
   <div
-    class="relative flex w-full flex-row gap-4 px-6 py-4 not-sm:flex-row not-sm:items-center justify-around"
+    class="relative flex w-full flex-row gap-4 px-6 py-3 not-sm:flex-row not-sm:items-center justify-around"
   >
     <a
       href="/"
-      class="flex items-center gap-3 text-2xl font-semibold tracking-tight"
+      class="flex items-center gap-3 text-2xl font-semibold tracking-tight font-display text-slate-900 dark:text-slate-100"
     >
       <img
         class="rounded-full border border-slate-200 p-1 dark:border-slate-700"
         src="https://pub-524ce7a864bb45428804d1b8a36d5de7.r2.dev/41C3EE1A37915E8E63F62929F89287B1.jpg"
         width="36px"
       />
-      <span class="text-slate-800 dark:text-slate-100">Seamain</span>
+      <span>Seamain</span>
     </a>
 
     <!-- Mobile controls -->
@@ -37,7 +37,7 @@ try {
       <!-- Mobile menu button -->
       <button
         id="mobile-menu-button"
-        class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+        class="flex items-center justify-center rounded-md p-2 text-slate-600 transition hover:bg-blue-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-slate-100"
         aria-label="Toggle mobile menu"
       >
         <svg
@@ -57,7 +57,7 @@ try {
       <!-- Mobile theme toggle button -->
       <button
         id="mobile-theme-toggle"
-        class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+        class="flex items-center justify-center rounded-md p-2 text-slate-600 transition hover:bg-blue-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-slate-100"
         aria-label="Toggle theme"
       >
         <svg
@@ -92,7 +92,7 @@ try {
         navigations.map((item) => (
           <a
             href={"/" + item.path}
-            class="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-900/5 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-slate-100"
+            class="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
           >
             {item.title}
           </a>
@@ -102,7 +102,7 @@ try {
       <!-- Theme toggle button -->
       <button
         id="theme-toggle"
-        class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+        class="flex items-center justify-center rounded-md p-2 text-slate-600 transition hover:bg-blue-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-slate-100"
         aria-label="Toggle theme"
       >
         <svg
@@ -132,14 +132,14 @@ try {
     <!-- Mobile navigation (hidden by default) -->
     <div
       id="mobile-menu"
-      class="hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 shadow-lg dark:bg-slate-900 dark:border-slate-700"
+      class="hidden absolute top-full left-0 right-0 border-b border-slate-200 bg-white/95 shadow-lg dark:border-slate-800 dark:bg-slate-950/95"
     >
       <div class="px-6 py-4 space-y-2">
         {
           navigations.map((item) => (
             <a
               href={"/" + item.path}
-              class="block rounded-lg px-4 py-3 text-base font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+              class="block rounded-lg px-4 py-3 text-base font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
             >
               {item.title}
             </a>

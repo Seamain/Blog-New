@@ -28,34 +28,43 @@ const totalPage = page.lastPage;
 ---
 
 <BasicStyle title="Posts" description="This is my Posts page.">
-  <div class="flex flex-col items-center">
+  <div class="relative w-full">
     <Navbar />
-    <PostCard ml="not-sm:ml-6" post={page.data[0]} />
-    <div
-      class="grid grid-cols-2 gap-4 not-sm:flex not-sm:flex-col not-md:flex not-md:flex-col"
-    >
-      {
-        page.data
-          .slice(1, 5)
-          .map((post) => <PostCard ml="max-h-52" post={post} />)
-      }
-    </div>
-    <div class="flex flex-row mt-12">
-      <Pagination
-        currentPage={page.currentPage}
-        {totalPage}
-        url="posts"
-        buttonGroup=""
-        activeButton="activeButton"
-      />
-    </div>
+    <main class="mx-auto w-full max-w-6xl px-6 pb-20">
+      <section class="mt-10 rounded-3xl border border-slate-200/70 bg-white/80 px-8 py-10 shadow-sm dark:border-slate-800/70 dark:bg-slate-900/70">
+        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-blue-700/80 dark:text-blue-300/80">
+          Archive
+        </p>
+        <h1 class="mt-4 text-4xl font-display tracking-tight text-slate-900 dark:text-slate-50 md:text-5xl">
+          全部文章
+        </h1>
+        <p class="mt-4 max-w-2xl text-base text-slate-600 dark:text-slate-400">
+          按时间浏览我的全部文章归档，持续更新中。
+        </p>
+      </section>
+
+      {page.data.length > 0 ? (
+        <>
+          <div class="mt-8">
+            <PostCard ml="max-h-72" post={page.data[0]} />
+          </div>
+          <div class="mt-6 grid gap-6 md:grid-cols-2">
+            {
+              page.data
+                .slice(1, 5)
+                .map((post) => <PostCard ml="max-h-52" post={post} />)
+            }
+          </div>
+        </>
+      ) : (
+        <div class="mt-8 rounded-2xl border border-dashed border-slate-300/80 bg-white/60 px-6 py-10 text-center text-sm text-slate-500 dark:border-slate-700/80 dark:bg-slate-900/50 dark:text-slate-400">
+          暂无文章，稍后再来看看。
+        </div>
+      )}
+
+      <div class="mt-12 flex justify-center">
+        <Pagination currentPage={page.currentPage} {totalPage} url="posts" />
+      </div>
+    </main>
   </div>
 </BasicStyle>
-
-<style is:global>
-  .activeButton {
-    --tw-bg-opacity: 1;
-    background-color: rgb(239 68 68 / var(--tw-bg-opacity));
-    color: wheat;
-  }
-</style>

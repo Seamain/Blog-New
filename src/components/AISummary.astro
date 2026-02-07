@@ -23,7 +23,7 @@ try {
     class="ai-summary-container w-full mt-6 mb-6"
 >
     <div
-        class="bg-linear-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-6 border-l-4 border-blue-500 shadow-md"
+        class="rounded-2xl border border-slate-200/70 bg-linear-to-r from-blue-50 to-sky-50 p-6 shadow-sm dark:border-slate-800/70 dark:from-slate-900 dark:to-slate-800"
     >
         <div class="flex items-center mb-3">
             <svg
@@ -39,14 +39,14 @@ try {
                     d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                 ></path>
             </svg>
-            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">
+            <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">
                 智能总结
             </h3>
         </div>
 
         {
             !error && summary && (
-                <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <div class="text-slate-700 dark:text-slate-300 leading-relaxed">
                     <p class="text-base">{summary}</p>
                 </div>
             )
@@ -64,7 +64,7 @@ try {
             !error && !summary && (
                 <div class="flex items-center justify-center py-4">
                     <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
-                    <span class="ml-3 text-sm text-gray-500">
+                    <span class="ml-3 text-sm text-slate-500">
                         正在生成摘要...
                     </span>
                 </div>

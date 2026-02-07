@@ -8,18 +8,18 @@ const friends = await getFriend();
 
 <BasicStyle title="Firends" description="Firends Page">
   <div
-    class="flex flex-col items-center bg-linear-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
+    class="flex flex-col items-center bg-linear-to-b from-blue-50/70 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900"
   >
     <Navbar />
 
     <section class="mt-14 w-full max-w-4xl px-6 text-center">
       <p
-        class="text-xs uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
+        class="text-xs uppercase tracking-[0.4em] text-blue-600/80 dark:text-blue-300/80"
       >
         Friends
       </p>
       <h1
-        class="mt-4 text-4xl font-semibold text-slate-900 dark:text-slate-100"
+        class="mt-4 text-4xl font-display font-semibold text-slate-900 dark:text-slate-100"
       >
         我的朋友们
       </h1>
@@ -36,10 +36,10 @@ const friends = await getFriend();
               href={friend.links}
               target="_blank"
               rel="noopener noreferrer"
-              class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white/90 p-6 shadow-md shadow-slate-200/60 transition hover:-translate-y-1 hover:border-slate-200 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/60 dark:hover:border-slate-700"
+              class="group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/85 p-6 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-md dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-slate-700"
             >
               <div
-                class="absolute inset-x-6 -top-6 h-32 rounded-3xl bg-slate-50 opacity-0 blur-3xl transition group-hover:opacity-80 dark:bg-slate-800"
+                class="absolute inset-x-6 -top-6 h-32 rounded-3xl bg-blue-50 opacity-0 blur-3xl transition group-hover:opacity-80 dark:bg-blue-950/40"
                 aria-hidden="true"
               />
               <div class="relative flex h-full flex-col gap-4">
@@ -54,7 +54,7 @@ const friends = await getFriend();
                 <p class="text-base text-slate-600 line-clamp-3 dark:text-slate-400">
                   {friend.descriptions}
                 </p>
-                <span class="mt-auto inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                <span class="mt-auto inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400">
                   访问他们
                   <svg
                     class="ml-2 h-4 w-4 transition group-hover:translate-x-1"

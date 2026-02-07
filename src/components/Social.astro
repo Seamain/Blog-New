@@ -5,9 +5,11 @@ const { platform, username } = Astro.props;
 ---
 
 <a
-  class="flex flex-row items-center"
+  class="group inline-flex items-center justify-center"
   href={`https://www.${platform}.com/${username}`}
   aria-label=`跳转到跳转到我的${platform}个人页面`
 >
-  <Icon class="w-10 mr-2" name={platform} />
+  <span class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-500 transition group-hover:border-blue-200 group-hover:text-blue-600 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:group-hover:border-blue-800 dark:group-hover:text-blue-400">
+    <Icon class="h-5 w-5" name={platform} />
+  </span>
 </a>

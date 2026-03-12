@@ -3,87 +3,91 @@ import Footer from "./Footer.astro";
 import "../styles/global.css";
 
 interface Props {
-  description: string;
-  ml?: string;
-  title?: string;
-  ogImage?: string;
-  author?: string;
-  canonicalURL?: string;
-  publishedTime?: Date;
+    description: string;
+    ml?: string;
+    title?: string;
+    ogImage?: string;
+    author?: string;
+    canonicalURL?: string;
+    publishedTime?: Date;
 }
 
 const {
-  description,
-  ml,
-  ogImage,
-  author,
-  title,
-  publishedTime,
-  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+    description,
+    ml,
+    ogImage,
+    author,
+    title,
+    publishedTime,
+    canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage ?? "og.png", Astro.url.origin).href;
 ---
 
 <html lang="en">
-  <head>
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, "clarity", "script", "ueiqw2k4nf");
+    <head>
+        <!-- Pagefind -->
+        <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+        <script src="/pagefind/pagefind-ui.js" is:inline></script>
+
+        <script type="text/javascript">
+            (function (c, l, a, r, i, t, y) {
+                c[a] =
+                    c[a] ||
+                    function () {
+                        (c[a].q = c[a].q || []).push(arguments);
+                    };
+                t = l.createElement(r);
+                t.async = 1;
+                t.src = "https://www.clarity.ms/tag/" + i;
+                y = l.getElementsByTagName(r)[0];
+                y.parentNode.insertBefore(t, y);
+            })(window, document, "clarity", "script", "ueiqw2k4nf");
+        </script>
+
+        <meta charset="utf-8" />
+        <link rel="icon" type="image" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="description" content={description} />
+        <meta name="author" content={author} />
+        <meta
+            property="article:published_time"
+            content={publishedTime?.toISOString()}
+        />
+
+        <!-- Open Graph/Facebook -->
+        <meta property="og:title" content={title} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:image" content={socialImageURL} />
+        <meta property="og:type" content="website" />
+        <meta property="og:logo" content="/favicon.svg" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:image" content={socialImageURL} />
+        <title>Seamain's Blog</title>
+    </head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WVREYLSZW"
+    ></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-8WVREYLSZW");
     </script>
-
-    <meta charset="utf-8" />
-    <link rel="icon" type="image" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <meta name="author" content={author} />
-    <meta
-      property="article:published_time"
-      content={publishedTime?.toISOString()}
-    />
-
-    <!-- Open Graph/Facebook -->
-    <meta property="og:title" content={title} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={socialImageURL} />
-    <meta property="og:type" content="website" />
-    <meta property="og:logo" content="/favicon.svg" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:image" content={socialImageURL} />
-    <title>Seamain's Blog</title>
-  </head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WVREYLSZW"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-8WVREYLSZW");
-  </script>
-  <body
-    class={ml +
-      " overflow-x-hidden w-full min-h-screen font-mono bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200"}
-  >
-    <slot />
-    <Footer />
-  </body>
+    <body
+        class={ml +
+            " overflow-x-hidden w-full min-h-screen font-mono bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200"}
+    >
+        <slot />
+        <Footer />
+    </body>
 </html>

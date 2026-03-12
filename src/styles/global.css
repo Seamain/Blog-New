@@ -2,3 +2,26 @@
 
 /* Configure dark mode to use class-based switching */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Pagefind UI Custom Variables */
+:root {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: #0f172a; /* slate-900 */
+    --pagefind-ui-text: #334155; /* slate-700 */
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #e2e8f0; /* slate-200 */
+    --pagefind-ui-tag: #f8fafc; /* slate-50 */
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0.5rem;
+    --pagefind-ui-image-border-radius: 0.5rem;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: inherit;
+}
+
+.dark {
+    --pagefind-ui-primary: #f1f5f9; /* slate-100 */
+    --pagefind-ui-text: #cbd5e1; /* slate-300 */
+    --pagefind-ui-background: #020617; /* slate-950 */
+    --pagefind-ui-border: #334155; /* slate-700 */
+    --pagefind-ui-tag: #1e293b; /* slate-800 */
+}

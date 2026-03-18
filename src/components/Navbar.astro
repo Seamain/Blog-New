@@ -13,56 +13,75 @@ try {
         "Failed to load navigation:",
         error instanceof Error ? error.message : String(error),
     );
-    navigations = []; // Fallback to empty navigation
+    navigations = [];
 }
 ---
 
 <nav
-    class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur dark:bg-slate-900/80 dark:border-slate-700/80"
+    class="sticky top-0 z-40 w-full"
+    style="border-bottom: 1px solid rgba(255,107,157,0.2); background: rgba(255,248,240,0.82); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); will-change: transform; contain: layout style;"
+    id="main-nav"
 >
     <div
-        class="relative flex w-full flex-row gap-4 px-6 py-4 not-sm:flex-row not-sm:items-center justify-around"
+        class="relative flex w-full flex-row gap-4 px-6 py-3 not-sm:flex-row not-sm:items-center justify-between"
     >
+        <!-- Mobile logo -->
         <a
             href="/"
-            class="flex items-center gap-3 text-2xl font-semibold tracking-tight md:hidden lg:hidden xl:hidden 2xl:hidden"
+            class="flex items-center gap-3 text-xl font-semibold tracking-tight md:hidden lg:hidden xl:hidden 2xl:hidden"
+            aria-label="Seamain 首页"
         >
             <img
-                class="rounded-full border border-slate-200 p-1 dark:border-slate-700"
-                src="https://pub-524ce7a864bb45428804d1b8a36d5de7.r2.dev/41C3EE1A37915E8E63F62929F89287B1.jpg"
-                width="36px"
+                class="rounded-full p-0.5"
+                style="border: 1.5px solid rgba(255,107,157,0.5); box-shadow: 0 0 10px rgba(255,107,157,0.3);"
+                src="https://storage.seamain.org/41C3EE1A37915E8E63F62929F89287B1.jpg"
+                width="34"
+                height="34"
+                alt="Seamain 头像"
+                loading="eager"
+                fetchpriority="high"
             />
-            <span class="text-slate-800 dark:text-slate-100">Seamain</span>
+            <span class="acg-glow-text-pink font-bold">Seamain</span>
+            <span class="text-xs cyber-font" style="color: rgba(139,92,246,0.7)"
+                >✦</span
+            >
         </a>
 
         <!-- Mobile controls -->
         <div
-            class="relative flex w-full flex-row gap-4 px-6 py-4 not-sm:flex-row not-sm:items-center justify-around"
+            class="relative flex w-full flex-row gap-4 px-2 not-sm:flex-row not-sm:items-center justify-between"
         >
+            <!-- Desktop logo -->
             <a
                 href="/"
-                class="flex items-center gap-3 text-2xl font-semibold tracking-tight not-sm:hidden not-md:hidden"
+                class="flex items-center gap-3 text-xl font-semibold tracking-tight not-sm:hidden not-md:hidden"
+                aria-label="Seamain 首页"
             >
                 <img
-                    class="rounded-full border border-slate-200 p-1 dark:border-slate-700"
-                    src="https://pub-524ce7a864bb45428804d1b8a36d5de7.r2.dev/41C3EE1A37915E8E63F62929F89287B1.jpg"
-                    width="36px"
+                    class="rounded-full p-0.5"
+                    style="border: 1.5px solid rgba(255,107,157,0.5); box-shadow: 0 0 10px rgba(255,107,157,0.3);"
+                    src="https://storage.seamain.org/41C3EE1A37915E8E63F62929F89287B1.jpg"
+                    width="34"
+                    height="34"
+                    alt="Seamain 头像"
+                    loading="eager"
+                    fetchpriority="high"
                 />
-                <span class="text-slate-800 dark:text-slate-100">Seamain</span>
+                <span class="acg-glow-text font-bold">Seamain</span>
             </a>
 
-            <!-- Mobile controls -->
+            <!-- Mobile controls group -->
             <div
                 class="flex items-center gap-2 md:hidden lg:hidden xl:hidden 2xl:hidden"
             >
-                <!-- Mobile menu button -->
                 <button
                     id="mobile-menu-button"
-                    class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+                    class="flex items-center justify-center p-2 rounded-lg transition"
+                    style="color: #FF6B9D;"
                     aria-label="Toggle mobile menu"
                 >
                     <svg
-                        class="w-6 h-6"
+                        class="w-5 h-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -75,15 +94,20 @@ try {
                     </svg>
                 </button>
 
-                <a href="/search">
+                <a
+                    href="/search"
+                    class="p-2 transition"
+                    style="color: #8B5CF6;"
+                    aria-label="搜索文章"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
+                        width="17"
+                        height="17"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="1.5"
+                        stroke-width="1.8"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     >
@@ -92,10 +116,10 @@ try {
                     </svg>
                 </a>
 
-                <!-- Mobile theme toggle button -->
                 <button
                     id="mobile-theme-toggle"
-                    class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+                    class="flex items-center justify-center p-2 rounded-lg transition"
+                    style="color: #FFE566;"
                     aria-label="Toggle theme"
                 >
                     <svg
@@ -124,28 +148,32 @@ try {
 
             <!-- Desktop navigation -->
             <div
-                class="not-sm:hidden not-md:hidden flex items-center justify-end gap-3"
+                class="not-sm:hidden not-md:hidden flex items-center justify-end gap-1"
             >
                 {
                     navigations.map((item) => (
                         <a
                             href={"/" + item.path}
-                            class="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-900/5 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-slate-100"
+                            class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
                         >
                             {item.title}
                         </a>
                     ))
                 }
 
-                <a href="/search">
+                <a
+                    href="/search"
+                    class="p-2 transition ml-1"
+                    style="color: #8B5CF6;"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
+                        width="17"
+                        height="17"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="1.5"
+                        stroke-width="1.8"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     >
@@ -154,10 +182,10 @@ try {
                     </svg>
                 </a>
 
-                <!-- Theme toggle button -->
                 <button
                     id="theme-toggle"
-                    class="flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+                    class="flex items-center justify-center p-2 rounded-lg ml-1 transition"
+                    style="color: #FFE566;"
                     aria-label="Toggle theme"
                 >
                     <svg
@@ -183,21 +211,21 @@ try {
                     </svg>
                 </button>
             </div>
-
         </div>
     </div>
 
-    <!-- Mobile navigation (hidden by default) -->
+    <!-- Mobile navigation menu -->
     <div
         id="mobile-menu"
-        class="hidden w-full border-b border-slate-200 shadow-lg dark:bg-slate-900 dark:border-slate-700"
+        class="hidden w-full shadow-lg"
+        style="background: rgba(255,248,240,0.82); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); border-top: 1px solid rgba(255,107,157,0.15);"
     >
-        <div class="px-6 py-4 space-y-2 text-center flex flex-col items-center">
+        <div class="px-6 py-4 space-y-1 text-center flex flex-col items-center">
             {
                 navigations.map((item) => (
                     <a
                         href={"/" + item.path}
-                        class="block w-full max-w-sm rounded-lg px-4 py-3 text-base font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                        class="block w-full max-w-sm rounded-xl px-4 py-3 text-base font-medium transition-all duration-200 nav-link"
                     >
                         {item.title}
                     </a>
@@ -207,19 +235,16 @@ try {
     </div>
 
     <script>
-        // Check for saved theme preference or default to system preference
         function getThemePreference(): string {
             const savedTheme = localStorage.getItem("theme");
-            if (savedTheme) {
-                return savedTheme;
-            }
+            if (savedTheme) return savedTheme;
             return window.matchMedia("(prefers-color-scheme: dark)").matches
                 ? "dark"
                 : "light";
         }
 
-        // Apply theme
         function applyTheme(theme: string) {
+            const nav = document.getElementById("main-nav");
             const lightIcon = document.getElementById(
                 "theme-toggle-light-icon",
             );
@@ -233,12 +258,28 @@ try {
 
             if (theme === "dark") {
                 document.documentElement.classList.add("dark");
+                if (nav) {
+                    nav.style.background = "rgba(13,27,42,0.65)";
+                    nav.style.backdropFilter = "blur(14px) saturate(150%)";
+                    nav.style.webkitBackdropFilter =
+                        "blur(14px) saturate(150%)";
+                    nav.style.borderBottom = "1px solid rgba(0,245,255,0.2)";
+                    nav.style.boxShadow = "0 1px 20px rgba(0,245,255,0.05)";
+                }
                 lightIcon?.classList.remove("hidden");
                 darkIcon?.classList.add("hidden");
                 mobileLightIcon?.classList.remove("hidden");
                 mobileDarkIcon?.classList.add("hidden");
             } else {
                 document.documentElement.classList.remove("dark");
+                if (nav) {
+                    nav.style.background = "rgba(255,248,240,0.75)";
+                    nav.style.backdropFilter = "blur(14px) saturate(150%)";
+                    nav.style.webkitBackdropFilter =
+                        "blur(14px) saturate(150%)";
+                    nav.style.borderBottom = "1px solid rgba(255,107,157,0.2)";
+                    nav.style.boxShadow = "";
+                }
                 lightIcon?.classList.add("hidden");
                 darkIcon?.classList.remove("hidden");
                 mobileLightIcon?.classList.add("hidden");
@@ -246,34 +287,12 @@ try {
             }
         }
 
-        // Initialize theme immediately to prevent flash
         const currentTheme = getThemePreference();
         applyTheme(currentTheme);
 
-        // DOM ready event handler
         document.addEventListener("DOMContentLoaded", function () {
-            // Theme toggle functionality for desktop
-            const themeToggle = document.getElementById("theme-toggle");
-            const lightIcon = document.getElementById(
-                "theme-toggle-light-icon",
-            );
-            const darkIcon = document.getElementById("theme-toggle-dark-icon");
-
-            // Theme toggle functionality for mobile
-            const mobileThemeToggle = document.getElementById(
-                "mobile-theme-toggle",
-            );
-            const mobileLightIcon = document.getElementById(
-                "mobile-theme-toggle-light-icon",
-            );
-            const mobileDarkIcon = document.getElementById(
-                "mobile-theme-toggle-dark-icon",
-            );
-
-            // Reapply theme to ensure icons are correct
             applyTheme(getThemePreference());
 
-            // Toggle theme handler
             function toggleTheme() {
                 const isDark =
                     document.documentElement.classList.contains("dark");
@@ -282,35 +301,27 @@ try {
                 applyTheme(newTheme);
             }
 
-            if (themeToggle) {
-                themeToggle.addEventListener("click", toggleTheme);
-            }
+            document
+                .getElementById("theme-toggle")
+                ?.addEventListener("click", toggleTheme);
+            document
+                .getElementById("mobile-theme-toggle")
+                ?.addEventListener("click", toggleTheme);
 
-            if (mobileThemeToggle) {
-                mobileThemeToggle.addEventListener("click", toggleTheme);
-            }
-
-            // Listen for system theme changes
             window
                 .matchMedia("(prefers-color-scheme: dark)")
                 .addEventListener("change", (e) => {
-                    // Only auto-update if user hasn't set a preference
-                    if (!localStorage.getItem("theme")) {
+                    if (!localStorage.getItem("theme"))
                         applyTheme(e.matches ? "dark" : "light");
-                    }
                 });
 
-            // Mobile menu functionality
             const mobileMenuButton =
                 document.getElementById("mobile-menu-button");
             const mobileMenu = document.getElementById("mobile-menu");
-
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener("click", function () {
                     mobileMenu.classList.toggle("hidden");
                 });
-
-                // Close menu when clicking outside
                 document.addEventListener("click", function (event) {
                     const target = event.target as Node;
                     if (
@@ -324,3 +335,40 @@ try {
         });
     </script>
 </nav>
+
+<style>
+    .nav-link {
+        color: #64748b;
+        position: relative;
+    }
+    .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 1.5px;
+        background: linear-gradient(90deg, #ff6b9d, #8b5cf6);
+        border-radius: 9999px;
+        transition: width 0.25s ease;
+    }
+    .nav-link:hover {
+        color: #ff6b9d;
+    }
+    .nav-link:hover::after {
+        width: 60%;
+    }
+    :global(.dark) .nav-link {
+        color: #94a3b8;
+    }
+    :global(.dark) .nav-link:hover {
+        color: #ffb3cf;
+    }
+    :global(.dark) #mobile-menu {
+        background: rgba(13, 27, 42, 0.75) !important;
+        backdrop-filter: blur(14px) saturate(150%) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+        border-top-color: rgba(0, 245, 255, 0.1) !important;
+    }
+</style>

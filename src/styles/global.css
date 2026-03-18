@@ -1,16 +1,42 @@
+/* Google Fonts loaded via <link> in BasicStyle.astro head to avoid render-blocking */
 @import "tailwindcss";
+
+/* Font-display swap fallback for when fonts load asynchronously */
+@font-face {
+    font-family: "Orbitron";
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Noto Sans SC";
+    font-style: normal;
+    font-display: swap;
+}
 
 /* Configure dark mode to use class-based switching */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Pagefind UI Custom Variables */
+/* ── ACG Design Tokens ── */
 :root {
+    --color-sakura: #ff6b9d;
+    --color-sakura-light: #ffb3cf;
+    --color-sakura-dim: rgba(255, 107, 157, 0.15);
+    --color-navy: #0d1b2a;
+    --color-navy-mid: #1a2d42;
+    --color-cyber-cyan: #00f5ff;
+    --color-cyber-cyan-dim: rgba(0, 245, 255, 0.15);
+    --color-star-purple: #8b5cf6;
+    --color-star-purple-dim: rgba(139, 92, 246, 0.15);
+    --color-neon-yellow: #ffe566;
+    --color-cream: #fff8f0;
+
+    /* Pagefind UI */
     --pagefind-ui-scale: 1;
-    --pagefind-ui-primary: #0f172a; /* slate-900 */
-    --pagefind-ui-text: #334155; /* slate-700 */
+    --pagefind-ui-primary: #ff6b9d;
+    --pagefind-ui-text: #334155;
     --pagefind-ui-background: #ffffff;
-    --pagefind-ui-border: #e2e8f0; /* slate-200 */
-    --pagefind-ui-tag: #f8fafc; /* slate-50 */
+    --pagefind-ui-border: #e2e8f0;
+    --pagefind-ui-tag: #fff8f0;
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-border-radius: 0.5rem;
     --pagefind-ui-image-border-radius: 0.5rem;
@@ -19,9 +45,286 @@
 }
 
 .dark {
-    --pagefind-ui-primary: #f1f5f9; /* slate-100 */
-    --pagefind-ui-text: #cbd5e1; /* slate-300 */
-    --pagefind-ui-background: #020617; /* slate-950 */
-    --pagefind-ui-border: #334155; /* slate-700 */
-    --pagefind-ui-tag: #1e293b; /* slate-800 */
+    --pagefind-ui-primary: #ff6b9d;
+    --pagefind-ui-text: #cbd5e1;
+    --pagefind-ui-background: #0d1b2a;
+    --pagefind-ui-border: #1a2d42;
+    --pagefind-ui-tag: #1a2d42;
+}
+
+/* ── Star Particle Background ── */
+@keyframes twinkle {
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes sakura-fall {
+    0% {
+        transform: translateY(-10px) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg) translateX(80px);
+        opacity: 0;
+    }
+}
+
+@keyframes glow-pulse {
+    0%,
+    100% {
+        box-shadow:
+            0 0 8px var(--color-sakura),
+            0 0 20px var(--color-sakura-dim);
+    }
+    50% {
+        box-shadow:
+            0 0 16px var(--color-sakura),
+            0 0 40px var(--color-sakura-dim),
+            0 0 60px var(--color-star-purple-dim);
+    }
+}
+
+@keyframes border-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Utility Classes ── */
+.acg-glow-text {
+    background: linear-gradient(
+        135deg,
+        var(--color-sakura),
+        var(--color-star-purple),
+        var(--color-cyber-cyan)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.acg-glow-text-pink {
+    background: linear-gradient(
+        135deg,
+        var(--color-sakura-light),
+        var(--color-sakura)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.acg-border-glow {
+    border: 1px solid rgba(255, 107, 157, 0.4);
+    box-shadow:
+        0 0 12px var(--color-sakura-dim),
+        inset 0 0 12px var(--color-sakura-dim);
+}
+
+.acg-card {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 107, 157, 0.25);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    box-shadow:
+        0 4px 24px rgba(255, 107, 157, 0.08),
+        0 1.5px 8px rgba(0, 0, 0, 0.06);
+    /* Only transition border/shadow, not all properties (avoids full repaint) */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    /* Isolate paint to this element */
+    contain: layout style;
+}
+
+.dark .acg-card {
+    background: rgba(13, 27, 42, 0.70);
+    border: 1px solid rgba(255, 107, 157, 0.2);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+
+.acg-card:hover {
+    border-color: rgba(255, 107, 157, 0.5);
+    box-shadow:
+        0 0 20px var(--color-sakura-dim),
+        0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.dark .acg-card:hover {
+    box-shadow:
+        0 0 24px var(--color-sakura-dim),
+        0 0 48px var(--color-star-purple-dim),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.acg-tag {
+    background: linear-gradient(
+        135deg,
+        var(--color-sakura-dim),
+        var(--color-star-purple-dim)
+    );
+    border: 1px solid rgba(255, 107, 157, 0.35);
+    color: var(--color-sakura);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.75rem;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+}
+
+.dark .acg-tag {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 107, 157, 0.12),
+        rgba(139, 92, 246, 0.12)
+    );
+    border-color: rgba(255, 107, 157, 0.3);
+    color: var(--color-sakura-light);
+}
+
+.cyber-font {
+    font-family: "Orbitron", monospace;
+}
+
+.acg-btn {
+    background: linear-gradient(
+        135deg,
+        var(--color-sakura),
+        var(--color-star-purple)
+    );
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 0 16px var(--color-sakura-dim);
+}
+
+.acg-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 24px var(--color-sakura-dim),
+        0 8px 24px rgba(139, 92, 246, 0.3);
+}
+
+.star-decoration::before {
+    content: "✦";
+    color: var(--color-neon-yellow);
+    margin-right: 0.4em;
+    font-size: 0.8em;
+}
+
+.star-decoration::after {
+    content: "✦";
+    color: var(--color-neon-yellow);
+    margin-left: 0.4em;
+    font-size: 0.8em;
+}
+
+/* Prose ACG overrides */
+.prose h1,
+.prose h2,
+.prose h3 {
+    font-family: "Noto Sans SC", sans-serif;
+}
+
+.dark .prose {
+    color: #cbd5e1;
+}
+
+.dark .prose a {
+    color: var(--color-sakura-light);
+}
+
+.dark .prose code {
+    background: rgba(0, 245, 255, 0.08);
+    color: var(--color-cyber-cyan);
+    border: 1px solid rgba(0, 245, 255, 0.2);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+}
+
+.dark .prose pre {
+    background: rgba(13, 27, 42, 0.95) !important;
+    border: 1px solid rgba(0, 245, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.05);
+}
+
+/* Stars background layer */
+.stars-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    /* Isolate paint: star animations don't trigger parent repaints */
+    contain: strict;
+    will-change: contents;
+}
+
+.stars-bg .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    /* Use opacity-only animation: no layout, no paint — composited on GPU */
+    animation: twinkle var(--duration, 3s) var(--delay, 0s) infinite ease-in-out;
+    will-change: opacity;
+}
+
+/* Disable all decorative animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .stars-bg .star,
+    .acg-card,
+    .acg-btn,
+    .acg-tag {
+        animation: none !important;
+        transition: none !important;
+    }
 }

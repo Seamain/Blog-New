@@ -22,10 +22,10 @@ export default defineConfig({
   integrations: [react(), sitemap(), icon()],
   site: "https://seamain.org",
   vite: {
+    cacheDir: "/tmp/vite-cache",
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
-
     plugins: [tailwindcss(), pagefind()],
   },
 });

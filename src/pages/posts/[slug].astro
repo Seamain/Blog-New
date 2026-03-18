@@ -3,12 +3,12 @@ import { createFullListOfPostSlugWithId } from "../../api/Post";
 import { getPost } from "../../api/Post";
 import type Post from "../../interfaces/Post";
 import BasicStyle from "../../layouts/BasicStyle.astro";
-import { encode } from "node-base64-image";
 import formatDate from "../../libs/formatDate";
 import { Icon } from "astro-icon/components";
 import Markdown from "markdown-it";
 import Navbar from "../../components/Navbar.astro";
 import AISummary from "../../components/AISummary.astro";
+import { fetchAvatarAsDataUrl } from "../../libs/fetchAvatar";
 
 interface SlugWithPost {
   slug: string;
@@ -55,14 +55,9 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const avatarUrl = post.author?.avatar?.formats?.thumbnail?.url;
-let avatar: string | null = null;
-try {
-    avatar = avatarUrl ? (await encode(avatarUrl, { string: true })) as string : null;
-} catch (error) {
-    console.error("Failed to encode avatar:", error instanceof Error ? error.message : String(error));
-    avatar = null;
-}
+const avatarRawUrl = post.author?.avatar?.formats?.thumbnail?.url ?? null;
+// Fetch avatar at build time with CF Access credentials so the browser can render it
+const avatarUrl = await fetchAvatarAsDataUrl(avatarRawUrl);
 const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
 let html = Markdown().render(post.content);
 const customCss =
@@ -80,76 +75,84 @@ html = html.concat(customCss);
   author={post.author?.name}
   publishedTime={publishedTime}
 >
-  <div class="flex w-full flex-col items-center bg-linear-to-b from-white to-slate-50/60 dark:from-slate-950 dark:to-slate-900/60">
-    <Navbar />
+  <!-- Navbar is outside the centered container so it spans the full viewport width -->
+  <Navbar />
+  <div class="flex w-full flex-col items-center">
     <section class="mt-10 w-full max-w-5xl px-6">
-      <div class="rounded-3xl border border-slate-100 bg-white/80 px-8 py-10 shadow-lg shadow-slate-100/40 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/40">
-        <p class="text-sm uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500">
-          {post.category?.name}
+      <div class="acg-card rounded-2xl px-8 py-10">
+        <!-- Category label -->
+        <p class="cyber-font text-xs uppercase tracking-[0.4em]" style="color: rgba(139,92,246,0.7);">
+          ✦ {post.category?.name}
         </p>
-        <h1 class="mt-4 text-4xl font-semibold leading-tight text-slate-900 dark:text-slate-100">
+        <h1 class="mt-4 text-3xl font-bold leading-tight" style="font-family: 'Noto Sans SC', sans-serif; color: #1e293b;">
           {post.title}
         </h1>
-        <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">{post.summary}</p>
+        <p class="mt-4 text-base leading-relaxed" style="color: #64748b;">{post.summary}</p>
 
-        <div class="mt-8 grid gap-6 border-t border-slate-100 pt-6 grid-cols-4 not-sm:grid-cols-1 dark:border-slate-800">
+        <!-- Divider -->
+        <div class="mt-6 mb-6 h-px" style="background: linear-gradient(to right, rgba(255,107,157,0.3), rgba(139,92,246,0.3), transparent);"></div>
+
+        <div class="grid gap-5 grid-cols-4 not-sm:grid-cols-1">
+          <!-- Author -->
           <div class="flex items-center gap-3">
-            {avatar ? (
+            {avatarUrl ? (
               <img
-                src={`data:image/png;base64,${avatar}`}
-                class="h-12 w-12 rounded-full border border-slate-200 object-cover dark:border-slate-700"
+                src={avatarUrl}
+                class="h-11 w-11 rounded-full object-cover"
+                style="border: 1.5px solid rgba(255,107,157,0.4); box-shadow: 0 0 10px rgba(255,107,157,0.15);"
+                width="44"
+                height="44"
                 loading="lazy"
+                decoding="async"
                 alt={`这是作者${post.author?.name}的头像`}
               />
             ) : (
-              <div class="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-slate-300 text-sm text-slate-400 dark:border-slate-700 dark:text-slate-500">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full text-sm" style="border: 1.5px dashed rgba(255,107,157,0.4); color: rgba(255,107,157,0.6);">
                 {post.author?.name?.slice(0, 1) ?? "?"}
               </div>
             )}
             <div>
-              <p class="text-sm text-slate-500 dark:text-slate-400">作者</p>
-              <p class="text-base font-semibold text-slate-800 dark:text-slate-200">
-                {post.author?.name}
-              </p>
+              <p class="text-xs" style="color: #94a3b8;">作者</p>
+              <p class="text-sm font-semibold" style="color: #334155;">{post.author?.name}</p>
             </div>
           </div>
+          <!-- Date -->
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl" style="background: rgba(255,107,157,0.08); border: 1px solid rgba(255,107,157,0.2); color: #FF6B9D;">
               <Icon class="h-5 w-5" name="Clock" />
             </div>
             <div>
-              <p class="text-sm text-slate-500 dark:text-slate-400">发布时间</p>
-              <p class="text-base font-semibold text-slate-800 dark:text-slate-200">
-                {formatedTime}
-              </p>
+              <p class="text-xs" style="color: #94a3b8;">发布时间</p>
+              <p class="text-sm font-semibold cyber-font" style="color: #334155;">{formatedTime}</p>
             </div>
           </div>
+          <!-- Tags -->
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl shrink-0" style="background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); color: #8B5CF6;">
               <Icon class="h-5 w-5" name="Tag" />
             </div>
             <div>
-              <p class="text-sm text-slate-500 dark:text-slate-400">标签</p>
-              <div class="mt-1 flex flex-wrap gap-2">
-                {
-                  post.tags.map((tag) => (
-                    <span class="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
-                      {tag.name}
-                    </span>
-                  ))
-                }
+              <p class="text-xs" style="color: #94a3b8;">标签</p>
+              <div class="mt-1 flex flex-wrap gap-1.5">
+                {post.tags.map((tag) => (
+                  <span class="acg-tag">{tag.name}</span>
+                ))}
               </div>
             </div>
           </div>
+          <!-- Category -->
           <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl shrink-0" style="background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.15); color: #06b6d4;">
               <Icon class="h-5 w-5" name="Category" />
             </div>
             <div>
-              <p class="text-sm text-slate-500 dark:text-slate-400">分类</p>
+              <p class="text-xs" style="color: #94a3b8;">分类</p>
               <a
                 href={`/categories/${post.category?.slug}`}
-                class="text-base font-semibold text-slate-800 underline decoration-dashed underline-offset-4 transition hover:text-indigo-600 dark:text-slate-200 dark:hover:text-indigo-400"
+                class="text-sm font-semibold transition-colors duration-200"
+                style="color: #334155;"
+                onmouseover="this.style.color='#FF6B9D'"
+                onmouseout="this.style.color='#334155'"
               >
                 {post.category?.name}
               </a>
@@ -159,12 +162,29 @@ html = html.concat(customCss);
       </div>
     </section>
 
-    <section class="mt-12 mb-2 w-full max-w-4xl px-6">
+    <section class="mt-10 mb-4 w-full max-w-4xl px-6">
       <AISummary content={post.content} title={post.title} />
       <article
-        class="prose prose-slate mt-8 max-w-none rounded-3xl border border-slate-100 bg-white/90 p-8 shadow-md shadow-slate-100/50 prose-headings:text-slate-900 prose-p:text-slate-700 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950/50 dark:prose-headings:text-slate-100 dark:prose-p:text-slate-300 dark:prose-a:text-indigo-400 dark:prose-strong:text-slate-200 dark:prose-code:text-slate-300 dark:prose-pre:bg-slate-950 dark:prose-pre:text-slate-300"
+        class="prose prose-slate mt-8 max-w-none rounded-2xl p-8"
+        style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,107,157,0.12);"
         set:html={html}
       />
     </section>
   </div>
 </BasicStyle>
+
+<style>
+  :global(.dark) h1[style] { color: #f1f5f9 !important; }
+  :global(.dark) p[style*="64748b"] { color: #94a3b8 !important; }
+  :global(.dark) p[style*="334155"] { color: #cbd5e1 !important; }
+  :global(.dark) a[style*="334155"] { color: #cbd5e1 !important; }
+  :global(.dark) article[style] {
+    background: rgba(13, 27, 42, 0.85) !important;
+    border-color: rgba(0, 245, 255, 0.1) !important;
+    color: #cbd5e1;
+  }
+  :global(.dark) article a { color: #FFB3CF; }
+  :global(.dark) article h1,
+  :global(.dark) article h2,
+  :global(.dark) article h3 { color: #f1f5f9; }
+</style>

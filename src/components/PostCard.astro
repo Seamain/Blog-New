@@ -17,7 +17,7 @@ const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
 ---
 
 <article
-  class={`acg-card group relative mt-10 overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 max-w-2xl w-full ${ml ?? ""}`}
+  class={`acg-card group relative mt-6 sm:mt-10 overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 w-full ${ml ?? ""}`}
 >
   <!-- Corner bracket decorations -->
   <div class="absolute top-3 left-3 w-4 h-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
@@ -36,49 +36,53 @@ const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
   <!-- Hover glow effect -->
   <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: linear-gradient(135deg, rgba(255,107,157,0.05) 0%, rgba(139,92,246,0.05) 100%);"></div>
 
-  <a href=`/posts/${post.slug}` class="relative flex flex-col gap-5 px-6 py-6">
-    <header class="flex flex-wrap items-center gap-4 text-sm">
-      <div class="flex items-center gap-3">
+  <a href=`/posts/${post.slug}` class="relative flex flex-col gap-4 px-4 py-5 sm:px-6 sm:py-6">
+    <!-- Author + date row -->
+    <header class="flex items-center justify-between gap-3 text-sm">
+      <div class="flex items-center gap-2.5 min-w-0">
         {avatarUrl ? (
-          <div class="relative">
-            <img
-              src={avatarUrl}
-              class="h-10 w-10 rounded-full object-cover"
-              style="border: 1.5px solid rgba(255,107,157,0.5); box-shadow: 0 0 10px rgba(255,107,157,0.2);"
-              width="40"
-              height="40"
-              loading="lazy"
-              decoding="async"
-              alt={`这是作者${post.author?.name}的头像`}
-            />
-          </div>
+          <img
+            src={avatarUrl}
+            class="h-9 w-9 sm:h-10 sm:w-10 rounded-full object-cover shrink-0"
+            style="border: 1.5px solid rgba(255,107,157,0.5); box-shadow: 0 0 10px rgba(255,107,157,0.2);"
+            width="40"
+            height="40"
+            loading="lazy"
+            decoding="async"
+            alt={`这是作者${post.author?.name}的头像`}
+          />
         ) : (
-          <div class="flex h-10 w-10 items-center justify-center rounded-full text-xs uppercase" style="border: 1.5px dashed rgba(255,107,157,0.4); color: rgba(255,107,157,0.6);">
+          <div class="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full text-xs uppercase" style="border: 1.5px dashed rgba(255,107,157,0.4); color: rgba(255,107,157,0.6);">
             {post.author?.name?.slice(0, 1) ?? "?"}
           </div>
         )}
-        <div>
-          <p class="text-sm font-semibold" style="color: #475569;">{post.author?.name}</p>
-          <div class="flex items-center gap-1.5 text-xs cyber-font" style="color: rgba(139,92,246,0.7);">
-            <Icon class="h-3.5 w-3.5" name="Clock" />
-            <span>{formatedTime}</span>
+        <div class="min-w-0">
+          <p class="truncate text-sm font-semibold" style="color: #475569;">{post.author?.name}</p>
+          <div class="flex items-center gap-1 text-xs cyber-font" style="color: rgba(139,92,246,0.7);">
+            <Icon class="h-3 w-3 shrink-0" name="Clock" />
+            <span class="truncate">{formatedTime}</span>
           </div>
         </div>
       </div>
-      <div class="ml-auto flex flex-wrap items-center gap-1.5">
-        {
-          post.tags.slice(0, 3).map((tag) => (
-            <span class="acg-tag">{tag.name}</span>
-          ))
-        }
+      <!-- Tags: up to 2 on mobile, 3 on larger screens -->
+      <div class="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+        {post.tags.slice(0, 2).map((tag) => (
+          <span class="acg-tag hidden sm:inline-flex">{tag.name}</span>
+        ))}
+        {post.tags.slice(0, 1).map((tag) => (
+          <span class="acg-tag sm:hidden">{tag.name}</span>
+        ))}
+        {post.tags.length > 2 && (
+          <span class="hidden sm:inline text-xs" style="color: rgba(139,92,246,0.5);">+{post.tags.length - 2}</span>
+        )}
       </div>
     </header>
 
     <div>
-      <h3 class="text-xl font-bold tracking-tight transition duration-200 group-hover:acg-glow-text" style="color: #1e293b; font-family: 'Noto Sans SC', sans-serif;">
+      <h3 class="text-lg sm:text-xl font-bold tracking-tight transition duration-200 group-hover:acg-glow-text" style="color: #1e293b; font-family: 'Noto Sans SC', sans-serif;">
         {post.title}
       </h3>
-      <p class="mt-2.5 line-clamp-3 text-sm leading-relaxed" style="color: #64748b;">
+      <p class="mt-2 line-clamp-2 sm:line-clamp-3 text-sm leading-relaxed" style="color: #64748b;">
         {post.summary}
       </p>
     </div>

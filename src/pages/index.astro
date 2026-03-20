@@ -16,11 +16,11 @@ try {
 ---
 
 <BasicStyle title="Seamain's Blog" description="This is my home page.">
-  <div class="flex flex-col items-center w-screen">
+  <div class="flex flex-col items-center w-full overflow-x-hidden">
     <Navbar />
 
     <!-- Hero Section -->
-    <section class="relative mt-12 w-full max-w-5xl px-6 text-center overflow-hidden">
+    <section class="relative mt-10 sm:mt-12 w-full max-w-5xl px-4 sm:px-6 text-center overflow-hidden">
       <!-- Decorative stars -->
       <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
         <span class="absolute top-2 left-8 text-lg animate-bounce" style="color: #FFE566; animation-duration: 3s; animation-delay: 0s;">✦</span>
@@ -34,7 +34,7 @@ try {
         <p class="cyber-font text-xs font-semibold tracking-[0.4em] mb-3 uppercase" style="color: rgba(139,92,246,0.7);">
           ── Welcome to ──
         </p>
-        <h1 class="text-4xl font-bold leading-tight mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
+        <h1 class="text-3xl sm:text-4xl font-bold leading-tight mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
           <span class="acg-glow-text">Seamain</span>
           <span class="text-slate-800 dark:text-slate-100"> 的博客</span>
         </h1>
@@ -64,14 +64,17 @@ try {
       </div>
     </section>
 
-    <!-- Featured post -->
-    <PostCard post={posts[0]} ml="" />
+    <!-- Posts container -->
+    <div class="w-full max-w-5xl px-4 sm:px-6 pb-16">
+      <!-- Featured post -->
+      {posts[0] && <PostCard post={posts[0]} ml="w-full" />}
 
-    <!-- Recent posts grid -->
-    <div
-      class="grid grid-cols-2 gap-4 not-sm:flex not-sm:flex-col not-md:flex not-md:flex-col"
-    >
-      {posts.slice(1, 5).map((post) => <PostCard ml="max-h-52" post={post} />)}
+      <!-- Recent posts grid: 1 col on mobile, 2 cols on tablet+ -->
+      {posts.length > 1 && (
+        <div class="mt-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {posts.slice(1, 5).map((post) => <PostCard post={post} ml="w-full mt-0" />)}
+        </div>
+      )}
     </div>
   </div>
 </BasicStyle>

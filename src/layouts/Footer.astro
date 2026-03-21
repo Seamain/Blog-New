@@ -2,23 +2,34 @@
 import Social from "../components/Social.astro";
 ---
 
-<footer
-  class="w-full mt-2 border-t border-slate-100 bg-linear-to-b from-white via-slate-50 to-slate-100 dark:border-slate-800 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800"
->
-  <div
-    class="mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 py-16 text-center"
-  >
-    <div class="flex flex-col items-center gap-3">
-      <p
-        class="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500"
-      >
+<footer class="w-full mt-16 relative overflow-hidden" style="border-top: 1px solid rgba(255,107,157,0.15);">
+  <!-- Background -->
+  <div class="absolute inset-0" style="background: linear-gradient(to bottom, transparent, rgba(255,248,240,0.8));"></div>
+  <div class="dark-footer-bg absolute inset-0 hidden" style="background: linear-gradient(to bottom, transparent, rgba(13,27,42,0.9));"></div>
+
+  <!-- Decorative top line -->
+  <div class="w-full h-px" style="background: linear-gradient(to right, transparent, rgba(255,107,157,0.4), rgba(139,92,246,0.4), transparent);"></div>
+
+  <div class="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 py-14 text-center">
+
+    <!-- Top decoration -->
+    <div class="flex items-center gap-3" aria-hidden="true">
+      <span class="text-xs" style="color: rgba(255,107,157,0.5);">✦</span>
+      <div class="h-px w-12" style="background: linear-gradient(to right, transparent, rgba(255,107,157,0.3));"></div>
+      <span class="cyber-font text-xs" style="color: rgba(139,92,246,0.5);">◇</span>
+      <div class="h-px w-12" style="background: linear-gradient(to left, transparent, rgba(255,107,157,0.3));"></div>
+      <span class="text-xs" style="color: rgba(255,107,157,0.5);">✦</span>
+    </div>
+
+    <div class="flex flex-col items-center gap-2">
+      <p class="cyber-font text-xs tracking-[0.35em] uppercase" style="color: rgba(139,92,246,0.6);">
         Stay Connected
       </p>
-      <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">
-        Follow Me
+      <h2 class="text-2xl font-bold" style="font-family: 'Noto Sans SC', sans-serif;">
+        <span class="acg-glow-text">Follow Me</span>
       </h2>
-      <p class="max-w-2xl text-base text-slate-500 dark:text-slate-400">
-        分享开发、产品与生活碎碎念，欢迎通过社交媒体找到我，并留下你的想法。
+      <p class="max-w-md text-sm leading-relaxed mt-1" style="color: #64748b;">
+        分享开发、产品与生活碎碎念，欢迎通过社交媒体找到我
       </p>
     </div>
 
@@ -28,17 +39,19 @@ import Social from "../components/Social.astro";
       <Social platform="Facebook" username="profile.php?id=100090448314423" />
     </div>
 
-    <div
-      class="h-px w-24 bg-linear-to-r from-transparent via-slate-300 to-transparent dark:via-slate-600"
-      aria-hidden="true"
-    >
+    <!-- Divider -->
+    <div class="flex items-center gap-2" aria-hidden="true">
+      <div class="h-px w-20" style="background: linear-gradient(to right, transparent, rgba(255,107,157,0.25));"></div>
+      <span class="text-xs" style="color: rgba(255,107,157,0.3);">◇</span>
+      <div class="h-px w-20" style="background: linear-gradient(to left, transparent, rgba(255,107,157,0.25));"></div>
     </div>
 
-    <div class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
+    <div class="flex flex-col gap-1.5 text-xs" style="color: #94a3b8;">
       <a
         href="https://icp.gov.moe/?keyword=20220546"
         target="_blank"
-        class="text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+        class="transition hover:text-pink-400"
+        style="color: #94a3b8;"
       >
         萌ICP备20220546号
       </a>
@@ -46,19 +59,37 @@ import Social from "../components/Social.astro";
         Created by
         <a
           href="https://seamainjimmy.com"
-          class="font-semibold text-slate-800 transition hover:text-slate-900 dark:text-slate-200 dark:hover:text-slate-100"
+          class="font-semibold transition"
+          style="color: #FF6B9D;"
         >
-          Jimmy & Seamain
+          Jimmy &amp; Seamain
         </a>
+        <span class="ml-1" style="color: rgba(255,230,102,0.7);">✦</span>
       </p>
       <a
         href="https://ipw.cn/ipv6webcheck/?site=seamain.org/"
         title="本站支持IPv6访问"
         target="_blank"
-        class="text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+        class="transition hover:text-cyan-400"
+        style="color: #94a3b8;"
       >
         本站支持IPv6访问
       </a>
     </div>
   </div>
 </footer>
+
+<style>
+  :global(.dark) footer {
+    border-top-color: rgba(0,245,255,0.1) !important;
+  }
+  :global(.dark) footer > div:first-child {
+    background: linear-gradient(to bottom, transparent, rgba(13,27,42,0.9)) !important;
+  }
+  :global(.dark) footer .w-full.h-px {
+    background: linear-gradient(to right, transparent, rgba(0,245,255,0.2), rgba(139,92,246,0.2), transparent) !important;
+  }
+  :global(.dark) footer p[style*="64748b"] {
+    color: #64748b !important;
+  }
+</style>

@@ -1,21 +1,13 @@
 ---
 export interface Props {
   outerDiv?: string;
-  buttonGroup?: string;
-  button?: string;
-  activeButton?: string;
-  disabledButton?: string;
   currentPage: number;
   totalPage: number;
   url: string;
 }
 
 const {
-  outerDiv = "flex w-full justify-center",
-  buttonGroup = "inline-flex items-center gap-2 rounded-full border border-slate-100 bg-white/90 px-2 py-1 shadow-sm shadow-slate-100 dark:border-slate-800 dark:bg-slate-900/90 dark:shadow-slate-950",
-  button = "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300 hover:bg-slate-100 dark:text-slate-400 dark:focus-visible:outline-slate-600 dark:hover:bg-slate-800",
-  activeButton = "bg-slate-900 text-white shadow-inner dark:bg-slate-700 dark:text-slate-100",
-  disabledButton = "pointer-events-none opacity-40",
+  outerDiv = "flex w-full justify-center my-8",
   currentPage,
   totalPage,
   url,
@@ -45,49 +37,91 @@ function isDisabled(i: number) {
 ---
 
 <nav class={outerDiv} aria-label="Pagination">
-  <div class={buttonGroup}>
-    {
-      prevPage ? (
-        <a class={button} href={buildHref(prevPage)} aria-label="Previous page">
-          Prev
-        </a>
-      ) : (
-        <span class={`${button} ${disabledButton}`} aria-disabled="true">
-          Prev
-        </span>
-      )
-    }
+  <div class="inline-flex items-center gap-1.5 px-2 py-1.5 rounded-full" style="background: rgba(255,248,240,0.9); border: 1px solid rgba(255,107,157,0.2); box-shadow: 0 2px 12px rgba(255,107,157,0.08);">
 
-    {
-      pageStatuses.map((pageStatus, index) =>
-        pageStatus.isActive ? (
-          <span class={`${button} ${activeButton}`} aria-current="page">
-            {pageStatus.pageNumber}
-          </span>
-        ) : pageStatus.isDisabled ? (
-          !pageStatuses[index - 1]?.isDisabled && (
-            <span class={`${button} ${disabledButton}`} aria-hidden="true">
-              ...
-            </span>
-          )
-        ) : (
-          <a class={button} href={buildHref(pageStatus.pageNumber)}>
-            {pageStatus.pageNumber}
-          </a>
-        ),
-      )
-    }
+    {prevPage ? (
+      <a
+        href={buildHref(prevPage)}
+        aria-label="Previous page"
+        class="page-btn"
+      >
+        ‹ Prev
+      </a>
+    ) : (
+      <span class="page-btn disabled" aria-disabled="true">‹ Prev</span>
+    )}
 
-    {
-      nextPage ? (
-        <a class={button} href={buildHref(nextPage)} aria-label="Next page">
-          Next
-        </a>
-      ) : (
-        <span class={`${button} ${disabledButton}`} aria-disabled="true">
-          Next
+    {pageStatuses.map((pageStatus, index) =>
+      pageStatus.isActive ? (
+        <span class="page-btn active" aria-current="page">
+          {pageStatus.pageNumber}
         </span>
+      ) : pageStatus.isDisabled ? (
+        !pageStatuses[index - 1]?.isDisabled && (
+          <span class="page-btn disabled" aria-hidden="true">…</span>
+        )
+      ) : (
+        <a class="page-btn" href={buildHref(pageStatus.pageNumber)}>
+          {pageStatus.pageNumber}
+        </a>
       )
-    }
+    )}
+
+    {nextPage ? (
+      <a
+        href={buildHref(nextPage)}
+        aria-label="Next page"
+        class="page-btn"
+      >
+        Next ›
+      </a>
+    ) : (
+      <span class="page-btn disabled" aria-disabled="true">Next ›</span>
+    )}
   </div>
 </nav>
+
+<style>
+  .page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .page-btn:hover:not(.disabled):not(.active) {
+    background: rgba(255, 107, 157, 0.1);
+    color: #FF6B9D;
+  }
+  .page-btn.active {
+    background: linear-gradient(135deg, #FF6B9D, #8B5CF6);
+    color: white;
+    box-shadow: 0 0 12px rgba(255, 107, 157, 0.3);
+  }
+  .page-btn.disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  :global(.dark) nav > div {
+    background: rgba(13, 27, 42, 0.9) !important;
+    border-color: rgba(0, 245, 255, 0.15) !important;
+    box-shadow: 0 2px 12px rgba(0, 245, 255, 0.05) !important;
+  }
+  :global(.dark) .page-btn {
+    color: #94a3b8;
+  }
+  :global(.dark) .page-btn:hover:not(.disabled):not(.active) {
+    background: rgba(0, 245, 255, 0.08);
+    color: #00F5FF;
+  }
+</style>

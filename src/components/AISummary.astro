@@ -19,73 +19,69 @@ try {
 }
 ---
 
-<div
-    class="ai-summary-container w-full mt-6 mb-6"
->
-    <div
-        class="bg-linear-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-6 border-l-4 border-blue-500 shadow-md"
-    >
-        <div class="flex items-center mb-3">
-            <svg
-                class="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                ></path>
-            </svg>
-            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">
-                智能总结
-            </h3>
+<div class="ai-summary-container w-full mt-6 mb-6">
+    <div class="relative rounded-xl overflow-hidden" style="border: 1px solid rgba(0,245,255,0.25); background: linear-gradient(135deg, rgba(13,27,42,0.95) 0%, rgba(26,13,42,0.95) 100%); box-shadow: 0 0 20px rgba(0,245,255,0.05), inset 0 0 30px rgba(0,0,0,0.3);">
+
+        <!-- Top accent line -->
+        <div class="w-full h-px" style="background: linear-gradient(to right, transparent, rgba(0,245,255,0.5), rgba(139,92,246,0.5), transparent);"></div>
+
+        <div class="p-5">
+            <!-- Header -->
+            <div class="flex items-center gap-3 mb-4">
+                <div class="flex items-center justify-center w-8 h-8 rounded-lg" style="background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #00F5FF;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="cyber-font text-xs font-bold tracking-widest" style="color: #00F5FF;">[AI]</span>
+                    <h3 class="text-sm font-bold" style="color: #e2e8f0; font-family: 'Noto Sans SC', sans-serif;">智能总结</h3>
+                    <span class="cyber-font text-xs" style="color: rgba(139,92,246,0.6);">◇ DeepSeek</span>
+                </div>
+                <!-- Blinking cursor -->
+                <div class="ml-auto flex items-center gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full" style="background: #00F5FF; animation: twinkle 1.5s ease-in-out infinite;"></div>
+                    <div class="w-1.5 h-1.5 rounded-full" style="background: #8B5CF6; animation: twinkle 1.5s ease-in-out infinite; animation-delay: 0.3s;"></div>
+                    <div class="w-1.5 h-1.5 rounded-full" style="background: #FF6B9D; animation: twinkle 1.5s ease-in-out infinite; animation-delay: 0.6s;"></div>
+                </div>
+            </div>
+
+            <!-- Left accent bar -->
+            <div class="flex gap-4">
+                <div class="w-px shrink-0 rounded-full" style="background: linear-gradient(to bottom, #00F5FF, #8B5CF6, transparent);"></div>
+
+                <div class="flex-1">
+                    {!error && summary && (
+                        <p class="text-sm leading-relaxed" style="color: #94a3b8; font-family: 'Noto Sans SC', sans-serif;">
+                            {summary}
+                        </p>
+                    )}
+
+                    {error && (
+                        <p class="text-xs" style="color: rgba(255,107,157,0.7);">
+                            〔 生成摘要失败，请稍后重试 〕
+                        </p>
+                    )}
+
+                    {!error && !summary && (
+                        <div class="flex items-center gap-3">
+                            <div class="relative w-5 h-5">
+                                <div class="absolute inset-0 border border-current rounded-full animate-spin" style="color: #00F5FF; border-top-color: transparent;"></div>
+                            </div>
+                            <span class="text-xs cyber-font" style="color: rgba(0,245,255,0.6);">正在生成摘要...</span>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
 
-        {
-            !error && summary && (
-                <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    <p class="text-base">{summary}</p>
-                </div>
-            )
-        }
-
-        {
-            error && (
-                <div class="text-red-600 dark:text-red-400 text-sm">
-                    <p>生成摘要失败，请稍后重试</p>
-                </div>
-            )
-        }
-
-        {
-            !error && !summary && (
-                <div class="flex items-center justify-center py-4">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
-                    <span class="ml-3 text-sm text-gray-500">
-                        正在生成摘要...
-                    </span>
-                </div>
-            )
-        }
+        <!-- Bottom accent line -->
+        <div class="w-full h-px" style="background: linear-gradient(to right, transparent, rgba(139,92,246,0.3), transparent);"></div>
     </div>
 </div>
 
 <style>
     .ai-summary-container {
-        animation: fadeIn 0.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        animation: fadeInUp 0.5s ease-out;
     }
 </style>

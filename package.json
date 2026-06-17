@@ -21,7 +21,7 @@
     "astro-icon": "^1.1.5",
     "astro-pagefind": "^1.8.5",
     "flatted": "^3.3.3",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^14.2.0",
     "mdast-util-from-markdown": "^2.0.2",
     "node-base64-image": "^2.2.0",
     "sanitize-html": "^2.17.0",

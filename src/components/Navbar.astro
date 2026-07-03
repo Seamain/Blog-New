@@ -49,7 +49,7 @@ try {
 
         <!-- Mobile controls -->
         <div
-            class="relative flex w-full flex-row gap-4 px-2 not-sm:flex-row not-sm:items-center justify-between"
+            class="relative flex w-full flex-row gap-4 px-2 not-sm:flex-row not-sm:items-center not-sm:justify-end justify-between"
         >
             <!-- Desktop logo -->
             <a
@@ -151,14 +151,23 @@ try {
                 class="not-sm:hidden not-md:hidden flex items-center justify-end gap-1"
             >
                 {
-                    navigations.map((item) => (
-                        <a
-                            href={"/" + item.path}
-                            class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
-                        >
-                            {item.title}
-                        </a>
-                    ))
+                    navigations.map((item) =>
+                        item.path ? (
+                            <a
+                                href={"/" + item.path}
+                                class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+                            >
+                                {item.title}
+                            </a>
+                        ) : (
+                            <a
+                                href={item.externalPath}
+                                class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+                            >
+                                {item.title}
+                            </a>
+                        ),
+                    )
                 }
 
                 <a
@@ -211,7 +220,6 @@ try {
                     </svg>
                 </button>
             </div>
-
         </div>
     </div>
 
@@ -222,14 +230,23 @@ try {
     >
         <div class="px-6 py-4 space-y-2 text-center flex flex-col items-center">
             {
-                navigations.map((item) => (
-                    <a
-                        href={"/" + item.path}
-                        class="block w-full max-w-sm rounded-lg px-4 py-3 text-base font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
-                    >
-                        {item.title}
-                    </a>
-                ))
+                navigations.map((item) =>
+                    item.path ? (
+                        <a
+                            href={"/" + item.path}
+                            class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+                        >
+                            {item.title}
+                        </a>
+                    ) : (
+                        <a
+                            href={item.externalPath}
+                            class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+                        >
+                            {item.title}
+                        </a>
+                    ),
+                )
             }
         </div>
     </div>

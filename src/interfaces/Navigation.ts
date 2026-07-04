@@ -4,7 +4,7 @@ export interface Navigation {
   title: string;
   type: string;
   path: string;
-  externalPath: null;
+  externalPath: string;
   uiRouterKey: string;
   menuAttached: boolean;
   collapsed: boolean;

@@ -9,18 +9,21 @@ import Navbar from "../../components/Navbar.astro";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  try {
-    const fullList = await createFullListOfPost("zh-Hans");
+    try {
+        const fullList = await createFullListOfPost("zh-Hans");
 
-    return paginate(fullList, {
-      pageSize: 5,
-    });
-  } catch (error) {
-    console.error("Failed to generate posts pagination:", error instanceof Error ? error.message : String(error));
-    return paginate([], {
-      pageSize: 5,
-    }); // Return empty pagination as fallback
-  }
+        return paginate(fullList, {
+            pageSize: 5,
+        });
+    } catch (error) {
+        console.error(
+            "Failed to generate posts pagination:",
+            error instanceof Error ? error.message : String(error),
+        );
+        return paginate([], {
+            pageSize: 5,
+        }); // Return empty pagination as fallback
+    }
 };
 
 const { page } = Astro.props as { page: Page<Post> };
@@ -28,24 +31,26 @@ const totalPage = page.lastPage;
 ---
 
 <BasicStyle title="Posts" description="This is my Posts page.">
-  <div class="flex flex-col items-center">
-    <Navbar />
-    <PostCard ml="not-sm:ml-6" post={page.data[0]} />
-    <div
-      class="grid grid-cols-2 gap-4 not-sm:flex not-sm:flex-col not-md:flex not-md:flex-col"
-    >
-      {
-        page.data
-          .slice(1, 5)
-          .map((post) => <PostCard ml="max-h-52" post={post} />)
-      }
+    <div class="flex flex-col items-center">
+        <Navbar />
+        <div class="w-full max-w-5xl px-4 sm:px-6">
+            <PostCard ml="not-sm:ml-6" post={page.data[0]} />
+            <div
+                class="grid grid-cols-2 gap-4 not-sm:flex not-sm:flex-col not-md:flex not-md:flex-col"
+            >
+                {
+                    page.data
+                        .slice(1, 5)
+                        .map((post) => <PostCard ml="max-h-52" post={post} />)
+                }
+            </div>
+        </div>
+        <div class="flex flex-row mt-12">
+            <Pagination
+                currentPage={page.currentPage}
+                {totalPage}
+                url="posts"
+            />
+        </div>
     </div>
-    <div class="flex flex-row mt-12">
-      <Pagination
-        currentPage={page.currentPage}
-        {totalPage}
-        url="posts"
-      />
-    </div>
-  </div>
 </BasicStyle>

@@ -8,18 +8,21 @@ import Pagination from "../../components/Pagination.astro";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  try {
-    const fullList = await createFullListOfCategory("zh-Hans");
+    try {
+        const fullList = await createFullListOfCategory("zh-Hans");
 
-    return paginate(fullList, {
-      pageSize: 6,
-    });
-  } catch (error) {
-    console.error("Failed to generate categories pagination:", error instanceof Error ? error.message : String(error));
-    return paginate([], {
-      pageSize: 6,
-    }); // Return empty pagination as fallback
-  }
+        return paginate(fullList, {
+            pageSize: 6,
+        });
+    } catch (error) {
+        console.error(
+            "Failed to generate categories pagination:",
+            error instanceof Error ? error.message : String(error),
+        );
+        return paginate([], {
+            pageSize: 6,
+        }); // Return empty pagination as fallback
+    }
 };
 
 const { page } = Astro.props as { page: Page<Category> };
@@ -27,95 +30,94 @@ const totalPage = page.lastPage;
 ---
 
 <BasicStyle title="Categories" description="This is my Categories page.">
-  <div
-    class="flex flex-col items-center bg-linear-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
-  >
-    <Navbar />
+    <div
+        class="flex flex-col items-center bg-linear-to-b from-white via-slate-50 dark:from-slate-950 dark:via-slate-900"
+    >
+        <Navbar />
 
-    <section class="mt-12 w-full max-w-5xl px-6 text-center">
-      <p
-        class="text-xs uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
-      >
-        Explore
-      </p>
-      <h1
-        class="mt-4 text-4xl font-semibold text-slate-900 dark:text-slate-100"
-      >
-        选择你的分类
-      </h1>
-      <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
-        按分类浏览，快速找到你感兴趣的文章主题。
-      </p>
-    </section>
-
-    <section class="mt-10 w-full max-w-5xl px-6">
-      <div
-        class="grid gap-6 grid-cols-3 not-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-      >
-        {
-          page.data.slice(0, 6).map((category) => (
-            <a
-              href={`/categories/${category.slug}`}
-              class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white/80 p-6 shadow-md shadow-slate-200/60 transition hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/60 dark:hover:border-slate-700"
+        <section class="mt-12 w-full max-w-5xl px-6 text-center">
+            <p
+                class="text-xs uppercase tracking-[0.4em] text-slate-400 dark:text-slate-500"
             >
-              <div
-                class="absolute -top-10 right-4 h-32 w-32 rounded-full bg-slate-50 opacity-0 blur-3xl transition group-hover:opacity-80 dark:bg-slate-800"
-                aria-hidden="true"
-              />
-              <div class="relative flex flex-col gap-3">
-                <p class="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">
-                  Category
-                </p>
-                <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">
-                  {category.name}
-                </h2>
-                <p class="text-sm text-slate-500 dark:text-slate-400">
-                  共 {category.posts?.length ?? 0} 篇文章
-                </p>
-                <span class="mt-4 inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-                  查看文章
-                  <svg
-                    class="ml-2 h-4 w-4 transition group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </a>
-          ))
-        }
-      </div>
-    </section>
+                Explore
+            </p>
+            <h1
+                class="mt-4 text-4xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+                选择你的分类
+            </h1>
+            <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+                按分类浏览，快速找到你感兴趣的文章主题。
+            </p>
+        </section>
 
-    <section class="mt-12 w-full max-w-5xl px-6 pb-16">
-      <Pagination
-        currentPage={page.currentPage}
-        {totalPage}
-        url="categories"
-        activeButton="activeButton"
-      />
-    </section>
-  </div>
+        <section class="mt-10 w-full max-w-5xl px-6">
+            <div
+                class="grid gap-6 grid-cols-3 not-sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            >
+                {
+                    page.data.slice(0, 6).map((category) => (
+                        <a
+                            href={`/categories/${category.slug}`}
+                            class="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white/80 p-6 shadow-md shadow-slate-200/60 transition hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-slate-950/60 dark:hover:border-slate-700"
+                        >
+                            <div
+                                class="absolute -top-10 right-4 h-32 w-32 rounded-full bg-slate-50 opacity-0 blur-3xl transition group-hover:opacity-80 dark:bg-slate-800"
+                                aria-hidden="true"
+                            />
+                            <div class="relative flex flex-col gap-3">
+                                <p class="text-xs uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">
+                                    Category
+                                </p>
+                                <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                                    {category.name}
+                                </h2>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">
+                                    共 {category.posts?.length ?? 0} 篇文章
+                                </p>
+                                <span class="mt-4 inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                                    查看文章
+                                    <svg
+                                        class="ml-2 h-4 w-4 transition group-hover:translate-x-1"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </span>
+                            </div>
+                        </a>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class="mt-12 w-full max-w-5xl px-6 pb-16">
+            <Pagination
+                currentPage={page.currentPage}
+                {totalPage}
+                url="categories"
+            />
+        </section>
+    </div>
 </BasicStyle>
 
 <style is:global>
-  .activeButton {
-    --tw-bg-opacity: 1;
-    background-color: rgb(239 68 68 / var(--tw-bg-opacity));
-    color: wheat;
-  }
-  .dark .activeButton {
-    --tw-bg-opacity: 1;
-    background-color: rgb(220 38 38 / var(--tw-bg-opacity));
-    color: rgb(254 252 232);
-  }
+    .activeButton {
+        --tw-bg-opacity: 1;
+        background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+        color: wheat;
+    }
+    .dark .activeButton {
+        --tw-bg-opacity: 1;
+        background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+        color: rgb(254 252 232);
+    }
 </style>

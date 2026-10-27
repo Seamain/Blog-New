@@ -2,6 +2,9 @@
   "name": "Seamain's Blog",
   "type": "module",
   "version": "0.1.7",
+  "engines": {
+    "node": ">=22.23.4"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

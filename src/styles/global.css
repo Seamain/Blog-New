@@ -1,16 +1,14 @@
-/* Google Fonts loaded via <link> in BasicStyle.astro head to avoid render-blocking */
 @import "tailwindcss";
 
-/* Font-display swap fallback for when fonts load asynchronously */
+/* Orbitron is self-hosted (variable, latin subset) so the cyber labels survive
+   where Google Fonts is unreachable. Chinese text uses the system CJK stack. */
 @font-face {
     font-family: "Orbitron";
     font-style: normal;
+    font-weight: 400 900;
     font-display: swap;
-}
-@font-face {
-    font-family: "Noto Sans SC";
-    font-style: normal;
-    font-display: swap;
+    src: url("/fonts/orbitron-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+2000-206F, U+2122, U+2212;
 }
 
 /* Configure dark mode to use class-based switching */
@@ -30,6 +28,22 @@
     --color-neon-yellow: #ffe566;
     --color-cream: #fff8f0;
 
+    /* Text tokens: brand hues tuned to >=4.5:1 on paper and glass surfaces */
+    --font-cjk: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Hiragino Sans GB",
+        "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", ui-sans-serif,
+        system-ui, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
+        monospace;
+    --text-strong: #1e293b;
+    --text-body: #334155;
+    --text-muted: #5b6577;
+    --ink-sakura: #c0265f;
+    --ink-violet: #6d28d9;
+    --ink-cyan: #0e7490;
+    --surface-paper: #fffdf9;
+    --border-paper: rgba(192, 38, 95, 0.14);
+    --focus-ring: #7c3aed;
+
     /* Pagefind UI */
     --pagefind-ui-scale: 1;
     --pagefind-ui-primary: #ff6b9d;
@@ -45,6 +59,15 @@
 }
 
 .dark {
+    --text-strong: #f1f5f9;
+    --text-body: #cbd5e1;
+    --text-muted: #a8b3c4;
+    --ink-sakura: #ffb3cf;
+    --ink-violet: #c4b5fd;
+    --ink-cyan: #67e8f9;
+    --surface-paper: #0f1c2b;
+    --border-paper: rgba(0, 245, 255, 0.12);
+    --focus-ring: #c4b5fd;
     --pagefind-ui-primary: #ff6b9d;
     --pagefind-ui-text: #cbd5e1;
     --pagefind-ui-background: #0d1b2a;
@@ -166,7 +189,7 @@
 }
 
 .acg-card {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.86);
     border: 1px solid rgba(255, 107, 157, 0.25);
     backdrop-filter: blur(10px) saturate(140%);
     -webkit-backdrop-filter: blur(10px) saturate(140%);
@@ -180,7 +203,7 @@
 }
 
 .dark .acg-card {
-    background: rgba(13, 27, 42, 0.70);
+    background: rgba(13, 27, 42, 0.88);
     border: 1px solid rgba(255, 107, 157, 0.2);
     backdrop-filter: blur(10px) saturate(140%);
     -webkit-backdrop-filter: blur(10px) saturate(140%);
@@ -207,13 +230,13 @@
         var(--color-star-purple-dim)
     );
     border: 1px solid rgba(255, 107, 157, 0.35);
-    color: var(--color-sakura);
-    font-size: 0.7rem;
+    color: var(--ink-sakura);
+    font-size: 0.75rem;
     font-weight: 600;
     padding: 0.2rem 0.75rem;
     border-radius: 9999px;
     letter-spacing: 0.05em;
-    transition: all 0.2s;
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
 .dark .acg-tag {
@@ -223,7 +246,6 @@
         rgba(139, 92, 246, 0.12)
     );
     border-color: rgba(255, 107, 157, 0.3);
-    color: var(--color-sakura-light);
 }
 
 .cyber-font {
@@ -266,33 +288,234 @@
     font-size: 0.8em;
 }
 
-/* Prose ACG overrides */
-.prose h1,
-.prose h2,
-.prose h3 {
-    font-family: "Noto Sans SC", sans-serif;
+/* ── Article reading surface ── */
+.reading-sheet {
+    background: var(--surface-paper);
+    border: 1px solid var(--border-paper);
+    box-shadow:
+        0 1px 2px rgba(30, 41, 59, 0.06),
+        0 12px 40px -12px rgba(30, 41, 59, 0.18);
 }
 
-.dark .prose {
-    color: #cbd5e1;
+.dark .reading-sheet {
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.3),
+        0 16px 48px -16px rgba(0, 0, 0, 0.6);
 }
 
-.dark .prose a {
-    color: var(--color-sakura-light);
+.post-body {
+    font-family: var(--font-cjk);
+    font-size: 1.0625rem;
+    line-height: 1.85;
+    color: var(--text-body);
+    overflow-wrap: break-word;
+    font-kerning: normal;
 }
 
-.dark .prose code {
-    background: rgba(0, 245, 255, 0.08);
-    color: var(--color-cyber-cyan);
-    border: 1px solid rgba(0, 245, 255, 0.2);
-    border-radius: 4px;
-    padding: 0.1em 0.4em;
+@media (min-width: 640px) {
+    .post-body {
+        font-size: 1.125rem;
+    }
 }
 
-.dark .prose pre {
-    background: rgba(13, 27, 42, 0.95) !important;
-    border: 1px solid rgba(0, 245, 255, 0.15);
-    box-shadow: 0 0 20px rgba(0, 245, 255, 0.05);
+.post-body > :first-child {
+    margin-top: 0;
+}
+
+.post-body p {
+    margin: 0 0 1.15em;
+    text-wrap: pretty;
+}
+
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+    font-family: var(--font-cjk);
+    color: var(--text-strong);
+    font-weight: 700;
+    text-wrap: balance;
+    scroll-margin-top: 5rem;
+}
+
+.post-body h2 {
+    font-size: 1.4em;
+    line-height: 1.4;
+    margin: 2.1em 0 0.75em;
+}
+
+.post-body h3 {
+    font-size: 1.18em;
+    line-height: 1.45;
+    margin: 1.8em 0 0.6em;
+}
+
+.post-body h4 {
+    font-size: 1em;
+    line-height: 1.5;
+    margin: 1.6em 0 0.5em;
+}
+
+.post-body a {
+    color: var(--ink-sakura);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--ink-sakura) 40%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.15s ease;
+}
+
+.post-body a:hover {
+    text-decoration-color: currentColor;
+}
+
+.post-body strong {
+    color: var(--text-strong);
+    font-weight: 700;
+}
+
+.post-body img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 80vh;
+    margin: 1.5em auto;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.post-body ul,
+.post-body ol {
+    margin: 0 0 1.15em;
+    padding-left: 1.5em;
+}
+
+.post-body ul {
+    list-style: disc;
+}
+
+.post-body ol {
+    list-style: decimal;
+}
+
+.post-body li {
+    margin: 0.35em 0;
+    padding-left: 0.2em;
+}
+
+.post-body li::marker {
+    color: var(--ink-sakura);
+}
+
+.post-body li > p {
+    margin: 0;
+}
+
+.post-body blockquote {
+    margin: 1.5em 0;
+    padding: 0.9em 1.2em;
+    border-radius: 12px;
+    background: rgba(139, 92, 246, 0.07);
+    color: var(--text-muted);
+}
+
+.dark .post-body blockquote {
+    background: rgba(196, 181, 253, 0.08);
+}
+
+.post-body blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+.post-body code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    padding: 0.12em 0.4em;
+    border-radius: 5px;
+    background: rgba(139, 92, 246, 0.09);
+    color: var(--ink-violet);
+}
+
+.post-body pre {
+    margin: 1.5em 0;
+    padding: 1em 1.25em;
+    border-radius: 12px;
+    background: var(--color-navy);
+    border: 1px solid rgba(0, 245, 255, 0.14);
+    color: #e2e8f0;
+    font-size: 0.84rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    tab-size: 2;
+}
+
+.post-body pre code {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+.post-body hr {
+    margin: 2.5em auto;
+    width: 40%;
+    height: 1px;
+    border: 0;
+    background: var(--border-paper);
+}
+
+.post-body .table-wrap {
+    margin: 1.5em 0;
+    overflow-x: auto;
+}
+
+.post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92em;
+    font-variant-numeric: tabular-nums;
+}
+
+.post-body th,
+.post-body td {
+    padding: 0.55em 0.8em;
+    border-bottom: 1px solid var(--border-paper);
+    text-align: left;
+    vertical-align: top;
+}
+
+.post-body th {
+    color: var(--text-strong);
+    font-weight: 700;
+}
+
+/* ── Browser surfaces ── */
+::selection {
+    background: rgba(255, 107, 157, 0.28);
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: var(--surface-paper);
+    color: var(--text-strong);
+    font-weight: 600;
+    transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+    transform: none;
 }
 
 /* Stars background layer */
@@ -318,13 +541,14 @@
     will-change: opacity;
 }
 
-/* Disable all decorative animations for users who prefer reduced motion */
+/* Disable decorative motion for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    .stars-bg .star,
-    .acg-card,
-    .acg-btn,
-    .acg-tag {
-        animation: none !important;
-        transition: none !important;
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

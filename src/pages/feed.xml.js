@@ -23,7 +23,7 @@ export async function GET(context) {
       pubDate: formatDate(new Date(post.createdAt), "yyyy-MM-dd HH:mm"),
       description: post.summary,
       content: sanitizeHtml(parser.render(post.content)),
-      link: `/posts/${post.slug}`
+      link: `/posts/${post.slug}/`
     })),
   });
 }

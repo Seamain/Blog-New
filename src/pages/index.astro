@@ -67,12 +67,12 @@ try {
     <!-- Posts container -->
     <div class="w-full max-w-5xl px-4 sm:px-6 pb-16">
       <!-- Featured post -->
-      {posts[0] && <PostCard post={posts[0]} ml="w-full" />}
+      {posts[0] && <PostCard post={posts[0]} ml="mt-6 sm:mt-10" headingLevel={2} />}
 
       <!-- Recent posts grid: 1 col on mobile, 2 cols on tablet+ -->
       {posts.length > 1 && (
-        <div class="mt-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {posts.slice(1, 5).map((post) => <PostCard post={post} ml="w-full mt-0" />)}
+        <div class="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          {posts.slice(1, 5).map((post) => <PostCard post={post} ml="h-full" headingLevel={2} />)}
         </div>
       )}
     </div>

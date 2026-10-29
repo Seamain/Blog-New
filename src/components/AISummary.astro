@@ -1,87 +1,153 @@
 ---
-import { generateAISummary } from "../api/AiSummary";
-
 interface Props {
-    content: string;
-    title: string;
+    /** Resolves to an empty string when no summary is available. */
+    summary: Promise<string> | string;
 }
 
-const { content, title } = Astro.props;
-
-let summary = "";
-let error = false;
-
-try {
-    summary = await generateAISummary(content, title);
-} catch (e) {
-    console.error("Failed to generate AI summary:", e);
-    error = true;
-}
+const summary = await Astro.props.summary;
 ---
 
-<div class="ai-summary-container w-full mt-6 mb-6">
-    <div class="relative rounded-xl overflow-hidden" style="border: 1px solid rgba(0,245,255,0.25); background: linear-gradient(135deg, rgba(13,27,42,0.95) 0%, rgba(26,13,42,0.95) 100%); box-shadow: 0 0 20px rgba(0,245,255,0.05), inset 0 0 30px rgba(0,0,0,0.3);">
-
-        <!-- Top accent line -->
-        <div class="w-full h-px" style="background: linear-gradient(to right, transparent, rgba(0,245,255,0.5), rgba(139,92,246,0.5), transparent);"></div>
-
-        <div class="p-5">
-            <!-- Header -->
-            <div class="flex items-center gap-3 mb-4">
-                <div class="flex items-center justify-center w-8 h-8 rounded-lg" style="background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3);">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #00F5FF;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                    </svg>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="cyber-font text-xs font-bold tracking-widest" style="color: #00F5FF;">[AI]</span>
-                    <h3 class="text-sm font-bold" style="color: #e2e8f0; font-family: 'Noto Sans SC', sans-serif;">智能总结</h3>
-                    <span class="cyber-font text-xs" style="color: rgba(139,92,246,0.6);">◇ DeepSeek</span>
-                </div>
-                <!-- Blinking cursor -->
-                <div class="ml-auto flex items-center gap-1.5">
-                    <div class="w-1.5 h-1.5 rounded-full" style="background: #00F5FF; animation: twinkle 1.5s ease-in-out infinite;"></div>
-                    <div class="w-1.5 h-1.5 rounded-full" style="background: #8B5CF6; animation: twinkle 1.5s ease-in-out infinite; animation-delay: 0.3s;"></div>
-                    <div class="w-1.5 h-1.5 rounded-full" style="background: #FF6B9D; animation: twinkle 1.5s ease-in-out infinite; animation-delay: 0.6s;"></div>
-                </div>
-            </div>
-
-            <!-- Left accent bar -->
-            <div class="flex gap-4">
-                <div class="w-px shrink-0 rounded-full" style="background: linear-gradient(to bottom, #00F5FF, #8B5CF6, transparent);"></div>
-
-                <div class="flex-1">
-                    {!error && summary && (
-                        <p class="text-sm leading-relaxed" style="color: #94a3b8; font-family: 'Noto Sans SC', sans-serif;">
-                            {summary}
-                        </p>
-                    )}
-
-                    {error && (
-                        <p class="text-xs" style="color: rgba(255,107,157,0.7);">
-                            〔 生成摘要失败，请稍后重试 〕
-                        </p>
-                    )}
-
-                    {!error && !summary && (
-                        <div class="flex items-center gap-3">
-                            <div class="relative w-5 h-5">
-                                <div class="absolute inset-0 border border-current rounded-full animate-spin" style="color: #00F5FF; border-top-color: transparent;"></div>
-                            </div>
-                            <span class="text-xs cyber-font" style="color: rgba(0,245,255,0.6);">正在生成摘要...</span>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom accent line -->
-        <div class="w-full h-px" style="background: linear-gradient(to right, transparent, rgba(139,92,246,0.3), transparent);"></div>
+{summary && (
+<section class="ai-summary" aria-labelledby="ai-summary-title">
+    <div class="ai-summary-head">
+        <span class="ai-summary-icon" aria-hidden="true">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+        </span>
+        <h2 id="ai-summary-title" class="ai-summary-title">
+            <span class="cyber-font ai-summary-badge">AI</span>
+            智能总结
+        </h2>
+        <span class="ai-summary-source">由 DeepSeek 生成</span>
     </div>
-</div>
+
+    <div class="ai-summary-body">
+        <p id="ai-summary-text" class="ai-summary-text">{summary}</p>
+        <button
+            type="button"
+            class="ai-summary-toggle"
+            aria-controls="ai-summary-text"
+            aria-expanded="true"
+            hidden
+        >
+            收起
+        </button>
+    </div>
+</section>
+)}
+
+<script>
+    const text = document.getElementById("ai-summary-text");
+    const toggle = document.querySelector<HTMLButtonElement>(".ai-summary-toggle");
+
+    if (text && toggle) {
+        // Collapse to three lines only when the summary is actually longer than that.
+        text.classList.add("is-collapsed");
+        if (text.scrollHeight - text.clientHeight > 4) {
+            toggle.hidden = false;
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "展开";
+            toggle.addEventListener("click", () => {
+                const collapsed = text.classList.toggle("is-collapsed");
+                toggle.setAttribute("aria-expanded", String(!collapsed));
+                toggle.textContent = collapsed ? "展开" : "收起";
+            });
+        } else {
+            text.classList.remove("is-collapsed");
+        }
+    }
+</script>
 
 <style>
-    .ai-summary-container {
-        animation: fadeInUp 0.5s ease-out;
+    .ai-summary {
+        margin-top: 1.75rem;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 245, 255, 0.22);
+        background: linear-gradient(135deg, #0d1b2a 0%, #1a0d2a 100%);
+        padding: 1rem 1.125rem 1.125rem;
+    }
+
+    .ai-summary-head {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+    }
+
+    .ai-summary-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 8px;
+        background: rgba(0, 245, 255, 0.1);
+        border: 1px solid rgba(0, 245, 255, 0.3);
+        color: #67e8f9;
+        flex-shrink: 0;
+    }
+
+    .ai-summary-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-cjk);
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: #e2e8f0;
+    }
+
+    .ai-summary-badge {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #67e8f9;
+    }
+
+    .ai-summary-source {
+        margin-left: auto;
+        font-size: 0.75rem;
+        color: #a8b3c4;
+        white-space: nowrap;
+    }
+
+    .ai-summary-body {
+        margin-top: 0.75rem;
+        padding-left: 0.875rem;
+        border-left: 1px solid rgba(103, 232, 249, 0.45);
+    }
+
+    .ai-summary-text {
+        font-family: var(--font-cjk);
+        font-size: 0.9375rem;
+        line-height: 1.8;
+        color: #cbd5e1;
+    }
+
+    .ai-summary-text.is-collapsed {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        overflow: hidden;
+    }
+
+    .ai-summary-toggle {
+        margin-top: 0.375rem;
+        min-height: 2rem;
+        padding: 0 0.25rem;
+        margin-left: -0.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #67e8f9;
+        cursor: pointer;
+    }
+
+    .ai-summary-toggle:hover {
+        color: #a5f3fc;
+    }
+
+    .ai-summary-toggle:focus-visible {
+        outline-color: #67e8f9;
     }
 </style>

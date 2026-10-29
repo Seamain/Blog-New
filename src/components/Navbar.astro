@@ -1,6 +1,11 @@
 ---
 import { getNavigationRender } from "../api/Navigation";
 import type { Navigation } from "../interfaces/Navigation";
+import pagePath from "../libs/pagePath";
+
+const currentPath = Astro.url.pathname.replace(/\/+$/, "");
+const isCurrent = (path?: string) =>
+    !!path && (currentPath === "/" + path || currentPath.startsWith("/" + path + "/"));
 
 let navigations: Navigation[] = [];
 try {
@@ -18,7 +23,8 @@ try {
 
 <nav
     class="sticky top-0 z-40 w-full"
-    style="border-bottom: 1px solid rgba(255,107,157,0.2); background: rgba(255,248,240,0.82); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); will-change: transform; contain: layout style;"
+    aria-label="主导航"
+    style="border-bottom: 1px solid rgba(255,107,157,0.2); background: rgba(255,248,240,0.9); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); will-change: transform; contain: layout style;"
     id="main-nav"
 >
     <div
@@ -32,7 +38,7 @@ try {
         >
             <img
                 class="rounded-full p-0.5"
-                style="border: 1.5px solid rgba(255,107,157,0.5); box-shadow: 0 0 10px rgba(255,107,157,0.3);"
+                style="border: 1.5px solid rgba(255,107,157,0.5);"
                 src="https://storage.seamain.org/41C3EE1A37915E8E63F62929F89287B1.jpg"
                 width="34"
                 height="34"
@@ -41,7 +47,7 @@ try {
                 fetchpriority="high"
             />
             <span class="acg-glow-text-pink font-bold">Seamain</span>
-            <span class="text-xs cyber-font" style="color: rgba(139,92,246,0.7)"
+            <span class="text-xs" style="color: var(--ink-violet)" aria-hidden="true"
                 >✦</span
             >
         </a>
@@ -58,7 +64,7 @@ try {
             >
                 <img
                     class="rounded-full p-0.5"
-                    style="border: 1.5px solid rgba(255,107,157,0.5); box-shadow: 0 0 10px rgba(255,107,157,0.3);"
+                    style="border: 1.5px solid rgba(255,107,157,0.5);"
                     src="https://storage.seamain.org/41C3EE1A37915E8E63F62929F89287B1.jpg"
                     width="34"
                     height="34"
@@ -75,11 +81,15 @@ try {
             >
                 <button
                     id="mobile-menu-button"
-                    class="flex items-center justify-center p-2 rounded-lg transition"
-                    style="color: #FF6B9D;"
-                    aria-label="Toggle mobile menu"
+                    type="button"
+                    class="nav-icon-btn"
+                    style="color: var(--ink-sakura);"
+                    aria-label="打开导航菜单"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
                 >
                     <svg
+                        aria-hidden="true"
                         class="w-5 h-5"
                         fill="none"
                         stroke="currentColor"
@@ -94,12 +104,13 @@ try {
                 </button>
 
                 <a
-                    href="/search"
-                    class="p-2 transition"
-                    style="color: #8B5CF6;"
+                    href="/search/"
+                    class="nav-icon-btn"
+                    style="color: var(--ink-violet);"
                     aria-label="搜索文章"
                 >
                     <svg
+                        aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         width="17"
                         height="17"
@@ -117,12 +128,14 @@ try {
 
                 <button
                     id="mobile-theme-toggle"
-                    class="flex items-center justify-center p-2 rounded-lg transition"
-                    style="color: #FFE566;"
-                    aria-label="Toggle theme"
+                    type="button"
+                    class="nav-icon-btn theme-toggle"
+                    aria-label="深色模式"
+                    aria-pressed="false"
                 >
                     <svg
                         id="mobile-theme-toggle-light-icon"
+                        aria-hidden="true"
                         class="w-5 h-5 hidden"
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -134,6 +147,7 @@ try {
                     </svg>
                     <svg
                         id="mobile-theme-toggle-dark-icon"
+                        aria-hidden="true"
                         class="w-5 h-5 hidden"
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -153,8 +167,9 @@ try {
                     navigations.map((item) =>
                         item.path ? (
                             <a
-                                href={"/" + item.path}
+                                href={pagePath(item.path)}
                                 class="nav-link rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+                                aria-current={isCurrent(item.path) ? "page" : undefined}
                             >
                                 {item.title}
                             </a>
@@ -170,11 +185,13 @@ try {
                 }
 
                 <a
-                    href="/search"
-                    class="p-2 transition ml-1"
-                    style="color: #8B5CF6;"
+                    href="/search/"
+                    class="nav-icon-btn ml-1"
+                    style="color: var(--ink-violet);"
+                    aria-label="搜索文章"
                 >
                     <svg
+                        aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         width="17"
                         height="17"
@@ -192,12 +209,14 @@ try {
 
                 <button
                     id="theme-toggle"
-                    class="flex items-center justify-center p-2 rounded-lg ml-1 transition"
-                    style="color: #FFE566;"
-                    aria-label="Toggle theme"
+                    type="button"
+                    class="nav-icon-btn theme-toggle ml-1"
+                    aria-label="深色模式"
+                    aria-pressed="false"
                 >
                     <svg
                         id="theme-toggle-light-icon"
+                        aria-hidden="true"
                         class="w-5 h-5 hidden"
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -209,6 +228,7 @@ try {
                     </svg>
                     <svg
                         id="theme-toggle-dark-icon"
+                        aria-hidden="true"
                         class="w-5 h-5 hidden"
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -226,15 +246,16 @@ try {
     <div
         id="mobile-menu"
         class="hidden w-full shadow-lg"
-        style="background: rgba(255,248,240,0.82); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); border-top: 1px solid rgba(255,107,157,0.15);"
+        style="background: rgba(255,248,240,0.94); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); border-top: 1px solid rgba(255,107,157,0.15);"
     >
         <div class="px-6 py-4 space-y-1 text-center flex flex-col items-center">
             {
                 navigations.map((item) =>
                     item.path ? (
                         <a
-                            href={"/" + item.path}
+                            href={pagePath(item.path)}
                             class="block w-full max-w-sm rounded-xl px-4 py-3 text-base font-medium transition-all duration-200 nav-link"
+                            aria-current={isCurrent(item.path) ? "page" : undefined}
                         >
                             {item.title}
                         </a>
@@ -261,6 +282,11 @@ try {
         }
 
         function applyTheme(theme: string) {
+            document
+                .querySelectorAll(".theme-toggle")
+                .forEach((button) =>
+                    button.setAttribute("aria-pressed", String(theme === "dark")),
+                );
             const nav = document.getElementById("main-nav");
             const lightIcon = document.getElementById(
                 "theme-toggle-light-icon",
@@ -276,7 +302,7 @@ try {
             if (theme === "dark") {
                 document.documentElement.classList.add("dark");
                 if (nav) {
-                    nav.style.background = "rgba(13,27,42,0.65)";
+                    nav.style.background = "rgba(13,27,42,0.9)";
                     nav.style.backdropFilter = "blur(14px) saturate(150%)";
                     nav.style.setProperty(
                         "-webkit-backdrop-filter",
@@ -292,7 +318,7 @@ try {
             } else {
                 document.documentElement.classList.remove("dark");
                 if (nav) {
-                    nav.style.background = "rgba(255,248,240,0.75)";
+                    nav.style.background = "rgba(255,248,240,0.9)";
                     nav.style.backdropFilter = "blur(14px) saturate(150%)";
                     nav.style.setProperty(
                         "-webkit-backdrop-filter",
@@ -340,8 +366,16 @@ try {
                 document.getElementById("mobile-menu-button");
             const mobileMenu = document.getElementById("mobile-menu");
             if (mobileMenuButton && mobileMenu) {
+                const setMenuOpen = (open: boolean) => {
+                    mobileMenu.classList.toggle("hidden", !open);
+                    mobileMenuButton.setAttribute("aria-expanded", String(open));
+                    mobileMenuButton.setAttribute(
+                        "aria-label",
+                        open ? "关闭导航菜单" : "打开导航菜单",
+                    );
+                };
                 mobileMenuButton.addEventListener("click", function () {
-                    mobileMenu.classList.toggle("hidden");
+                    setMenuOpen(mobileMenu.classList.contains("hidden"));
                 });
                 document.addEventListener("click", function (event) {
                     const target = event.target as Node;
@@ -349,7 +383,16 @@ try {
                         !mobileMenuButton.contains(target) &&
                         !mobileMenu.contains(target)
                     ) {
-                        mobileMenu.classList.add("hidden");
+                        setMenuOpen(false);
+                    }
+                });
+                document.addEventListener("keydown", function (event) {
+                    if (
+                        event.key === "Escape" &&
+                        !mobileMenu.classList.contains("hidden")
+                    ) {
+                        setMenuOpen(false);
+                        mobileMenuButton.focus();
                     }
                 });
             }
@@ -359,8 +402,34 @@ try {
 
 <style>
     .nav-link {
-        color: #64748b;
+        color: var(--text-muted);
         position: relative;
+    }
+    .nav-link[aria-current="page"] {
+        color: var(--ink-sakura);
+        font-weight: 600;
+    }
+    .nav-link[aria-current="page"]::after {
+        width: 60%;
+    }
+    .nav-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease;
+    }
+    .nav-icon-btn:hover {
+        background: rgba(255, 107, 157, 0.1);
+    }
+    .theme-toggle {
+        color: var(--ink-violet);
+    }
+    :global(.dark) .theme-toggle {
+        color: #ffe566;
     }
     .nav-link::after {
         content: "";
@@ -375,19 +444,16 @@ try {
         transition: width 0.25s ease;
     }
     .nav-link:hover {
-        color: #ff6b9d;
+        color: var(--ink-sakura);
     }
     .nav-link:hover::after {
         width: 60%;
     }
-    :global(.dark) .nav-link {
-        color: #94a3b8;
-    }
-    :global(.dark) .nav-link:hover {
-        color: #ffb3cf;
+    :global(.dark) .nav-icon-btn:hover {
+        background: rgba(0, 245, 255, 0.08);
     }
     :global(.dark) #mobile-menu {
-        background: rgba(13, 27, 42, 0.75) !important;
+        background: rgba(13, 27, 42, 0.92) !important;
         backdrop-filter: blur(14px) saturate(150%) !important;
         -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
         border-top-color: rgba(0, 245, 255, 0.1) !important;

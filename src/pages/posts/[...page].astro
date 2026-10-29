@@ -28,29 +28,109 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
 const { page } = Astro.props as { page: Page<Post> };
 const totalPage = page.lastPage;
+const [featured, ...rest] = page.data;
+const pageLabel = totalPage > 1 ? `第 ${page.currentPage} / ${totalPage} 页` : "";
 ---
 
-<BasicStyle title="Posts" description="This is my Posts page.">
+<BasicStyle
+    title={page.currentPage > 1 ? `全部文章 · 第 ${page.currentPage} 页` : "全部文章"}
+    description={`Seamain 的全部文章，共 ${page.total} 篇：技术、产品与生活的记录。`}
+>
     <div class="flex flex-col items-center">
         <Navbar />
-        <div class="w-full max-w-5xl px-4 sm:px-6">
-            <PostCard ml="not-sm:ml-6" post={page.data[0]} />
-            <div
-                class="grid grid-cols-2 gap-4 not-sm:flex not-sm:flex-col not-md:flex not-md:flex-col"
-            >
-                {
-                    page.data
-                        .slice(1, 5)
-                        .map((post) => <PostCard ml="max-h-52" post={post} />)
-                }
-            </div>
+        <div id="content" tabindex="-1" class="w-full max-w-5xl px-4 outline-none sm:px-6">
+            <header class="list-header mt-8 sm:mt-12">
+                <h1 class="list-title">全部文章</h1>
+                {page.total > 0 && (
+                    <p class="list-count">
+                        共 {page.total} 篇{pageLabel && ` · ${pageLabel}`}
+                    </p>
+                )}
+            </header>
+
+            {featured ? (
+                <>
+                    <PostCard post={featured} ml="mt-6" headingLevel={2} />
+                    {rest.length > 0 && (
+                        <div class="mt-4 grid grid-cols-1 gap-4 sm:mt-6 sm:gap-6 md:grid-cols-2">
+                            {rest.map((post) => <PostCard ml="h-full" post={post} headingLevel={2} />)}
+                        </div>
+                    )}
+                </>
+            ) : (
+                <div class="list-empty acg-card mt-6 rounded-2xl px-6 py-12 text-center">
+                    <p class="list-empty-title">这里还没有文章</p>
+                    <p class="list-empty-text">新文章发布后会出现在这里，可以先去首页看看。</p>
+                    <a class="list-empty-link" href="/">返回首页</a>
+                </div>
+            )}
         </div>
-        <div class="flex flex-row mt-12">
+        {totalPage > 1 && (
             <Pagination
                 currentPage={page.currentPage}
                 {totalPage}
                 url="posts"
+                outerDiv="flex w-full justify-center mt-10 sm:mt-12"
             />
-        </div>
+        )}
     </div>
 </BasicStyle>
+
+<style>
+    .list-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.25rem 1rem;
+        padding: 0.875rem 1.25rem;
+        border-radius: 1rem;
+        background: rgba(255, 248, 240, 0.86);
+        border: 1px solid rgba(255, 107, 157, 0.18);
+    }
+
+    :global(.dark) .list-header {
+        background: rgba(13, 27, 42, 0.88);
+        border-color: rgba(0, 245, 255, 0.12);
+    }
+
+    .list-title {
+        font-family: var(--font-cjk);
+        font-size: 1.75rem;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--text-strong);
+    }
+
+    .list-count {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .list-empty-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--text-strong);
+    }
+
+    .list-empty-text {
+        margin-top: 0.5rem;
+        color: var(--text-muted);
+    }
+
+    .list-empty-link {
+        display: inline-block;
+        margin-top: 1.25rem;
+        font-weight: 600;
+        color: var(--ink-sakura);
+        text-decoration: underline;
+        text-underline-offset: 0.22em;
+    }
+
+    @media (min-width: 640px) {
+        .list-title {
+            font-size: 2rem;
+        }
+    }
+</style>

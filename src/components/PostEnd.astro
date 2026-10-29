@@ -1,0 +1,247 @@
+---
+import formatDate from "../libs/formatDate";
+import pagePath from "../libs/pagePath";
+import type PostLink from "../interfaces/PostLink";
+
+interface Props {
+  tags: { id: number; name: string }[];
+  authorName?: string;
+  avatarUrl?: string | null;
+  category?: { slug: string; name: string };
+  newer: PostLink | null;
+  older: PostLink | null;
+  related: PostLink[];
+}
+
+const { tags, authorName, avatarUrl, category, newer, older, related } = Astro.props;
+const date = (value: string) => formatDate(new Date(value), "yyyy-MM-dd");
+---
+
+<footer class="post-end">
+  {tags.length > 0 && (
+    <ul class="post-tags" aria-label="标签">
+      {tags.map((tag) => <li>#{tag.name}</li>)}
+    </ul>
+  )}
+
+  <div class="post-signoff">
+    {avatarUrl ? (
+      <img src={avatarUrl} class="post-signoff-avatar" width="48" height="48" decoding="async" loading="lazy" alt="" />
+    ) : (
+      <span class="post-signoff-avatar post-signoff-fallback" aria-hidden="true">
+        {(authorName ?? "S").slice(0, 1)}
+      </span>
+    )}
+    <div class="min-w-0">
+      {authorName && <p class="post-signoff-name">本文作者 · {authorName}</p>}
+      <p class="post-signoff-site">Seamain's Blog · 记录技术、产品与生活的灵感</p>
+      <p class="post-signoff-links">
+        <a href="/about/">关于 Seamain</a>
+        <a href="/feed.xml">RSS 订阅</a>
+      </p>
+    </div>
+  </div>
+
+  {(newer || older) && (
+    <nav class="post-adjacent" aria-label="上一篇与下一篇">
+      {older && (
+        <a class="post-adjacent-link" href={pagePath(`/posts/${older.slug}`)} rel="prev">
+          <span class="post-adjacent-label">‹ 上一篇</span>
+          <span class="post-adjacent-title">{older.title}</span>
+        </a>
+      )}
+      {newer && (
+        <a class="post-adjacent-link post-adjacent-next" href={pagePath(`/posts/${newer.slug}`)} rel="next">
+          <span class="post-adjacent-label">下一篇 ›</span>
+          <span class="post-adjacent-title">{newer.title}</span>
+        </a>
+      )}
+    </nav>
+  )}
+
+  {category && (
+    <section class="post-related" aria-labelledby="post-related-title">
+      <h2 id="post-related-title" class="post-related-title">「{category.name}」里的其他文章</h2>
+      {related.length > 0 && (
+        <ul class="post-related-list">
+          {related.map((item) => (
+            <li>
+              <a href={pagePath(`/posts/${item.slug}`)}>
+                <span class="post-related-name">{item.title}</span>
+                <time datetime={item.createdAt}>{date(item.createdAt)}</time>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <a class="post-related-all" href={pagePath(`/categories/${category.slug}`)}>
+        查看「{category.name}」全部文章 ›
+      </a>
+    </section>
+  )}
+</footer>
+
+<style>
+  .post-end {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-paper);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-top: -0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .post-signoff {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .post-signoff-avatar {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 1.5px solid rgba(255, 107, 157, 0.45);
+  }
+
+  .post-signoff-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--ink-sakura);
+    border-style: dashed;
+  }
+
+  .post-signoff-name {
+    font-weight: 700;
+    color: var(--text-strong);
+  }
+
+  .post-signoff-site {
+    margin-top: 0.125rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .post-signoff-links {
+    margin-top: 0.375rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .post-signoff-links a,
+  .post-related-all {
+    color: var(--ink-sakura);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  .post-signoff-links a:hover,
+  .post-related-all:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .post-adjacent {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .post-adjacent-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.875rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-paper);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .post-adjacent-link:hover {
+    border-color: rgba(255, 107, 157, 0.45);
+    background: rgba(255, 107, 157, 0.05);
+  }
+
+  .post-adjacent-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .post-adjacent-title {
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-strong);
+    overflow-wrap: break-word;
+  }
+
+  .post-related-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-strong);
+  }
+
+  .post-related-list {
+    margin-top: 0.5rem;
+  }
+
+  .post-related-list a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid var(--border-paper);
+  }
+
+  .post-related-name {
+    min-width: 0;
+    color: var(--text-body);
+    transition: color 0.15s ease;
+  }
+
+  .post-related-list a:hover .post-related-name {
+    color: var(--ink-sakura);
+  }
+
+  .post-related-list time {
+    flex-shrink: 0;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-related-all {
+    display: inline-block;
+    margin-top: 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 640px) {
+    .post-adjacent {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .post-adjacent-next {
+      grid-column: 2;
+      text-align: right;
+    }
+  }
+</style>

@@ -1,191 +1,253 @@
 ---
-import { createFullListOfPostSlugWithId } from "../../api/Post";
-import { getPost } from "../../api/Post";
+import { createFullListOfPost, getPost } from "../../api/Post";
+import { generateAISummary } from "../../api/AiSummary";
 import type Post from "../../interfaces/Post";
 import BasicStyle from "../../layouts/BasicStyle.astro";
 import formatDate from "../../libs/formatDate";
-import { Icon } from "astro-icon/components";
-import Markdown from "markdown-it";
+import pagePath from "../../libs/pagePath";
+import { renderMarkdown, excerpt } from "../../libs/renderMarkdown";
 import Navbar from "../../components/Navbar.astro";
 import AISummary from "../../components/AISummary.astro";
+import PostEnd from "../../components/PostEnd.astro";
+import type PostLink from "../../interfaces/PostLink";
 import { fetchAvatarAsDataUrl } from "../../libs/fetchAvatar";
-
-interface SlugWithPost {
-  slug: string;
-  post: Post;
-}
 
 interface Props {
   post: Post;
+  newer: PostLink | null;
+  older: PostLink | null;
+  related: PostLink[];
 }
 
 export async function getStaticPaths() {
-  try {
-    const result: SlugWithPost[] = [];
-    const fullListOfSlug = await createFullListOfPostSlugWithId();
+  // getStaticPaths runs in its own scope, so helpers must live inside it.
+  const toLink = (post: Post): PostLink => ({
+    slug: post.slug,
+    title: post.title,
+    createdAt: post.createdAt,
+  });
 
-    for (const postAttr of fullListOfSlug) {
+  try {
+    // Newest first, so index - 1 is the newer post and index + 1 the older one.
+    const list = await createFullListOfPost();
+    const paths = [];
+
+    for (const [index, entry] of list.entries()) {
       try {
-        const post = await getPost(postAttr.id);
-        result.push({
-          slug: postAttr.slug,
-          post,
+        const post = await getPost(entry.documentId);
+        const newer = list[index - 1] ? toLink(list[index - 1]) : null;
+        const older = list[index + 1] ? toLink(list[index + 1]) : null;
+        const neighbours = new Set([newer?.slug, older?.slug, entry.slug]);
+        const related = entry.category?.slug
+          ? list
+              .filter(
+                (other) =>
+                  other.category?.slug === entry.category?.slug &&
+                  !neighbours.has(other.slug),
+              )
+              .slice(0, 3)
+              .map(toLink)
+          : [];
+
+        paths.push({
+          params: { slug: entry.slug },
+          props: { post, newer, older, related },
         });
       } catch (postError) {
-        console.error(`Failed to load post ${postAttr.id}:`, postError instanceof Error ? postError.message : String(postError));
-        // Skip this post and continue with others
-        continue;
+        console.error(
+          `Failed to load post ${entry.documentId}:`,
+          postError instanceof Error ? postError.message : String(postError),
+        );
       }
     }
 
-    return result.map((postAttr) => {
-      return {
-        params: {
-          slug: postAttr.slug,
-        },
-        props: {
-          post: postAttr.post,
-        },
-      };
-    });
+    return paths;
   } catch (error) {
-    console.error("Failed to generate static paths:", error instanceof Error ? error.message : String(error));
-    return []; // Return empty array as fallback
+    console.error(
+      "Failed to generate static paths:",
+      error instanceof Error ? error.message : String(error),
+    );
+    return [];
   }
 }
 
-const { post } = Astro.props;
+const { post, newer, older, related } = Astro.props;
+const authorName = post.author?.name;
 const avatarRawUrl = post.author?.avatar?.formats?.thumbnail?.url ?? null;
 // Fetch avatar at build time with CF Access credentials so the browser can render it
 const avatarUrl = await fetchAvatarAsDataUrl(avatarRawUrl);
-const formatedTime = formatDate(new Date(post.createdAt), "yyyy-MM-dd");
-let html = Markdown().render(post.content);
-const customCss =
-  "\n<style>p {padding-bottom: 1rem; font-size: 1.125rem; line-height: 1.75rem; } \nh2{font-size: 1.5rem; line-height: 2rem; font-weight: 700 }</style>";
 const publishedTime = new Date(Date.parse(post.createdAt));
+const formattedTime = formatDate(publishedTime, "yyyy-MM-dd");
+const html = renderMarkdown(post.content);
+const dek = post.summary?.trim() ?? "";
 
-html = html.concat(customCss);
+// Not awaited here: AISummary awaits it while the rest of the page streams,
+// so the AI call runs alongside the navbar fetch instead of blocking the head.
+const aiSummary = generateAISummary(post.content, post.title)
+  .then((summary) => summary?.trim() ?? "")
+  .catch((error) => {
+    console.error("Failed to generate AI summary:", error);
+    return "";
+  });
+
+const description = dek || excerpt(post.content);
 ---
 
 <BasicStyle
   title={post.title}
-  description={post.summary}
-  ml="flex flex-col items-center"
+  description={description}
   ogImage={"/posts/" + post.slug + ".png"}
-  author={post.author?.name}
+  author={authorName}
   publishedTime={publishedTime}
 >
-  <!-- Navbar is outside the centered container so it spans the full viewport width -->
   <Navbar />
-  <div class="flex w-full flex-col items-center">
-    <section class="mt-8 sm:mt-10 w-full max-w-5xl px-4 sm:px-6">
-      <div class="acg-card rounded-2xl px-4 py-6 sm:px-8 sm:py-10">
-        <!-- Category label -->
-        <p class="cyber-font text-xs uppercase tracking-[0.4em]" style="color: rgba(139,92,246,0.7);">
-          ✦ {post.category?.name}
-        </p>
-        <h1 class="mt-3 sm:mt-4 text-2xl sm:text-3xl font-bold leading-tight" style="font-family: 'Noto Sans SC', sans-serif; color: #1e293b;">
-          {post.title}
-        </h1>
-        <p class="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed" style="color: #64748b;">{post.summary}</p>
+  <div class="flex w-full flex-col items-center px-3 sm:px-6">
+    <article id="content" tabindex="-1" class="reading-sheet outline-none mt-4 mb-6 w-full max-w-3xl rounded-2xl px-5 pt-7 pb-8 sm:mt-10 sm:px-12 sm:pt-12 sm:pb-12">
+      <header class="post-header">
+        <h1 class="post-title">{post.title}</h1>
+        {dek && <p class="post-dek">{dek}</p>}
 
-        <!-- Divider -->
-        <div class="mt-5 mb-5 sm:mt-6 sm:mb-6 h-px" style="background: linear-gradient(to right, rgba(255,107,157,0.3), rgba(139,92,246,0.3), transparent);"></div>
-
-        <!-- Info grid: 2 cols on mobile, 4 cols on desktop -->
-        <div class="grid gap-4 sm:gap-5 grid-cols-2 sm:grid-cols-4">
-          <!-- Author -->
-          <div class="flex items-center gap-3">
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                class="h-11 w-11 rounded-full object-cover"
-                style="border: 1.5px solid rgba(255,107,157,0.4); box-shadow: 0 0 10px rgba(255,107,157,0.15);"
-                width="44"
-                height="44"
-                loading="lazy"
-                decoding="async"
-                alt={`这是作者${post.author?.name}的头像`}
-              />
-            ) : (
-              <div class="flex h-11 w-11 items-center justify-center rounded-full text-sm" style="border: 1.5px dashed rgba(255,107,157,0.4); color: rgba(255,107,157,0.6);">
-                {post.author?.name?.slice(0, 1) ?? "?"}
-              </div>
-            )}
-            <div>
-              <p class="text-xs" style="color: #94a3b8;">作者</p>
-              <p class="text-sm font-semibold" style="color: #334155;">{post.author?.name}</p>
-            </div>
-          </div>
-          <!-- Date -->
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl" style="background: rgba(255,107,157,0.08); border: 1px solid rgba(255,107,157,0.2); color: #FF6B9D;">
-              <Icon class="h-5 w-5" name="Clock" />
-            </div>
-            <div>
-              <p class="text-xs" style="color: #94a3b8;">发布时间</p>
-              <p class="text-sm font-semibold cyber-font" style="color: #334155;">{formatedTime}</p>
-            </div>
-          </div>
-          <!-- Tags -->
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl shrink-0" style="background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); color: #8B5CF6;">
-              <Icon class="h-5 w-5" name="Tag" />
-            </div>
-            <div>
-              <p class="text-xs" style="color: #94a3b8;">标签</p>
-              <div class="mt-1 flex flex-wrap gap-1.5">
-                {post.tags.map((tag) => (
-                  <span class="acg-tag">{tag.name}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <!-- Category -->
-          <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl shrink-0" style="background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.15); color: #06b6d4;">
-              <Icon class="h-5 w-5" name="Category" />
-            </div>
-            <div>
-              <p class="text-xs" style="color: #94a3b8;">分类</p>
-              <a
-                href={`/categories/${post.category?.slug}`}
-                class="text-sm font-semibold transition-colors duration-200"
-                style="color: #334155;"
-                onmouseover="this.style.color='#FF6B9D'"
-                onmouseout="this.style.color='#334155'"
-              >
-                {post.category?.name}
-              </a>
-            </div>
-          </div>
+        <div class="post-meta">
+          {authorName && (
+            <span class="post-meta-item">
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  class="post-avatar"
+                  width="28"
+                  height="28"
+                  decoding="async"
+                  alt=""
+                />
+              ) : (
+                <span class="post-avatar post-avatar-fallback" aria-hidden="true">
+                  {authorName.slice(0, 1)}
+                </span>
+              )}
+              <span class="font-semibold" style="color: var(--text-strong);">{authorName}</span>
+            </span>
+          )}
+          <time class="post-meta-item" datetime={publishedTime.toISOString()}>
+            {formattedTime}
+          </time>
+          {post.category?.slug && post.category?.name && (
+            <a class="post-meta-item post-category" href={pagePath(`/categories/${post.category.slug}`)}>
+              {post.category.name}
+            </a>
+          )}
         </div>
-      </div>
-    </section>
+      </header>
 
-    <section class="mt-6 sm:mt-10 mb-4 w-full max-w-4xl px-4 sm:px-6">
-      <AISummary content={post.content} title={post.title} />
-      <article
-        class="prose prose-slate mt-6 sm:mt-8 max-w-none rounded-2xl p-4 sm:p-8"
-        style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,107,157,0.12);"
-        set:html={html}
+      <AISummary summary={aiSummary} />
+
+      <div class="post-body" set:html={html} />
+
+      <PostEnd
+        tags={post.tags ?? []}
+        authorName={authorName}
+        avatarUrl={avatarUrl}
+        category={post.category?.slug ? post.category : undefined}
+        newer={newer}
+        older={older}
+        related={related}
       />
-    </section>
+    </article>
   </div>
 </BasicStyle>
 
 <style>
-  :global(.dark) h1[style] { color: #f1f5f9 !important; }
-  :global(.dark) p[style*="64748b"] { color: #94a3b8 !important; }
-  :global(.dark) p[style*="334155"] { color: #cbd5e1 !important; }
-  :global(.dark) a[style*="334155"] { color: #cbd5e1 !important; }
-  :global(.dark) article[style] {
-    background: rgba(13, 27, 42, 0.85) !important;
-    border-color: rgba(0, 245, 255, 0.1) !important;
-    color: #cbd5e1;
+  .post-title {
+    font-family: var(--font-cjk);
+    font-size: 1.625rem;
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--text-strong);
+    text-wrap: balance;
+    overflow-wrap: break-word;
   }
-  :global(.dark) article a { color: #FFB3CF; }
-  :global(.dark) article h1,
-  :global(.dark) article h2,
-  :global(.dark) article h3 { color: #f1f5f9; }
+
+  .post-dek {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .post-meta {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .post-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .post-meta-item + .post-meta-item::before {
+    content: "·";
+    margin: 0 0.6rem;
+    color: var(--text-muted);
+  }
+
+  time.post-meta-item {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 1.5px solid rgba(255, 107, 157, 0.45);
+  }
+
+  .post-avatar-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink-sakura);
+    border-style: dashed;
+  }
+
+  .post-category {
+    color: var(--ink-sakura);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  .post-category:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .post-body {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .post-title {
+      font-size: 2.125rem;
+      line-height: 1.25;
+    }
+
+    .post-dek {
+      font-size: 1.0625rem;
+    }
+
+    .post-body {
+      margin-top: 2.5rem;
+    }
+  }
 </style>

@@ -5,9 +5,29 @@ const { platform, username } = Astro.props;
 ---
 
 <a
-  class="flex flex-row items-center"
+  class="social-link"
   href={`https://www.${platform}.com/${username}`}
-  aria-label=`跳转到跳转到我的${platform}个人页面`
+  aria-label={`Seamain 的 ${platform} 主页`}
 >
-  <Icon class="w-10 mr-2" name={platform} />
+  <Icon class="h-8 w-8" name={platform} aria-hidden="true" />
 </a>
+
+<style>
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    color: var(--text-body);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .social-link :global(svg) {
+    fill: currentColor;
+  }
+  .social-link:hover {
+    background: rgba(255, 107, 157, 0.1);
+    color: var(--ink-sakura);
+  }
+</style>
